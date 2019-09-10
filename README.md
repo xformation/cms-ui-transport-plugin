@@ -1,2 +1,2 @@
-# cms-ui-plugin
-Plugin for Attendance functionality 
+# cms-ui-transport-plugin
+Plugin for Transport functionality 
