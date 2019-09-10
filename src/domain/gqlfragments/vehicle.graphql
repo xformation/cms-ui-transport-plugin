@@ -1,0 +1,25 @@
+fragment vehicle on CmsVehicleVo {
+    id
+    vehicleNumber
+    vehicleType
+    capacity
+    ownerShip
+    dateOfRegistration
+    strDateOfRegistration
+    yearOfManufacturing
+    manufacturingCompany
+    model
+    chasisNo
+    rcNo
+    contactNumber
+    status
+    employee{
+      id
+    }
+    transportRoute{
+      id
+    }
+    insurance{
+      id
+    }
+}

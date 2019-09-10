@@ -1,0 +1,7 @@
+#import "../gqlfragments/vehicleDetails.graphql"
+
+query vehicle($vehicleId: Long!) {
+  vehicle(id: $vehicleId){
+  ...vehicleDetails
+  }
+}

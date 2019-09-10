@@ -1,0 +1,9 @@
+mutation addDocuments($input: AddDocumentsInput!){
+  	addDocuments(input: $input){
+    documents{
+      id
+      documentName
+      documentFilePath
+    }
+  }
+}

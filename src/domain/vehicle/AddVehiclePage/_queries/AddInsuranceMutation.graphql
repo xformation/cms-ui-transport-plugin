@@ -1,0 +1,11 @@
+mutation addInsurance($input: AddInsuranceInput!){
+  	addInsurance(input: $input){
+    id
+   insuranceCompany
+    typeOfInsurance
+    dateOfInsurance
+    validTill
+    strDateOfInsurance
+    strValidTill
+  }
+}

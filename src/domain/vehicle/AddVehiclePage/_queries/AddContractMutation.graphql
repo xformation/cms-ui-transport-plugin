@@ -1,0 +1,12 @@
+mutation addContract($input:AddContractInput!){
+  addContract(input: $input){
+    contract{
+    id
+    vendorName
+    typeOfOwnerShip
+    durationOfContract
+    startDate
+    endDate
+    }
+ }
+}

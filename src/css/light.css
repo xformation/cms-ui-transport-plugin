@@ -1,0 +1,68 @@
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .section-to-print,
+  .section-to-print * {
+    visibility: visible;
+  }
+  .section-to-print {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+}
+
+/* .striped-table{
+    width: 100%;
+    border-collapse: separate;
+}
+
+.striped-table th{
+    width: auto;
+    padding: 4px 10px;
+    text-align: left;
+    line-height: 30px;
+    height: 30px;
+    white-space: nowrap;
+    font-weight: bold;
+    background-color: #3C3834 !important;
+    color: white;
+}
+
+.striped-table tbody tr:nth-child(odd) {
+    background: #F1F1F1;
+}
+
+
+.striped-table tbody tr td{
+    padding-left: 10px;
+    border-top: 1px solid #34302D;
+} */
+
+/* .page-container {
+    margin: 0px !important;
+} */
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  /* / Position the tooltip / / */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}

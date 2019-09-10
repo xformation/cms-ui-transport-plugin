@@ -1,0 +1,50 @@
+{
+  "type": "app",
+  "name": "Transport",
+  "id": "ems-transport",
+  "css": {
+    "dark": "css/dark.css",
+    "light": "css/light.css"
+  },
+  "info": {
+    "description": "EMS Transport Plugin",
+    "author": {
+      "name": "Synectiks",
+      "url": "https://xformation.com"
+    },
+    "keywords": ["cms", "panel"],
+    "version": "1.0",
+    "updated": "2018-10-12",
+    "logos": {
+      "small": "img/schoolbus.png",
+      "large": "img/schoolbus.png"
+    }
+  },
+  "includes": [
+    {
+      "type": "page",
+      "name": "Home",
+      "addToNav": false,
+      "defaultNav": false,
+      "component": "WelcomePage"
+    },
+    {
+      "type": "page",
+      "name": "Vehicles",
+      "addToNav": true,
+      "defaultNav": true,
+      "component": "VehiclePage"
+    },
+    {
+      "type": "page",
+      "name": "AddVehicle",
+      "addToNav": true,
+      "defaultNav": true,
+      "component": "AddVehiclePage"
+    }
+  ],
+  "dependencies": {
+    "grafanaVersion": "3.x 4.x 5.x",
+    "plugins": []
+  }
+}
