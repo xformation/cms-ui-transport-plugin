@@ -1,4 +1,5 @@
 import { number } from "prop-types";
+import { any } from "async";
 
 /* tslint:disable */
 //  This file was automatically generated and should not be edited.
@@ -148,6 +149,252 @@ export type LoadVehicleFilterDataCacheType = {
     }>;
   };
 };
+
+export type DriverListQuery = {
+  getEmployeeList: Array<{
+    id: number;
+    employeeName: string;
+    designation: string;
+    joiningDate: string;
+    jobEndDate: string;
+    resignationDate: string;
+    resignationAcceptanceDate: string;
+    aadharNo: string;
+    panNo: string;
+    passportNo: string;
+    primaryContactNo: string;
+    secondaryContactNo: string;
+    employeeFatherName: string;
+    employeeMotherName: string;
+    primaryAddress: string;
+    secondaryAddress: string;
+    employeeAddress: string;
+    personalMailId: string;
+    officialMailId: string;
+    disability: string;
+    drivingLicenceNo: string;
+    drivingLicenceValidity: string;
+    gender: string;
+    typeOfEmployment: string;
+    managerId: number;
+    status: string;
+    maritalStatus: string;
+    strjoiningDate: string;
+    strjobEndDate: string;
+    strresignationDate: string;
+    strresignationAcceptanceDate: string;
+    strdrivingLicenceValidity: string;
+    transportRoute: {
+      routeName: any;
+    };
+    branch:{
+      id: any;
+    }
+    vehicle:{
+      vehicleNumber: any;
+    }
+  }>;
+};
+
+export type DriverQueryVariables = {
+  employeeId: number;
+};
+
+export type DriverQuery = {
+  employee: {
+    id: number;
+    employeeName: string;
+    designation: string;
+    joiningDate: string;
+    jobEndDate: string;
+    resignationDate: string;
+    resignationAcceptanceDate: string;
+    aadharNo: string;
+    panNo: string;
+    passportNo: string;
+    primaryContactNo: string;
+    secondaryContactNo: string;
+    employeeFatherName: string;
+    employeeMotherName: string;
+    primaryAddress: string;
+    secondaryAddress: string;
+    employeeAddress: string;
+    personalMailId: string;
+    officialMailId: string;
+    disability: string;
+    drivingLicenceNo: string;
+    drivingLicenceValidity: string;
+    gender: string;
+    typeOfEmployment: string;
+    managerId: number;
+    status: string;
+    maritalStatus: string;
+    strjoiningDate: string;
+    strjobEndDate: string;
+    strresignationDate: string;
+    strresignationAcceptanceDate: string;
+    strdrivingLicenceValidity: string;
+    transportRoute: {
+      routeName: any;
+    };
+    branch:{
+      id: any;
+    };
+    vehicle:{
+      vehicleNumber: any;
+    }
+  };
+};
+
+export type DriverFragment = {
+  id: number;
+  employeeName: string;
+  designation: string;
+  joiningDate: string;
+  jobEndDate: string;
+  resignationDate: string;
+  resignationAcceptanceDate: string;
+  aadharNo: string;
+  panNo: string;
+  passportNo: string;
+  primaryContactNo: string;
+  secondaryContactNo: string;
+  employeeFatherName: string;
+  employeeMotherName: string;
+  primaryAddress: string;
+  secondaryAddress: string;
+  employeeAddress: string;
+  personalMailId: string;
+  officialMailId: string;
+  disability: string;
+  drivingLicenceNo: string;
+  drivingLicenceValidity: string;
+  gender: string;
+  typeOfEmployment: string;
+  managerId: number;
+  status: string;
+  maritalStatus: string;
+  strjoiningDate: string;
+  strjobEndDate: string;
+  strresignationDate: string;
+  strresignationAcceptanceDate: string;
+  strdrivingLicenceValidity: string;
+  transportRoute: {
+    routeName: any;
+  };
+  branch:{
+    id: any;
+  }
+  vehicle:{
+    vehicleNumber: any;
+  }
+ };
+
+
+export type DriverDetailsFragment = {
+  id: number;
+    employeeName: string;
+    designation: string;
+    joiningDate: string;
+    jobEndDate: string;
+    resignationDate: string;
+    resignationAcceptanceDate: string;
+    aadharNo: string;
+    panNo: string;
+    passportNo: string;
+    primaryContactNo: string;
+    secondaryContactNo: string;
+    employeeFatherName: string;
+    employeeMotherName: string;
+    primaryAddress: string;
+    secondaryAddress: string;
+    employeeAddress: string;
+    personalMailId: string;
+    officialMailId: string;
+    disability: string;
+    drivingLicenceNo: string;
+    drivingLicenceValidity: string;
+    gender: string;
+    typeOfEmployment: string;
+    managerId: number;
+    status: string;
+    maritalStatus: string;
+    strjoiningDate: string;
+    strjobEndDate: string;
+    strresignationDate: string;
+    strresignationAcceptanceDate: string;
+    strdrivingLicenceValidity: string;
+    transportRoute: {
+      routeName: any;
+    };
+    branch:{
+      id: any;
+    }
+    vehicle:{
+      vehicleNumber: any;
+    }
+};
+
+export type DriverSummaryFragment = {
+  id: number;
+  employeeName: string;
+  designation: string;
+  joiningDate: string;
+  jobEndDate: string;
+  resignationDate: string;
+  resignationAcceptanceDate: string;
+  aadharNo: string;
+  panNo: string;
+  passportNo: string;
+  primaryContactNo: string;
+  secondaryContactNo: string;
+  employeeFatherName: string;
+  employeeMotherName: string;
+  primaryAddress: string;
+  secondaryAddress: string;
+  employeeAddress: string;
+  personalMailId: string;
+  officialMailId: string;
+  disability: string;
+  drivingLicenceNo: string;
+  drivingLicenceValidity: string;
+  gender: string;
+  typeOfEmployment: string;
+  managerId: number;
+  status: string;
+  maritalStatus: string;
+  strjoiningDate: string;
+  strjobEndDate: string;
+  strresignationDate: string;
+  strresignationAcceptanceDate: string;
+  strdrivingLicenceValidity: string;
+  transportRoute: {
+    routeName: any;
+  };
+  branch:{
+    id: any;
+  }
+  vehicle:{
+    vehicleNumber: any;
+  }
+  };
+
+export type LoadDriverFilterDataCacheType = {
+      createEmployeeDataCache:{
+        employees: Array<{
+          id: number;
+          vehicle:{
+            id: any;
+            vehicleNumber: any;
+          }
+        }>;
+        vehicles: Array<{
+          id: number;
+        }>;
+    };
+  };
+      
+
 
 export type AddDocumentsInput = {
   id?: number | null;

@@ -37,6 +37,13 @@
     },
     {
       "type": "page",
+      "name": "Drivers",
+      "addToNav": true,
+      "defaultNav": true,
+      "component": "DriverPage"
+    },
+    {
+      "type": "page",
       "name": "AddVehicle",
       "addToNav": true,
       "defaultNav": true,
