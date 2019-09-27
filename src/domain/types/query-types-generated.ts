@@ -1,5 +1,5 @@
-import { number } from "prop-types";
-import { any } from "async";
+import {number} from 'prop-types';
+import {any} from 'async';
 
 /* tslint:disable */
 //  This file was automatically generated and should not be edited.
@@ -26,6 +26,10 @@ export type VehicleListQuery = {
     insurance: {
       validTill: any;
     };
+    strDateOfInsurance: string;
+    strValidTill: string;
+    strStartDate: string;
+    strEndDate: string;
   }>;
 };
 
@@ -56,37 +60,64 @@ export type VehicleQuery = {
       id: any;
     };
     insurance: {
-      id: any;
+      id: number;
+      insuranceCompany: string;
+      typeOfInsurance: string;
+      dateOfInsurance: string;
+      validTill: string;
     };
+    contract: {
+      id: number;
+      vendorName: string;
+      typeOfOwnerShip: string;
+      durationOfContract: string;
+    };
+    strDateOfInsurance: string;
+    strValidTill: string;
+    strStartDate: string;
+    strEndDate: string;
   };
 };
 
 export type VehicleFragment = {
   id: number;
-    vehicleNumber: number;
-    vehicleType: string;
-    capacity: number;
-    ownerShip: string;
-    dateOfRegistration: any;
-    strDateOfRegistration: string;
-    yearOfManufacturing: string;
-    manufacturingCompany: string;
-    model: string;
-    chasisNo: string;
-    rcNo: string;
-    contactNumber: string;
-    status: string;
-    employee: {
-      id: any;
-    };
-    transportRoute: {
-      id: any;
-    };
-    insurance: {
-      id: any;
-    };
+  vehicleNumber: number;
+  vehicleType: string;
+  capacity: number;
+  ownerShip: string;
+  dateOfRegistration: any;
+  strDateOfRegistration: string;
+  yearOfManufacturing: string;
+  manufacturingCompany: string;
+  model: string;
+  chasisNo: string;
+  rcNo: string;
+  contactNumber: string;
+  status: string;
+  employee: {
+    id: any;
   };
-
+  transportRoute: {
+    id: any;
+  };
+  insurance: {
+    id: number;
+    insuranceCompany: string;
+    typeOfInsurance: string;
+    dateOfInsurance: string;
+    validTill: string;
+  };
+  contract: {
+    id: number;
+    vendorName: string;
+    typeOfOwnerShip: string;
+    durationOfContract: string;
+  };
+  strDateOfInsurance: string;
+  strValidTill: string;
+  strStartDate: string;
+  strEndDate: string;
+};
 
 export type VehicleDetailsFragment = {
   id: number;
@@ -110,34 +141,62 @@ export type VehicleDetailsFragment = {
     id: any;
   };
   insurance: {
-    id: any;
+    id: number;
+    insuranceCompany: string;
+    typeOfInsurance: string;
+    dateOfInsurance: string;
+    validTill: string;
   };
+  contract: {
+    id: number;
+    vendorName: string;
+    typeOfOwnerShip: string;
+    durationOfContract: string;
+  };
+  strDateOfInsurance: string;
+  strValidTill: string;
+  strStartDate: string;
+  strEndDate: string;
 };
 
 export type VehicleSummaryFragment = {
-    id: number;
-    vehicleNumber: number;
-    vehicleType: string;
-    capacity: number;
-    ownerShip: string;
-    dateOfRegistration: string;
-    yearOfManufacturing: string;
-    manufacturingCompany: string;
-    model: string;
-    chasisNo: string;
-    rcNo: string;
-    contactNumber: string;
-    status: string;
-    employee: {
-      id: any;
-    };
-    transportRoute: {
-      id: any;
-    };
-    insurance: {
-      id: any;
-    };
+  id: number;
+  vehicleNumber: number;
+  vehicleType: string;
+  capacity: number;
+  ownerShip: string;
+  dateOfRegistration: string;
+  yearOfManufacturing: string;
+  manufacturingCompany: string;
+  model: string;
+  chasisNo: string;
+  rcNo: string;
+  contactNumber: string;
+  status: string;
+  employee: {
+    id: any;
   };
+  transportRoute: {
+    id: any;
+  };
+  insurance: {
+    id: number;
+    insuranceCompany: string;
+    typeOfInsurance: string;
+    dateOfInsurance: string;
+    validTill: string;
+  };
+  contract: {
+    id: number;
+    vendorName: string;
+    typeOfOwnerShip: string;
+    durationOfContract: string;
+  };
+  strDateOfInsurance: string;
+  strValidTill: string;
+  strStartDate: string;
+  strEndDate: string;
+};
 
 export type LoadVehicleFilterDataCacheType = {
   createVehicleDataCache: {
@@ -187,12 +246,12 @@ export type DriverListQuery = {
     transportRoute: {
       routeName: any;
     };
-    branch:{
+    branch: {
       id: any;
-    }
-    vehicle:{
+    };
+    vehicle: {
       vehicleNumber: any;
-    }
+    };
   }>;
 };
 
@@ -237,12 +296,12 @@ export type DriverQuery = {
     transportRoute: {
       routeName: any;
     };
-    branch:{
+    branch: {
       id: any;
     };
-    vehicle:{
+    vehicle: {
       vehicleNumber: any;
-    }
+    };
   };
 };
 
@@ -282,57 +341,56 @@ export type DriverFragment = {
   transportRoute: {
     routeName: any;
   };
-  branch:{
+  branch: {
     id: any;
-  }
-  vehicle:{
+  };
+  vehicle: {
     vehicleNumber: any;
-  }
- };
-
+  };
+};
 
 export type DriverDetailsFragment = {
   id: number;
-    employeeName: string;
-    designation: string;
-    joiningDate: string;
-    jobEndDate: string;
-    resignationDate: string;
-    resignationAcceptanceDate: string;
-    aadharNo: string;
-    panNo: string;
-    passportNo: string;
-    primaryContactNo: string;
-    secondaryContactNo: string;
-    employeeFatherName: string;
-    employeeMotherName: string;
-    primaryAddress: string;
-    secondaryAddress: string;
-    employeeAddress: string;
-    personalMailId: string;
-    officialMailId: string;
-    disability: string;
-    drivingLicenceNo: string;
-    drivingLicenceValidity: string;
-    gender: string;
-    typeOfEmployment: string;
-    managerId: number;
-    status: string;
-    maritalStatus: string;
-    strjoiningDate: string;
-    strjobEndDate: string;
-    strresignationDate: string;
-    strresignationAcceptanceDate: string;
-    strdrivingLicenceValidity: string;
-    transportRoute: {
-      routeName: any;
-    };
-    branch:{
-      id: any;
-    }
-    vehicle:{
-      vehicleNumber: any;
-    }
+  employeeName: string;
+  designation: string;
+  joiningDate: string;
+  jobEndDate: string;
+  resignationDate: string;
+  resignationAcceptanceDate: string;
+  aadharNo: string;
+  panNo: string;
+  passportNo: string;
+  primaryContactNo: string;
+  secondaryContactNo: string;
+  employeeFatherName: string;
+  employeeMotherName: string;
+  primaryAddress: string;
+  secondaryAddress: string;
+  employeeAddress: string;
+  personalMailId: string;
+  officialMailId: string;
+  disability: string;
+  drivingLicenceNo: string;
+  drivingLicenceValidity: string;
+  gender: string;
+  typeOfEmployment: string;
+  managerId: number;
+  status: string;
+  maritalStatus: string;
+  strjoiningDate: string;
+  strjobEndDate: string;
+  strresignationDate: string;
+  strresignationAcceptanceDate: string;
+  strdrivingLicenceValidity: string;
+  transportRoute: {
+    routeName: any;
+  };
+  branch: {
+    id: any;
+  };
+  vehicle: {
+    vehicleNumber: any;
+  };
 };
 
 export type DriverSummaryFragment = {
@@ -371,30 +429,50 @@ export type DriverSummaryFragment = {
   transportRoute: {
     routeName: any;
   };
-  branch:{
+  branch: {
     id: any;
-  }
-  vehicle:{
-    vehicleNumber: any;
-  }
   };
+  vehicle: {
+    vehicleNumber: any;
+  };
+};
 
 export type LoadDriverFilterDataCacheType = {
-      createEmployeeDataCache:{
-        employees: Array<{
-          id: number;
-          vehicle:{
-            id: any;
-            vehicleNumber: any;
-          }
-        }>;
-        vehicles: Array<{
-          id: number;
-        }>;
-    };
+  createEmployeeDataCache: {
+    employees: Array<{
+      id: number;
+      vehicle: {
+        id: any;
+        vehicleNumber: any;
+      };
+    }>;
+    vehicles: Array<{
+      id: number;
+    }>;
   };
-      
+};
 
+export type LoadAddVehicleDataCacheType = {
+  createAddVehicleDataCache: {
+    colleges: Array<{
+      id: number;
+      shortName: string;
+    }>;
+    branches: Array<{
+      id: number;
+      branchName: string;
+      college: {
+        id: number;
+      };
+      state: {
+        id: number;
+      };
+      city: {
+        id: number;
+      };
+    }>;
+  };
+};
 
 export type AddDocumentsInput = {
   id?: number | null;
@@ -430,18 +508,18 @@ export type AddVehicleInput = {
   rcNo?: string | null;
   contactNumber?: string | null;
   status?: string | null;
-  employee:{
-    id?: any | null;
-  }
-  transportRoute:{
-    id?: any | null;
-  }
-  insurance:{
+  employee: {
     id?: any | null;
   };
-  contract:{
+  transportRoute: {
     id?: any | null;
-  }
+  };
+  insurance: {
+    id?: any | null;
+  };
+  contract: {
+    id?: any | null;
+  };
 };
 
 export type AddVehicleMutationVariables = {
@@ -464,20 +542,20 @@ export type VehicleAddMutationType = {
       rcNo: string;
       contactNumber: string;
       status: string;
-      employee:{
-        id: any;
-      }
-      transportRoute:{
-        id: any;
-      }
-      insurance:{
+      employee: {
         id: any;
       };
-      contract:{
+      transportRoute: {
         id: any;
       };
+      insurance: {
+        id: any;
+      };
+      contract: {
+        id: any;
+      };
+    };
   };
-};
 };
 
 export type AddInsuranceInput = {
@@ -506,7 +584,6 @@ export type InsuranceAddMutationType = {
   };
 };
 
-
 export type AddContractInput = {
   id?: number | null;
   vendorName?: string | null;
@@ -532,7 +609,5 @@ export type ContractAddMutationType = {
     };
   };
 };
-
-
 
 /* tslint:enable */

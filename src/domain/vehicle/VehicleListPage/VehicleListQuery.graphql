@@ -25,5 +25,7 @@ mutation getVehicleList($filter:VehicleListFilterInput!){
     insurance{
       id
     }
+    strValidTill
   }
+  
 }

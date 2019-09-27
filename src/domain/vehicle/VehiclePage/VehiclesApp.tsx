@@ -6,7 +6,8 @@ import { ApolloProvider } from 'react-apollo';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import { createGraphQLClient } from '../../../createGraphQLClient';
-import AddVehiclePage from './AddVehiclePage';
+import VehiclePage from './VehiclePage';
+import '../../../css/dark.css';
 
 const graphQLClient = createGraphQLClient();
 
@@ -17,13 +18,13 @@ export default function init() {
         <BrowserRouter>
           <Switch>
             <Route
-              path="/plugins/ems-transpot/page/addvehicle"
-              component={AddVehiclePage}
+              path="/plugins/ems-transport/page/vehicle"
+              component={VehiclePage}
             />
           </Switch>
         </BrowserRouter>
       </ApolloProvider>,
-      document.getElementById('mountAddVehicle')
+      document.getElementById('mountVehicle')
     );
   }, 100);
 }

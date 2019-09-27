@@ -42,12 +42,13 @@
       "defaultNav": true,
       "component": "DriverPage"
     },
+
     {
       "type": "page",
-      "name": "AddVehicle",
-      "addToNav": true,
-      "defaultNav": true,
-      "component": "AddVehiclePage"
+      "name": "Vehicle",
+      "addToNav": false,
+      "defaultNav": false,
+      "component": "VehiclesPage"
     }
   ],
   "dependencies": {

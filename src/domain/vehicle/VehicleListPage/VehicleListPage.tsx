@@ -143,11 +143,17 @@ class VehiclesTable extends React.Component<VehiclePageProps, VehicleTableStates
                   <input onClick={(e: any) => this.onClickCheckbox(i, e)} checked={vehicle.isChecked} type="checkbox" name="" id={"chk" + vehicle.id} />
                 </td>
                 <td>
-                    {vehicle.vehicleNumber}
-                </td>
+                <Link
+                  className="table-link link-color"
+                  to={`/plugins/ems-transport/page/vehicle?id=${vehicle.id}`}
+                >
+                  {vehicle.vehicleNumber}
+                </Link>
+              </td>
                 <td>{vehicle.vehicleType}</td>
                 <td>{vehicle.capacity}</td>
                 <td>{vehicle.id}</td>
+                <td>{vehicle.strValidTill}</td>
                 <td>{vehicle.transportRoute.routeName}</td>
                 <td>{vehicle.employee.employeeName}</td>
                 <td>{vehicle.employee.primaryContactNo}</td>
@@ -161,11 +167,17 @@ class VehiclesTable extends React.Component<VehiclePageProps, VehicleTableStates
                 <input onClick={(e: any) => this.onClickCheckbox(i, e)} checked={vehicle.isChecked} type="checkbox" name="" id={"chk" + vehicle.id} />
               </td>
               <td>
-                    {vehicle.vehicleNumber}
+              <Link
+                  className="table-link link-color"
+                  to={`/plugins/ems-transport/page/vehicle?id=${vehicle.id}`}
+                >
+                  {vehicle.vehicleNumber}
+                </Link>
                 </td>
                 <td>{vehicle.vehicleType}</td>
                 <td>{vehicle.capacity}</td>
                 <td>{vehicle.id}</td>
+                <td>{vehicle.strValidTill}</td>
                 <td>{vehicle.transportRoute.routeName}</td>
                 <td>{vehicle.employee.employeeName}</td>
                 <td>{vehicle.employee.primaryContactNo}</td>
@@ -251,7 +263,7 @@ class VehiclesTable extends React.Component<VehiclePageProps, VehicleTableStates
       <section className="customCss">
         <h3 className="bg-heading-bgStudent p-1 mb-1">
           <i className="fa fa-university stroke-transparent mr-1" aria-hidden="true" />{' '}
-          Admin - Vehicle
+          Transport Management
         </h3>
         <div className="container-fluid p-1 ">
           <div className="m-b-1 bg-heading-bgStudent studentListFlex">
@@ -295,6 +307,7 @@ class VehiclesTable extends React.Component<VehiclePageProps, VehicleTableStates
                   <th>Vehicle Type</th>
                   <th>No Of Seats</th>
                   <th>Vehicle ID</th>
+                  <th>Insurance Validity</th>
                   <th>Route Assigned</th>
                   <th>Driver Name</th>
                   <th>Contact No</th>

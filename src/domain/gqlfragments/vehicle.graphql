@@ -20,6 +20,18 @@ fragment vehicle on CmsVehicleVo {
       id
     }
     insurance{
-      id
+     id
+     insuranceCompany
+     typeOfInsurance
     }
+    contract{
+    id
+    vendorName
+    typeOfOwnerShip
+    durationOfContract
+  }
+  strDateOfInsurance
+  strValidTill
+  strStartDate
+  strEndDate
 }
