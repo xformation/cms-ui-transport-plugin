@@ -1546,3 +1546,752 @@ table.adminListPage td:first-child {
 .p--512 {
   padding: 5px 12px;
 }
+.plugin-bg-white {
+  background: white;
+  min-height: 96vh;
+}
+.plr {
+  padding: 10px 13px;
+}
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* // Position the tooltip / */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.hasTooltip a {
+  display: none;
+  color: #fff;
+  text-decoration: none;
+  padding: 3px;
+}
+
+.hasTooltip:hover a {
+  display: block;
+  position: absolute;
+  background-color: #83daab;
+  border: 1px solid #83daab;
+  margin: 2px -14px;
+}
+.j-between {
+  display: flex;
+  justify-content: space-between !important;
+}
+
+.fee-flex {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.chooseDate > .react-datepicker-wrapper {
+  width: 100%;
+}
+.chooseDateN > .react-datepicker-wrapper {
+  width: 190px !important;
+  /* border: 1px solid #dde4ed !important; */
+}
+.chooseDateN {
+  width: 190px !important;
+}
+
+.btn-danger-bg {
+  background: #f57846 !important;
+  color: #fff;
+}
+.tooltip-red {
+  background: #fabba2 !important;
+  margin: 0px -10px !important;
+  border: 1px solid #fabba2 !important;
+}
+.dgrid-6 {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto auto;
+  grid-gap: 10px;
+}
+
+.hflex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hhflex {
+  display: flex;
+  justify-content: space-between;
+  padding-right: 5px;
+}
+.h-center {
+  border: 1px solid #dde4ed;
+  background: white;
+  padding: 5px;
+}
+table#feetable td {
+  width: 12.5%;
+}
+/* table#feetable td:nth-child(2) {
+  width: 30%;
+}
+table#feetable td:nth-child(3) {
+  width: 10%;
+}
+table#feetable td:last-child {
+  width: 55%;
+} */
+
+.markWidth select {
+  width: 190px !important;
+}
+.mx-2 {
+  margin-left: 5px !important;
+  margin-right: 5px !important;
+}
+.ma-select {
+  background-color: #b4b2b2;
+  border-radius: 5px;
+  color: white;
+}
+.ma-select::placeholder {
+  color: white;
+  opacity: 1;
+}
+
+/* REact Mark attendance toggle button */
+.react-toggle {
+  touch-action: pan-x;
+
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+  background-color: transparent;
+  border: 0;
+  padding: 0;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.react-toggle-screenreader-only {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+.react-toggle--disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  -webkit-transition: opacity 0.25s;
+  transition: opacity 0.25s;
+}
+
+.react-toggle-track {
+  width: 50px;
+  height: 24px;
+  padding: 0;
+  border-radius: 30px;
+  background-color: #4d4d4d;
+  -webkit-transition: all 0.2s ease;
+  -moz-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+
+.react-toggle:hover:not(.react-toggle--disabled) .react-toggle-track {
+  background-color: #000000;
+}
+
+.react-toggle--checked .react-toggle-track {
+  background-color: #19ab27;
+}
+
+.react-toggle--checked:hover:not(.react-toggle--disabled) .react-toggle-track {
+  background-color: #128d15;
+}
+
+.react-toggle-track-check {
+  position: absolute;
+  width: 14px;
+  height: 10px;
+  top: 0px;
+  bottom: 0px;
+  margin-top: auto;
+  margin-bottom: auto;
+  line-height: 0;
+  left: 8px;
+  opacity: 0;
+  -webkit-transition: opacity 0.25s ease;
+  -moz-transition: opacity 0.25s ease;
+  transition: opacity 0.25s ease;
+}
+
+.react-toggle--checked .react-toggle-track-check {
+  opacity: 1;
+  -webkit-transition: opacity 0.25s ease;
+  -moz-transition: opacity 0.25s ease;
+  transition: opacity 0.25s ease;
+}
+
+.react-toggle-track-x {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  top: 0px;
+  bottom: 0px;
+  margin-top: auto;
+  margin-bottom: auto;
+  line-height: 0;
+  right: 10px;
+  opacity: 1;
+  -webkit-transition: opacity 0.25s ease;
+  -moz-transition: opacity 0.25s ease;
+  transition: opacity 0.25s ease;
+}
+
+.react-toggle--checked .react-toggle-track-x {
+  opacity: 0;
+}
+
+.react-toggle-thumb {
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  width: 22px;
+  height: 22px;
+  border: 1px solid #4d4d4d;
+  border-radius: 50%;
+  background-color: #fafafa;
+
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+
+  -webkit-transition: all 0.25s ease;
+  -moz-transition: all 0.25s ease;
+  transition: all 0.25s ease;
+}
+
+.react-toggle--checked .react-toggle-thumb {
+  left: 27px;
+  border-color: #19ab27;
+}
+
+.react-toggle--focus .react-toggle-thumb {
+  -webkit-box-shadow: 0px 0px 3px 2px #0099e0;
+  -moz-box-shadow: 0px 0px 3px 2px #0099e0;
+  box-shadow: 0px 0px 2px 3px #0099e0;
+}
+
+.react-toggle:active:not(.react-toggle--disabled) .react-toggle-thumb {
+  -webkit-box-shadow: 0px 0px 5px 5px #0099e0;
+  -moz-box-shadow: 0px 0px 5px 5px #0099e0;
+  box-shadow: 0px 0px 5px 5px #0099e0;
+}
+/* REact Mark attendance toggle button */
+
+.ul-attend {
+  list-style: none;
+  display: inline-flex;
+}
+.pt-2 {
+  padding-top: 2rem;
+}
+.w-btn {
+  width: 3rem !important;
+  border-radius: 0px;
+}
+.mr-1 {
+  margin-right: 1rem;
+}
+.mr-18 {
+  margin-right: 18px;
+}
+.ml-18 {
+  margin-left: 18px;
+}
+ul.ul-attend > li {
+  border-right: 1px solid gray;
+}
+ul.ul-attend > li:last-child {
+  border-right: 0px solid gray;
+}
+.blr {
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+.btr {
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+.b-0 {
+  border: none;
+}
+.bt-radius {
+  border-radius: 4px;
+}
+.btn-width {
+  width: 10.5rem;
+}
+.grid {
+  display: grid;
+  grid-template-columns: 18% 82%;
+  grid-gap: 5px;
+  padding: 18px;
+}
+.leftbar {
+  padding: 5px;
+}
+.leftbar > img {
+  margin-left: 6px;
+}
+.rightbar {
+  border: 1px solid #cecece;
+}
+.border-plugin {
+  border: 1px solid #cecece;
+  border-radius: 5px;
+  padding: 4px;
+}
+.form-grid {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-gap: 15px;
+  margin: 2rem;
+}
+.input-width {
+  width: 120px;
+  height: 20px;
+  margin-top: 10px;
+}
+.form-justify {
+  display: flex;
+  justify-content: space-between;
+}
+
+.b-1 {
+  border: 1px solid #cecece;
+}
+
+.reln {
+  padding-left: 2rem;
+  padding-top: 1rem;
+}
+.reln > select {
+  border-radius: 5px;
+  width: 300px !important;
+}
+.rel-radio {
+  display: grid;
+  border-radius: 5px;
+  border: 1px solid #cecece;
+  height: 30px;
+  grid-template-columns: auto auto;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 18px;
+  background-color: #efefef;
+}
+.main-grid {
+  display: grid;
+  grid-template-columns: 1fr 5fr;
+  grid-gap: 20px;
+}
+.heading-flex {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.heading-flex > h3 {
+  color: #447aae !important;
+}
+.heading-flex > .hflex-h5 {
+  margin: 0 3rem;
+  border-left: 1px solid #cecece;
+  border-right: 1px solid #cecece;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  padding-top: 0px;
+  padding-bottom: 10px;
+}
+
+.next-div {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+.next-div span {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  color: rgb(78, 144, 203) !important;
+}
+.next-div span span {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  color: black !important;
+}
+.family-details {
+  margin-top: 2rem;
+}
+.family-details,
+.contact-details,
+.id-details {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+.family-details > h5 {
+  color: rgb(78, 144, 203) !important;
+}
+h5 {
+  color: rgb(78, 144, 203) !important;
+}
+.contact-details > h5 {
+  color: rgb(78, 144, 203) !important;
+}
+.id-details > h5 {
+  color: rgb(78, 144, 203) !important;
+}
+.contact-details {
+  border-top: 1px solid #cecece;
+  border-bottom: 1px solid #cecece;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+}
+.buttons a {
+  border-radius: 10px;
+}
+
+.b-1 {
+  border: 1px solid #cecece;
+}
+.m-2 {
+  margin: 2rem;
+}
+
+.btn-disable {
+  background-color: rgba(54, 151, 239, 0.4) !important;
+  color: #fff;
+}
+.btn-disable:hover {
+  background-color: rgba(54, 151, 239, 0.5) !important;
+  color: #fff;
+}
+.check-square {
+  background: green;
+  color: white;
+  padding: 5px;
+}
+.check-square-red {
+  background: red;
+  color: white;
+  padding: 5px;
+}
+#t-attendance {
+  width: 100%;
+}
+#t-attendance select {
+  width: 100%;
+}
+table#studentlistpage th,
+td {
+  text-align: center !important;
+}
+.family-details > h5 > span {
+  color: #111111;
+}
+.contact-details > h5 > span {
+  color: #111111;
+}
+.id-details > h5 > span {
+  color: #111111;
+}
+
+.student-flex select {
+  width: 13vw;
+  margin-bottom: 25px;
+}
+.student-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.student-flex input[type='search'] {
+  padding: 7px;
+  margin-top: 1.2%;
+}
+.margin-bott {
+  margin-bottom: 25px;
+}
+.bg-heading {
+  display: flex;
+  align-items: center;
+  /* justify-content: space-between; */
+}
+.bg-heading h2 {
+  flex-grow: 1;
+}
+.bg-heading button:first-child {
+  width: 180px;
+  margin-right: 15px;
+}
+
+.link-color {
+  color: #4e8fc9;
+}
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-gap: 20px;
+}
+hr#invoiceHr {
+  border-top: 1px solid #419df0;
+}
+/* Fee Setup */
+.inDashboard {
+  display: flex;
+  justify-content: space-between;
+}
+.b-1 {
+  border: 1px solid darkgray;
+  border-radius: 5px;
+}
+.invoiceDashboard {
+  border: 1px solid gray;
+  border-radius: 5px;
+  width: 18rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+.invoiceDashboard h2 {
+  padding: 1rem;
+}
+.invoiceHeader {
+  background: #1870c2;
+  display: flex;
+  justify-content: space-between;
+  text-align: left;
+  padding: 5px 5px;
+  width: 100%;
+}
+.invoiceHeader h6 {
+  flex-grow: 1;
+  color: white;
+}
+.belowDashboard {
+  display: grid;
+  padding: 8px 0;
+  grid-gap: 11rem;
+  grid-template-columns: auto auto;
+}
+.h5-fee-bg {
+  background-color: #d6d6d8;
+  color: #8b8b8b;
+}
+
+.white {
+  color: white !important;
+}
+.searchInvoice,
+.searchInvoiceButton {
+  display: flex;
+  justify-content: space-evenly;
+}
+.invoiceDetails {
+  display: flex;
+  justify-content: space-between;
+  margin: 5px 10px;
+}
+.w50 {
+  width: 55%;
+}
+.p05 {
+  padding: 5px;
+}
+.hr-top {
+  border-top: 1px solid #9acbf7;
+}
+.fee-blue {
+  color: #3697ef;
+}
+.fee-green {
+  color: #7adaa7;
+}
+.fee-orange {
+  color: #f68253;
+}
+.fee-red {
+  color: #e55a5a;
+}
+.remainder {
+  background: #1870c2;
+}
+
+.feeCategory form {
+  display: grid;
+  grid-gap: 10px 40px;
+  grid-template-columns: 1fr;
+  margin: 1rem;
+}
+.feeAppHead {
+  grid-column: 1/3;
+  grid-row: 3;
+}
+.feeSelect {
+  grid-column: 1/3;
+  grid-row: 4;
+}
+.feeSelect {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.feeSelect select {
+  width: 150px;
+  margin-right: 1.2rem;
+}
+.feeSelect input {
+  padding: 8px 0px;
+  margin-right: 0.5rem;
+}
+.f-12 {
+  width: 12%;
+}
+.f-25 {
+  width: 25%;
+}
+.f-20 {
+  width: 20%;
+}
+.m-1 {
+  margin: 10px;
+}
+.dfinline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.mtf-8 {
+  margin-top: 8px;
+}
+.dark-gray {
+  color: #4d4d4d !important;
+}
+.px-1 {
+  padding: 0 10px;
+}
+.feeApplicable {
+  display: flex;
+}
+.mt-20 {
+  margin-top: 20px;
+}
+.mlb {
+  margin-left: 1rem;
+  margin-bottom: 1rem;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(1fr, 4);
+  grid-template-rows: 3;
+}
+.border {
+  border: 1px solid #8b8b8b;
+}
+.ReminderColumn _ {
+  grid-column: 1/5;
+}
+.FirstColumn,
+.SecondColumn,
+.ThirdColumn {
+  grid-column: 1/3;
+}
+.border.FirstRow {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.Srow {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.feeFlex {
+  display: flex;
+  justify-content: flexStart;
+}
+.feeFlex > .input[checkbox] {
+  margin-right: 0.8rem;
+}
+.feeFlex > .input[radio] {
+  margin-right: 0.8rem;
+}
+.feeMx {
+  margin-right: 1rem;
+  margin-left: 1rem;
+}
+.feeMr {
+  margin-right: 1rem;
+}
+.feeMy {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+.feeFlexEnd {
+  display: flex;
+  justify-content: flex-end;
+}
+/* Fee Setup */
+.border {
+  border: 1px solid #bdb7b7;
+}
+table#invoicelistpage th {
+  text-align: center;
+}
+.markDate.react-datepicker-wrapper {
+  width: 100% !important;
+}
+input#dtPickerSt {
+  width: 130px;
+  margin-right: 10px;
+}
+input#dtPickerNd {
+  width: 130px;
+  margin-right: 10px;
+}

@@ -69,12 +69,11 @@ export default ({ vehicle }: { vehicle: VehicleFragment }) => (
           <h5 className="bg-grey head-prime text-uppercase p--512">Vehicle Id :<span className="dark-text">
             { vehicle.id }</span></h5>
             <div className="btn-group btn-adm m-4">
-              <button className="btn btn-primary disabled">Approve</button>
-              <button className="btn btn-primary disabled">Followup</button>
-              <button className="btn btn-primary disabled">Decline</button>
+              <button className="btn btn-primary disabled">Back</button>
+              <button className="btn btn-primary disabled">Active</button>
+              <button className="btn btn-primary disabled">Suspend</button>
               <button className="btn btn-primary disabled">Edit</button>
               <button className="btn btn-primary disabled">Print</button>
-              <button className="btn btn-primary disabled">Back</button>
             </div>
           </div>
               <div className="col-md-10">
