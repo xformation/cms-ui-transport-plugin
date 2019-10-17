@@ -256,9 +256,9 @@ export default ({ vehicle }: { vehicle: VehicleFragment }) => (
                   </div>
                </div>
 
-              Documents
+              {/* Documents
 
-              <div><p className="h2">In Progress</p></div>
+              <div><p className="h2">In Progress</p></div> */}
 
             </Tabs>
           </div>
