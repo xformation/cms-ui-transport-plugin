@@ -76,14 +76,16 @@ class DriverTable extends React.Component<DriverPageProps, DriverTableStates> {
     return employeesOptions;
   }
 
-  createVehicles(vehicles: any) {
-    let vehicleOptions = [<option key={0} value="">Select RouteId</option>];
+  createVehicles(vehicles: any, selectedEmployeeId: any) {
+    let vehiclesOptions = [<option key={0} value="">Select VehicleId</option>];
     for (let i = 0; i < vehicles.length; i++) {
-      vehicleOptions.push(
-        <option key={vehicles[i].id} value={vehicles[i].id}>{vehicles[i].id}</option>
-      );
-  }
-    return vehicleOptions;
+      if (selectedEmployeeId == vehicles[i].employee.id) {
+        vehiclesOptions.push(
+          <option key={vehicles[i].id} value={vehicles[i].id}>{vehicles[i].id}</option>
+        );
+      }
+    }
+    return vehiclesOptions;
   }
 
   checkAllDrivers(e: any) {
@@ -271,7 +273,7 @@ class DriverTable extends React.Component<DriverPageProps, DriverTableStates> {
               <div>
                 <label htmlFor="">Vehicle ID</label>
                 <select name="vehicle" id="vehicle" onChange={this.onChange} value={employeeData.vehicle.id} className="gf-form-input max-width-22">
-                  {this.createVehicles(this.props.data.createEmployeeDataCache.vehicles)}
+                  {this.createVehicles(this.props.data.createEmployeeDataCache.vehicles,employeeData.employee.id)}
                 </select>
               </div>
               
