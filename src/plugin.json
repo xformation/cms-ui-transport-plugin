@@ -23,32 +23,10 @@
   "includes": [
     {
       "type": "page",
-      "name": "Home",
-      "addToNav": false,
-      "defaultNav": false,
-      "component": "WelcomePage"
-    },
-    {
-      "type": "page",
-      "name": "Vehicles",
+      "name": "vehicletab",
       "addToNav": true,
       "defaultNav": true,
-      "component": "VehiclePage"
-    },
-    {
-      "type": "page",
-      "name": "Drivers",
-      "addToNav": true,
-      "defaultNav": true,
-      "component": "DriverPage"
-    },
-
-    {
-      "type": "page",
-      "name": "Vehicle",
-      "addToNav": false,
-      "defaultNav": false,
-      "component": "VehiclesPage"
+      "component": "VehicleTab"
     }
   ],
   "dependencies": {

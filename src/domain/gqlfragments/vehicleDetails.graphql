@@ -1,6 +1,0 @@
-#import "./vehicle.graphql"
-
-
-fragment vehicleDetails on CmsVehicleVo {
-  ...vehicle
-}

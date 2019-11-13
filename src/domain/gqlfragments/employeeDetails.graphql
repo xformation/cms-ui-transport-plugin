@@ -1,6 +1,0 @@
-#import "./employee.graphql"
-
-
-fragment employeeDetails on CmsEmployeeVo {
-  ...employee
-}
