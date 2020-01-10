@@ -1,12 +1,11 @@
 import * as React from 'react';
 // import { graphql, QueryProps, MutationFunc, compose } from 'react-apollo';
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
-import DriverListPage from '../DriverListPage/DriverListPage';
-import VehicleListPage from '../VehicleListPage/VehicleListPage';
+import VehiclePage from '../VehiclePage';
 
 import { FaUserGraduate } from 'react-icons/fa';
-import './tabs.css';
-import AddVehiclePage from '../AddVehiclePage/AddVehiclePage';
+import '../../../css/tabs.css';
+import '../../../css/college-settings.css'
 
 
 export default class FeesTab extends React.Component<any, any> {
@@ -41,10 +40,10 @@ export default class FeesTab extends React.Component<any, any> {
                 this.toggleTab(0);
               }}
             >
-              Vehicle List Page
+              Vehicle page
             </NavLink>
           </NavItem>
-          <NavItem className="cursor-pointer">
+          {/* <NavItem className="cursor-pointer">
             <NavLink
               className={`${activeTab === 1 ? 'active' : ''}`}
               onClick={() => {
@@ -53,28 +52,15 @@ export default class FeesTab extends React.Component<any, any> {
             >
              Driver List Page
             </NavLink>
-          </NavItem>
-          <NavItem className="cursor-pointer">
-            <NavLink
-              className={`${activeTab === 2 ? 'active' : ''}`}
-              onClick={() => {
-                this.toggleTab(2);
-              }}
-            >
-            Add Vehicle Page
-            </NavLink>
-          </NavItem>
+          </NavItem> */}
         </Nav>
         <TabContent activeTab={activeTab} className="border-right">
           <TabPane tabId={0}>
-            <VehicleListPage />
+            <VehiclePage />
           </TabPane>
-          <TabPane tabId={1}>
+          {/* <TabPane tabId={1}>
           <DriverListPage />
-          </TabPane>
-          <TabPane tabId={2}>
-          <AddVehiclePage />
-          </TabPane>
+          </TabPane> */}
         </TabContent>
       </section>
     );

@@ -8,4 +8,5 @@ export {ADD_CONTRACT_MUTATION} from './AddContractMutation';
 export {ADD_INSURANCE_MUTATION} from './AddInsuranceMutation';
 export {ADD_DOCUMENT_MUTATION} from './AddDocumentMutation';
 export {ADD_VEHICLE_MUTATION} from './AddVehicleMutation';
+export {ADD_ROUTE_MUTATION} from './AddTransportRouteMutation';
 export {LOAD_ADD_VEHICLE_DATA_CACHE_QUERY} from './LoadAddVehicleDataCacheQuery';

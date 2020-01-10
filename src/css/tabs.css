@@ -1,3 +1,4 @@
+/**************************************** CSS for tabs ***********************************/
 .nav-tabs {
   border-bottom: 0px !important;
   padding-left: 0px !important;
@@ -33,7 +34,7 @@
   left: 15px;
 }
 
-.boxShadow {
+.bottom-box-shadow {
   -webkit-box-shadow: 0 4px 6px -6px rgba(0, 0, 0, 0.3);
   -moz-box-shadow: 0 4px 6px -6px rgba(0, 0, 0, 0.3);
   box-shadow: 0 4px 6px -6px rgba(0, 0, 0, 0.3);
@@ -44,22 +45,20 @@
   margin-bottom: 0;
 }
 
-.customMargin {
-  margin: 5px 5px 15px 25px;
-}
-.tabm-1 {
-  margin: 15px;
-}
-#cstmTab,
-#cstmTab1,
-#cstmTab2 {
+.vertical-nav-link {
   background: rgba(0, 0, 0, 0.1);
-  padding: 5px 10px;
+  padding: 10px !important;
   border-radius: 3px;
 }
+.modal-dialog {
+  overflow-y: auto;
+  height: 500px;
+}
 
-.tab-flex {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
+.modal-body {
+  overflow-y: initial;
+}
+.modal {
+  width: 1000px;
+  height: 500px;
 }
