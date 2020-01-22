@@ -185,3 +185,7 @@
 .grafana-style .form-control-container > div:last-child {
   width: 100%;
 }
+
+.input-textbox-error {
+  border: 1px solid #d44939 !important;
+}

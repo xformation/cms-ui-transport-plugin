@@ -13,4 +13,5 @@ export const ADD_ROUTE_MUTATION = gql`
       }
     }
   }
+}
 `;

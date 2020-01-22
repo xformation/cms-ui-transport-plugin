@@ -1,11 +1,12 @@
 import * as React from 'react';
 // import { graphql, QueryProps, MutationFunc, compose } from 'react-apollo';
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
-import VehiclePage from '../VehiclePage';
+;
 
 import { FaUserGraduate } from 'react-icons/fa';
 import '../../../css/tabs.css';
 import '../../../css/college-settings.css'
+import AddVehiclePage from '../AddVehiclePage';
 
 
 export default class FeesTab extends React.Component<any, any> {
@@ -56,7 +57,7 @@ export default class FeesTab extends React.Component<any, any> {
         </Nav>
         <TabContent activeTab={activeTab} className="border-right">
           <TabPane tabId={0}>
-            <VehiclePage />
+            <AddVehiclePage />
           </TabPane>
           {/* <TabPane tabId={1}>
           <DriverListPage />
