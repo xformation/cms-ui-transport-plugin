@@ -9,6 +9,7 @@ import '../../../css/college-settings.css';
 // import DriverListPage from '../DriverListPage/DriverListPage';
 // import { VehicleDetailsPage } from './VehicleDetailsTable';
 import VehiclePage from '../AddVehiclePage/VehiclePage';
+import AddPage from '../AddVehiclePage/AddPage';
 // import { CollegeInfo } from './CollegeInfo';
 // import {CollegeBranches} from './CollegeBranches';
 
@@ -37,9 +38,9 @@ export default class vehicle extends React.Component<any, any> {
                         Vehicle Page
                         </NavLink>
                     </NavItem>
-                   {/* <NavItem className="cursor-pointer">
+                    <NavItem className="cursor-pointer">
                         <NavLink className={`vertical-nav-link ${activeTab === 1 ? 'side-active' : ''}`} onClick={() => { this.toggleTab(1); }} >
-                           Driver Page
+                           Add Page
                         </NavLink>
                     </NavItem>
                     {/* <NavItem className="cursor-pointer">
@@ -52,9 +53,9 @@ export default class vehicle extends React.Component<any, any> {
                     <TabPane tabId={0}>
                         <VehiclePage/>
                     </TabPane>
-                    {/* <TabPane tabId={1}>
-                        <DriverListPage/>
-                    </TabPane> */}
+                    <TabPane tabId={1}>
+                        <AddPage/>
+                    </TabPane> 
                     {/* <TabPane tabId={2}>
                         <VehicleDetailsPage/>
                     </TabPane> */}

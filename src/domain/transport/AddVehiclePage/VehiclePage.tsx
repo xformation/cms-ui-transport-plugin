@@ -16,7 +16,7 @@ export interface VehicleProps extends React.HTMLAttributes<HTMLElement>{
 }
 
 const ERROR_MESSAGE_MANDATORY_FIELD_MISSING = "Mandatory fields missing";
-const ERROR_MESSAGE_SERVER_SIDE_ERROR = "Due to some error in preferences service, branch could not be saved. Please check preferences service logs";
+const ERROR_MESSAGE_SERVER_SIDE_ERROR = "Due to some error in vehicle service, vehicles could not be saved. Please check vehicle service logs";
 const SUCCESS_MESSAGE_TRANSPORT_ADDED = "New transport saved successfully";
 const SUCCESS_MESSAGE_TRANSPORT_UPDATED = "Transport Route updated successfully";
 
@@ -170,7 +170,7 @@ class VehicleGrid<T = {[data: string]: any}> extends React.Component<VehicleProp
             },
         }).then((resp: any) => {
             console.log("Success in addTransportRoute Mutation: ",resp.data.addTransportRoute.transportRoute.exitCode);
-            exitCode = resp.data.addTransportRoute.transportRoute.exitCode;
+            exitCode = resp.data.addTransportRoute.tansportRoute.exitCode;
             this.props.onSaveUpdate(resp.data.addTransportRoute.transportRoute);
             let temp = resp.data.addTransportRoute.transportRoute; 
             console.log("New Transport Route list : ", temp);
