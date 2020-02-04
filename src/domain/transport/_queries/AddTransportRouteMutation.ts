@@ -1,15 +1,19 @@
 import gql from 'graphql-tag';
 
 export const ADD_ROUTE_MUTATION = gql`
-  mutation addTransportRoute($input: AddTransportRouteInput!) {
+  mutation AddTransportRoute($input: TransportInput) {
     addTransportRoute(input: $input) {
-      transportRoute {
-        id
-        routeName
-        routeDetails
-        routeMapUrl
-        noOfStops
-        routeFrequency
+      cmsTransportVo {
+        exitCode
+        exitDescription
+        dataList {
+          id
+          routeName
+          routeDetails
+          routeMapUrl
+          noOfStops
+          routeFrequency
+        }
       }
     }
   }

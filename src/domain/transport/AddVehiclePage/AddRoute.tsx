@@ -158,45 +158,48 @@ class VehicleGrid<T = {[data: string]: any}> extends React.Component<VehicleProp
 
     }
 
-    async doSave(veInput: any, id: any){
-        let btn = document.querySelector("#"+id);
-        btn && btn.setAttribute("disabled", "true");
-        let exitCode = 0;
+    async doSave(roInput: any, id: any){
+      let btn = document.querySelector("#"+id);
+      btn && btn.setAttribute("disabled", "true");
+      let exitCode = 0;
 
-        await this.props.client.mutate({
-            mutation: ADD_ROUTE_MUTATION,
-            variables: { 
-                input: veInput
-            },
-        }).then((resp: any) => {
-            console.log("Success in addTransportRoute Mutation: ",resp.data.addTransportRoute.transportRoute.exitCode);
-            exitCode = resp.data.addTransportRoute.tansportRoute.exitCode;
-            this.props.onSaveUpdate(resp.data.addTransportRoute.transportRoute);
-            let temp = resp.data.addTransportRoute.transportRoute; 
-            console.log("New Transport Route list : ", temp);
-            this.setState({
-                veList: temp
-            });
-        }).catch((error: any) => {
-            console.log('Error in addTransportRoute : ', error);
-        });
-        btn && btn.removeAttribute("disabled");
-         exitCode=1
-        let errorMessage = "";
-        let successMessage = "";
-        if(exitCode== 0){
-            successMessage = SUCCESS_MESSAGE_TRANSPORT_ADDED;
-            if(veInput.id !== null){
-                 successMessage = SUCCESS_MESSAGE_TRANSPORT_UPDATED;
-            }
-        }else {
-            errorMessage = ERROR_MESSAGE_SERVER_SIDE_ERROR;
-        }
-        this.setState({
-            successMessage: successMessage,
-            errorMessage: errorMessage
-        });
-    }
+      await this.props.client.mutate({
+          mutation: ADD_ROUTE_MUTATION,
+          variables: { 
+              input: roInput
+          },
+      }).then((resp: any) => {
+          console.log("Success in addTransportRoute Mutation. Exit code : ",resp.data.addTransportRoute.cmsTransportVo.exitCode);
+          exitCode = resp.data.addTransportRoute.cmsTransportVo.exitCode;
+          this.props.onSaveUpdate(resp.data.addTransportRoute.cmsTransportVo.dataList);
+          let temp = resp.data.addTransportRoute.cmsTransportVo.dataList; 
+          console.log("New TransportRoute list : ", temp);
+          this.setState({
+              roList: temp
+          });
+      }).catch((error: any) => {
+          exitCode = 1;
+          console.log('Error in addTransportRoute : ', error);
+      });
+      btn && btn.removeAttribute("disabled");
+      
+      let errorMessage = "";
+      let successMessage = "";
+      if(exitCode === 0 ){
+          successMessage = SUCCESS_MESSAGE_TRANSPORT_ADDED;
+          if(roInput.id !== 1){
+              successMessage = SUCCESS_MESSAGE_TRANSPORT_UPDATED;
+          }
+      }else {
+          errorMessage = ERROR_MESSAGE_SERVER_SIDE_ERROR;
+      }
+      this.setState({
+          successMessage: successMessage,
+          errorMessage: errorMessage
+      });
+  }
+
+
 
     addTransportRoute = (e: any) => {
         const { id } = e.nativeEvent.target;

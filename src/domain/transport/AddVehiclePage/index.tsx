@@ -8,8 +8,9 @@ import '../../../css/college-settings.css';
 // import VehicleListPage from './VehicleListPage';
 // import DriverListPage from '../DriverListPage/DriverListPage';
 // import { VehicleDetailsPage } from './VehicleDetailsTable';
-import VehiclePage from '../AddVehiclePage/VehiclePage';
-import AddPage from '../AddVehiclePage/AddPage';
+import AddRoute from './AddRoute';
+
+// import AddPage from '../AddVehiclePage/AddPage';
 // import { CollegeInfo } from './CollegeInfo';
 // import {CollegeBranches} from './CollegeBranches';
 
@@ -35,14 +36,19 @@ export default class vehicle extends React.Component<any, any> {
                  <Nav tabs className="pl-3 pl-3 mb-4 mt-4 col-sm-2">
                     <NavItem className="cursor-pointer">
                         <NavLink className={`vertical-nav-link ${activeTab === 0 ? 'side-active' : ''}`} onClick={() => { this.toggleTab(0); }} >
-                        Vehicle Page
+                        Route Page
                         </NavLink>
                     </NavItem>
-                    <NavItem className="cursor-pointer">
+                    {/* <NavItem className="cursor-pointer">
+                        <NavLink className={`vertical-nav-link ${activeTab === 0 ? 'side-active' : ''}`} onClick={() => { this.toggleTab(0); }} >
+                        Route Page
+                        </NavLink>
+                    </NavItem> */}
+                    {/* <NavItem className="cursor-pointer">
                         <NavLink className={`vertical-nav-link ${activeTab === 1 ? 'side-active' : ''}`} onClick={() => { this.toggleTab(1); }} >
                            Add Page
                         </NavLink>
-                    </NavItem>
+                    </NavItem> */}
                     {/* <NavItem className="cursor-pointer">
                         <NavLink className={`vertical-nav-link ${activeTab === 2 ? 'side-active' : ''}`} onClick={() => { this.toggleTab(2); }} >
                            Details Page 
@@ -51,14 +57,8 @@ export default class vehicle extends React.Component<any, any> {
                 </Nav>
                 <TabContent activeTab={activeTab} className="col-sm-9 border-left p-t-1">
                     <TabPane tabId={0}>
-                        <VehiclePage/>
+                        <AddRoute/>
                     </TabPane>
-                    <TabPane tabId={1}>
-                        <AddPage/>
-                    </TabPane> 
-                    {/* <TabPane tabId={2}>
-                        <VehicleDetailsPage/>
-                    </TabPane> */}
                 </TabContent> 
             </section>
         );
