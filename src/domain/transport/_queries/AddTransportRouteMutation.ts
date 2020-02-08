@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 export const ADD_ROUTE_MUTATION = gql`
-  mutation AddTransportRoute($input: TransportInput) {
+  mutation addTransportRoute($input: AddTransportRouteInput) {
     addTransportRoute(input: $input) {
       cmsTransportVo {
         exitCode

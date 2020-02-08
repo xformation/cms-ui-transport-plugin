@@ -9,25 +9,24 @@ import { withApollo } from 'react-apollo';
 import * as moment from 'moment';
 import { ADD_ROUTE_MUTATION } from "./../_queries";
 
-export interface VehicleProps extends React.HTMLAttributes<HTMLElement>{
+export interface RouteProps extends React.HTMLAttributes<HTMLElement>{
     [data: string]: any;
-    veList?: any;
+    trList?: any;
     onSaveUpdate?: any;
 }
 
 const ERROR_MESSAGE_MANDATORY_FIELD_MISSING = "Mandatory fields missing";
 const ERROR_MESSAGE_SERVER_SIDE_ERROR = "Due to some error in vehicle service, vehicles could not be saved. Please check vehicle service logs";
-const SUCCESS_MESSAGE_TRANSPORT_ADDED = "New transport saved successfully";
-const SUCCESS_MESSAGE_TRANSPORT_UPDATED = "Transport Route updated successfully";
+const SUCCESS_MESSAGE_TRANSPORT_ROUTE_ADDED = "New transport saved successfully";
+const SUCCESS_MESSAGE_TRANSPORT_ROUTE_UPDATED = "Transport Route updated successfully";
 
-class VehicleGrid<T = {[data: string]: any}> extends React.Component<VehicleProps, any> {
-    constructor(props: VehicleProps) {
+class RouteGrid<T = {[data: string]: any}> extends React.Component<RouteProps, any> {
+    constructor(props: RouteProps) {
          super(props);
         this.state = {
-            veList: this.props.veList,
+            trList: this.props.trList,
             isModalOpen: false,
-            veObj: {
-                id: null,
+            trObj: {
                 routeName:"",
                 routeDetails:"",
                 routeMapUrl:"",
@@ -43,16 +42,16 @@ class VehicleGrid<T = {[data: string]: any}> extends React.Component<VehicleProp
     
     showDetail(e: any, bShow: boolean,editObj: any, modelHeader: any) {
         e && e.preventDefault();
-        const { veObj } = this.state;
-        veObj.id = editObj.id;
-        veObj.routeName = editObj.routeName;
-        veObj.routeDetails = editObj.routeDetails;
-        veObj.routeMapUrl = editObj.routeMapUrl;
-        veObj.noOfStops = editObj.noOfStops;
-        veObj.routeFrequency = editObj.routeFrequency;
+        const { trObj } = this.state;
+        trObj.id = editObj.id;
+        trObj.routeName = editObj.routeName;
+        trObj.routeDetails = editObj.routeDetails;
+        trObj.routeMapUrl = editObj.routeMapUrl;
+        trObj.noOfStops = editObj.noOfStops;
+        trObj.routeFrequency = editObj.routeFrequency;
         this.setState(() => ({
             isModalOpen: bShow,
-            veObj: veObj,
+            trObj: trObj,
             modelHeader: modelHeader,
             errorMessage: "",
             successMessage: "",
@@ -93,7 +92,7 @@ class VehicleGrid<T = {[data: string]: any}> extends React.Component<VehicleProp
         e && e.preventDefault();
         this.setState(() => ({
             isModalOpen: bShow,
-            veObj: {},
+            trObj: {},
             modelHeader: headerLabel,
             errorMessage: "",
             successMessage: "",
@@ -103,11 +102,11 @@ class VehicleGrid<T = {[data: string]: any}> extends React.Component<VehicleProp
     onChange = (e: any) => {
         e.preventDefault();
         const { name, value } = e.nativeEvent.target;
-        const { veObj } = this.state;
+        const { trObj } = this.state;
         
         this.setState({
-            veObj: {
-                ...veObj,
+            trObj: {
+                ...trObj,
                 [name]: value
             },
             errorMessage: "",
@@ -117,20 +116,20 @@ class VehicleGrid<T = {[data: string]: any}> extends React.Component<VehicleProp
         commonFunctions.restoreTextBoxBorderToNormal(name);
     }
 
-    getRouteInput(veObj: any, modelHeader: any){
+    getAddTransportRouteInput(trObj: any, modelHeader: any){
         let id = null;
         if(modelHeader === "Edit Transport Route"){
-            id = veObj.id;
+            id = trObj.id;
         }
-        let veInput = {
+        let trInput = {
             id: id,
-            routeName: veObj.routeName,
-            routeDetails: veObj.routeDetails,
-            routeMapUrl: veObj.routeMapUrl,
-            noOfStops: veObj.noOfStops,
-            routeFrequency: veObj.routeFrequency
+            routeName: trObj.routeName,
+            routeDetails: trObj.routeDetails,
+            routeMapUrl: trObj.routeMapUrl,
+            noOfStops: trObj.noOfStops,
+            routeFrequency: trObj.routeFrequency
         };
-        return veInput;
+        return trInput;
     }
 
     validateFields(obj: any){
@@ -158,7 +157,7 @@ class VehicleGrid<T = {[data: string]: any}> extends React.Component<VehicleProp
 
     }
 
-    async doSave(roInput: any, id: any){
+    async doSave(trInput: any, id: any){
       let btn = document.querySelector("#"+id);
       btn && btn.setAttribute("disabled", "true");
       let exitCode = 0;
@@ -166,16 +165,16 @@ class VehicleGrid<T = {[data: string]: any}> extends React.Component<VehicleProp
       await this.props.client.mutate({
           mutation: ADD_ROUTE_MUTATION,
           variables: { 
-              input: roInput
+              input: trInput
           },
       }).then((resp: any) => {
           console.log("Success in addTransportRoute Mutation. Exit code : ",resp.data.addTransportRoute.cmsTransportVo.exitCode);
           exitCode = resp.data.addTransportRoute.cmsTransportVo.exitCode;
           this.props.onSaveUpdate(resp.data.addTransportRoute.cmsTransportVo.dataList);
           let temp = resp.data.addTransportRoute.cmsTransportVo.dataList; 
-          console.log("New TransportRoute list : ", temp);
+          console.log("New Transport Route list : ", temp);
           this.setState({
-              roList: temp
+              trList: temp
           });
       }).catch((error: any) => {
           exitCode = 1;
@@ -186,9 +185,9 @@ class VehicleGrid<T = {[data: string]: any}> extends React.Component<VehicleProp
       let errorMessage = "";
       let successMessage = "";
       if(exitCode === 0 ){
-          successMessage = SUCCESS_MESSAGE_TRANSPORT_ADDED;
-          if(roInput.id !== 1){
-              successMessage = SUCCESS_MESSAGE_TRANSPORT_UPDATED;
+          successMessage = SUCCESS_MESSAGE_TRANSPORT_ROUTE_ADDED;
+          if(trInput.id !==null){
+              successMessage = SUCCESS_MESSAGE_TRANSPORT_ROUTE_UPDATED;
           }
       }else {
           errorMessage = ERROR_MESSAGE_SERVER_SIDE_ERROR;
@@ -203,16 +202,16 @@ class VehicleGrid<T = {[data: string]: any}> extends React.Component<VehicleProp
 
     addTransportRoute = (e: any) => {
         const { id } = e.nativeEvent.target;
-        const {veObj, modelHeader} = this.state;
-        let isValid = this.validateFields(veObj);
+        const {trObj, modelHeader} = this.state;
+        let isValid = this.validateFields(trObj);
         if(isValid === false){
             return;
         }
-        const veInput = this.getRouteInput(veObj, modelHeader);
-        this.doSave(veInput, id);
+        const trInput = this.getAddTransportRouteInput(trObj, modelHeader);
+        this.doSave(trInput, id);
     }
 render(){
-const {veList, isModalOpen, veObj, modelHeader, errorMessage, successMessage} = this.state;
+const {trList, isModalOpen, trObj, modelHeader, errorMessage, successMessage} = this.state;
         return (
             <main>
                 <Modal isOpen={isModalOpen} className="react-strap-modal-container">
@@ -232,23 +231,23 @@ const {veList, isModalOpen, veObj, modelHeader, errorMessage, successMessage} = 
                             }
                                 <div className="fwidth-modal-text modal-fwidth">
                                     <label className="gf-form-label b-0 bg-transparent">Route Name <span style={{ color: 'red' }}> * </span></label>
-                                    <input type="text" className="gf-form-input " onChange={this.onChange}  value={veObj.routeName} placeholder="routeName" name="routeName" id="routeName" maxLength={150} />
+                                    <input type="text" className="gf-form-input " onChange={this.onChange}  value={trObj.routeName} placeholder="routeName" name="routeName" id="routeName" maxLength={150} />
                                 </div>
                                     <div className="fwidth-modal-text m-r-1">
                                         <label className="gf-form-label b-0 bg-transparent">noOfStops<span style={{ color: 'red' }}> * </span></label>
-                                        <input type="text" required className="gf-form-input" onChange={this.onChange}  value={veObj.noOfStops} placeholder="noOfStops" name="noOfStops" id="noOfStops" maxLength={150}/>
+                                        <input type="text" required className="gf-form-input" onChange={this.onChange}  value={trObj.noOfStops} placeholder="noOfStops" name="noOfStops" id="noOfStops" maxLength={150}/>
                                     </div>
                                     <div className="fwidth-modal-text m-r-1">
                                         <label className="gf-form-label b-0 bg-transparent">routeDetails</label>
-                                        <input type="text" required className="gf-form-input" onChange={this.onChange}  value={veObj.routeDetails} placeholder="routeDetails" name="routeDetails" id="routeDetails" maxLength={150}/>
+                                        <input type="text" required className="gf-form-input" onChange={this.onChange}  value={trObj.routeDetails} placeholder="routeDetails" name="routeDetails" id="routeDetails" maxLength={150}/>
                                     </div>
                                     <div className="fwidth-modal-text m-r-1">
                                         <label className="gf-form-label b-0 bg-transparent">routeMapUrl</label>
-                                        <input type="text" required className="gf-form-input" onChange={this.onChange}  value={veObj.routeMapUrl} placeholder="routeMapUrl" name="routeMapUrl" id="routeMapUrl" maxLength={150}/>
+                                        <input type="text" required className="gf-form-input" onChange={this.onChange}  value={trObj.routeMapUrl} placeholder="routeMapUrl" name="routeMapUrl" id="routeMapUrl" maxLength={150}/>
                                     </div>
                                     <div className="fwidth-modal-text">
                                         <label className="gf-form-label b-0 bg-transparent">routeFrequency<span style={{ color: 'red' }}> * </span></label>
-                                        <select name="routeFrequency" id="routeFrequency" onChange={this.onChange} value={veObj.status} className="gf-form-input">
+                                        <select name="routeFrequency" id="routeFrequency" onChange={this.onChange} value={trObj.routeFrequency} className="gf-form-input">
                                             <option key={""} value={""}>Select Route Frequency</option>
                                             <option key={"MORNINGPICKUP"} value={"MORNINGPICKUP"}>MORNINGPICKUP</option>
                                             <option key={"AFTERNOONDROPANDPICKUP"} value={"AFTERNOONDROPANDPICKUP"}>AFTERNOONDROPANDPICKUP</option>
@@ -275,7 +274,7 @@ const {veList, isModalOpen, veObj, modelHeader, errorMessage, successMessage} = 
                     <i className="fa fa-plus-circle"></i> Add New Route
                 </button>
                 {
-                    veList !== null && veList !== undefined && veList.length > 0 ?
+                    trList !== null && trList !== undefined && trList.length > 0 ?
                         <div style={{width:'100%', height:'250px', overflow:'auto'}}>
                             <table id="veTable" className="striped-table fwidth bg-white p-2 m-t-1">
                                 <thead>
@@ -290,7 +289,7 @@ const {veList, isModalOpen, veObj, modelHeader, errorMessage, successMessage} = 
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    { this.createRows(veList) }
+                                    { this.createRows(trList) }
                                 </tbody>
                             </table>
                         </div>
@@ -302,4 +301,4 @@ const {veList, isModalOpen, veObj, modelHeader, errorMessage, successMessage} = 
     }
 }
 
-export default withApollo(VehicleGrid);
+export default withApollo(RouteGrid);

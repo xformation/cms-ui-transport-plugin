@@ -9,6 +9,7 @@ import '../../../css/college-settings.css';
 // import DriverListPage from '../DriverListPage/DriverListPage';
 // import { VehicleDetailsPage } from './VehicleDetailsTable';
 import AddRoute from './AddRoute';
+import AddPage from './AddPage';
 
 // import AddPage from '../AddVehiclePage/AddPage';
 // import { CollegeInfo } from './CollegeInfo';
@@ -36,14 +37,14 @@ export default class vehicle extends React.Component<any, any> {
                  <Nav tabs className="pl-3 pl-3 mb-4 mt-4 col-sm-2">
                     <NavItem className="cursor-pointer">
                         <NavLink className={`vertical-nav-link ${activeTab === 0 ? 'side-active' : ''}`} onClick={() => { this.toggleTab(0); }} >
-                        Route Page
+                        Vehicle Page
                         </NavLink>
                     </NavItem>
-                    {/* <NavItem className="cursor-pointer">
-                        <NavLink className={`vertical-nav-link ${activeTab === 0 ? 'side-active' : ''}`} onClick={() => { this.toggleTab(0); }} >
+                    <NavItem className="cursor-pointer">
+                        <NavLink className={`vertical-nav-link ${activeTab === 1 ? 'side-active' : ''}`} onClick={() => { this.toggleTab(1); }} >
                         Route Page
-                        </NavLink>
-                    </NavItem> */}
+                        </NavLink> 
+                    </NavItem>
                     {/* <NavItem className="cursor-pointer">
                         <NavLink className={`vertical-nav-link ${activeTab === 1 ? 'side-active' : ''}`} onClick={() => { this.toggleTab(1); }} >
                            Add Page
@@ -57,6 +58,9 @@ export default class vehicle extends React.Component<any, any> {
                 </Nav>
                 <TabContent activeTab={activeTab} className="col-sm-9 border-left p-t-1">
                     <TabPane tabId={0}>
+                        <AddPage/>
+                    </TabPane>
+                    <TabPane tabId={1}>
                         <AddRoute/>
                     </TabPane>
                 </TabContent> 
