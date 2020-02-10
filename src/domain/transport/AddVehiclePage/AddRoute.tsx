@@ -16,8 +16,8 @@ export interface RouteProps extends React.HTMLAttributes<HTMLElement>{
 }
 
 const ERROR_MESSAGE_MANDATORY_FIELD_MISSING = "Mandatory fields missing";
-const ERROR_MESSAGE_SERVER_SIDE_ERROR = "Due to some error in vehicle service, vehicles could not be saved. Please check vehicle service logs";
-const SUCCESS_MESSAGE_TRANSPORT_ROUTE_ADDED = "New transport saved successfully";
+const ERROR_MESSAGE_SERVER_SIDE_ERROR = "Due to some error in transportRoute service, transportRoutes could not be saved. Please check vehicle service logs";
+const SUCCESS_MESSAGE_TRANSPORT_ROUTE_ADDED = "New transportRoute saved successfully";
 const SUCCESS_MESSAGE_TRANSPORT_ROUTE_UPDATED = "Transport Route updated successfully";
 
 class RouteGrid<T = {[data: string]: any}> extends React.Component<RouteProps, any> {
@@ -170,7 +170,6 @@ class RouteGrid<T = {[data: string]: any}> extends React.Component<RouteProps, a
       }).then((resp: any) => {
           console.log("Success in addTransportRoute Mutation. Exit code : ",resp.data.addTransportRoute.cmsTransportVo.exitCode);
           exitCode = resp.data.addTransportRoute.cmsTransportVo.exitCode;
-          this.props.onSaveUpdate(resp.data.addTransportRoute.cmsTransportVo.dataList);
           let temp = resp.data.addTransportRoute.cmsTransportVo.dataList; 
           console.log("New Transport Route list : ", temp);
           this.setState({
@@ -246,7 +245,7 @@ const {trList, isModalOpen, trObj, modelHeader, errorMessage, successMessage} = 
                                         <input type="text" required className="gf-form-input" onChange={this.onChange}  value={trObj.routeMapUrl} placeholder="routeMapUrl" name="routeMapUrl" id="routeMapUrl" maxLength={150}/>
                                     </div>
                                     <div className="fwidth-modal-text">
-                                        <label className="gf-form-label b-0 bg-transparent">routeFrequency<span style={{ color: 'red' }}> * </span></label>
+                                        <label className="gf-form-label b-0 bg-transparent">routeFrequency</label>
                                         <select name="routeFrequency" id="routeFrequency" onChange={this.onChange} value={trObj.routeFrequency} className="gf-form-input">
                                             <option key={""} value={""}>Select Route Frequency</option>
                                             <option key={"MORNINGPICKUP"} value={"MORNINGPICKUP"}>MORNINGPICKUP</option>
