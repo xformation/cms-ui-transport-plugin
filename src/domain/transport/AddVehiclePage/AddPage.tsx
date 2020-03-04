@@ -256,7 +256,6 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
                                         }
                                         </select>
                                     </div> 
-
                                     <div className="fwidth-modal-text">
                                         <label className="gf-form-label b-0 bg-transparent">College<span style={{ color: 'red' }}> * </span></label>
                                         <select name="collegeId" id="collegeId" onChange={this.onChange} value={vehicleObj.departmentId} className="gf-form-input">

@@ -10,6 +10,8 @@ import '../../../css/college-settings.css';
 // import { VehicleDetailsPage } from './VehicleDetailsTable';
 import AddRoute from './AddRoute';
 import AddPage from './AddPage';
+import AddInsurance from './AddInsurance';
+import AddContract from './AddContract';
 
 // import AddPage from '../AddVehiclePage/AddPage';
 // import { CollegeInfo } from './CollegeInfo';
@@ -45,6 +47,16 @@ export default class vehicle extends React.Component<any, any> {
                         Route Page
                         </NavLink> 
                     </NavItem>
+                    <NavItem className="cursor-pointer">
+                        <NavLink className={`vertical-nav-link ${activeTab === 2 ? 'side-active' : ''}`} onClick={() => { this.toggleTab(2); }} >
+                        Insurance Page
+                        </NavLink>   
+                    </NavItem>
+                    <NavItem className="cursor-pointer">
+                        <NavLink className={`vertical-nav-link ${activeTab === 3 ? 'side-active' : ''}`} onClick={() => { this.toggleTab(3); }} >
+                        Contract Page
+                        </NavLink>   
+                    </NavItem>
                     {/* <NavItem className="cursor-pointer">
                         <NavLink className={`vertical-nav-link ${activeTab === 1 ? 'side-active' : ''}`} onClick={() => { this.toggleTab(1); }} >
                            Add Page
@@ -63,6 +75,13 @@ export default class vehicle extends React.Component<any, any> {
                     <TabPane tabId={1}>
                         <AddRoute/>
                     </TabPane>
+                    <TabPane tabId={2}>
+                    <AddInsurance/>
+                </TabPane>
+                <TabPane tabId={3}>
+                    <AddContract/>
+                </TabPane>
+
                 </TabContent> 
             </section>
         );

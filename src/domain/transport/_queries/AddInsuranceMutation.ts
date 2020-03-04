@@ -1,15 +1,20 @@
 import gql from 'graphql-tag';
 
 export const ADD_INSURANCE_MUTATION = gql`
-  mutation addInsurance($input: AddInsuranceInput!) {
+  mutation addInsurance($input: AddInsuranceInput) {
     addInsurance(input: $input) {
-      id
-      insuranceCompany
-      typeOfInsurance
-      dateOfInsurance
-      validTill
-      strDateOfInsurance
-      strValidTill
+      cmsInsuranceVo {
+        exitCode
+        exitDescription
+
+        dataList {
+          id
+          insuranceCompany
+          typeOfInsurance
+          strDateOfInsurance
+          strValidTill
+        }
+      }
     }
   }
 `;
