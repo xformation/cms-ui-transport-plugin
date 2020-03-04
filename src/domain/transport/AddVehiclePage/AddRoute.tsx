@@ -179,8 +179,7 @@ class RouteGrid<T = {[data: string]: any}> extends React.Component<RouteProps, a
           exitCode = 1;
           console.log('Error in addTransportRoute : ', error);
       });
-      btn && btn.removeAttribute("disabled");
-      
+      btn && btn.removeAttribute("disabled"); 
       let errorMessage = "";
       let successMessage = "";
       if(exitCode === 0 ){

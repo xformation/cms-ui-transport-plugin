@@ -6,16 +6,17 @@ import {MessageBox} from '../../Message/MessageBox'
 import { withApollo } from 'react-apollo';
 import { ADD_VEHICLE_MUTATION  } from '../_queries';
 import moment = require('moment');
-
+import wsCmsBackendServiceSingletonClient from '../../../wsCmsBackendServiceClient';
 
 export interface VehicleProps extends React.HTMLAttributes<HTMLElement>{
     [data: string]: any;
     vehicleList?: any;
-
+    vehicleFilterCacheList?: any;
+    transportRoute: any;
 }
 
 const ERROR_MESSAGE_MANDATORY_FIELD_MISSING = "Mandatory fields missing";
-const ERROR_MESSAGE_SERVER_SIDE_ERROR = "Due to some error in vehicle service, vehicle could not be saved. Please check preferences service logs";
+const ERROR_MESSAGE_SERVER_SIDE_ERROR = "Due to some error in vehicle service, vehicle could not be saved. Please check vehicles service logs";
 const SUCCESS_MESSAGE_VEHICLE_ADDED = "New Vehicle saved successfully";
 const SUCCESS_MESSAGE_VEHICLE_UPDATED = "vehicle updated successfully";
 
@@ -24,8 +25,13 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
         super(props);
         this.state = {
             vehicleList: this.props.vehicleList,
+            vehicleFilterCacheList: this.props.vehicleFilterCacheList,
             isModalOpen: false,
             vehicleObj: {
+                transportRouteId:"",
+                branchId: null,
+                academicYearId: null,
+                departmentId: null,
                 vehicleNumber:"",
                 vehicleType:"",
                 capacity:"",
@@ -39,17 +45,67 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
                 contactNumber:"",
                 status:"",
             },
+            transportRoute: "",
             errorMessage: "",
             successMessage: "",
             modelHeader: ""
         };
+        this.createTransportRoutes = this.createTransportRoutes.bind(this);
         
     }
+
+    
+  async componentDidMount(){
+    await this.registerSocket();
+  }
+
+  registerSocket() {
+    const socket = wsCmsBackendServiceSingletonClient.getInstance();
+
+    socket.onmessage = (response: any) => {
+        let message = JSON.parse(response.data);
+        console.log("Vehicle Index. message received from server ::: ", message);
+        this.setState({
+            branchId: message.selectedBranchId,
+            academicYearId: message.selectedAcademicYearId,
+            departmentId: message.selectedDepartmentId,
+        });
+        console.log("Vehicle Index. branchId: ",this.state.branchId);
+        console.log("Vehicle Index. departmentId: ",this.state.departmentId);  
+        console.log("Vehicle Index. ayId: ",this.state.academicYearId);  
+    }
+
+    socket.onopen = () => {
+        console.log("Vehicle Index. Opening websocekt connection to cmsbackend. User : ",this.state.user.login);
+        socket.send(this.state.user.login);
+    }
+
+    window.onbeforeunload = () => {
+        console.log("Vehicle. Closing websocket connection with cms backend service");
+    }
+  }
+
+  createTransportRoutes(transportRoute: any) {
+    let transportRoutesOptions = [
+      <option key={0} value="">
+        Select TransportRoute
+      </option>,
+    ];
+    for (let i = 0; i < transportRoute.length; i++) {
+        transportRoutesOptions.push(
+        <option key={transportRoute[i].id} value={transportRoute[i].id}>
+          {transportRoute[i].routeName}
+        </option>
+      );
+    }
+    return transportRoutesOptions;
+  }
     
     showDetail(e: any, bShow: boolean, editObj: any, modelHeader: any) {
         e && e.preventDefault();
         const { vehicleObj } = this.state;
         vehicleObj.id = editObj.id;
+        vehicleObj.transportRouteId = editObj.transportRouteId;
         vehicleObj.vehicleNumber = editObj.vehicleNumber;
         vehicleObj.vehicleType = editObj.vehicleType;
         vehicleObj.capacity = editObj.capacity;
@@ -90,6 +146,7 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
                 <td>{obj.capacity}</td>
                 <td>{obj.contactNumber}</td>
                 <td>{obj.strDateOfRegistration}</td>
+                <td>{obj.transportRoute.routeName}</td>
                 <td>
                     {
                         <button className="btn btn-primary" onClick={e => this.showDetail(e, true, obj, "Edit Vehicle")}>Edit</button>
@@ -133,6 +190,11 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
     validateFields(obj: any){
         let isValid = true;
         let errorMessage = ""
+        if(obj.transportRouteId === undefined || obj.transportRouteId === null || obj.transportRouteId === ""){
+            commonFunctions.changeTextBoxBorderToError((obj.transportRouteId === undefined || obj.transportRouteId === null) ? "" : obj.transportRouteId, "transportRouteId");
+            errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
+            isValid = false;
+        }
         if(obj.vehicleNumber === undefined || obj.vehicleNumber === null || obj.vehicleNumber === ""){
             commonFunctions.changeTextBoxBorderToError((obj.vehicleNumber === undefined || obj.vehicleNumber === null) ? "" : obj.vehicleNumber, "vehicleNumber");
             errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
@@ -158,6 +220,7 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
         }
         let input = {
             id: id,
+            transportRouteId: vehicleObj.transportRouteId,
             vehicleNumber: vehicleObj.vehicleNumber,
             vehicleType: vehicleObj.vehicleType,
             capacity: vehicleObj.capacity, 
@@ -226,7 +289,7 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
     }
 
     render() {
-        const {vehicleList, collegeList, branchList, isModalOpen, vehicleObj, modelHeader, errorMessage, successMessage} = this.state;
+        const {vehicleList, vehicleFilterCacheList,  isModalOpen, vehicleObj, modelHeader, errorMessage, successMessage} = this.state;
         return (
             <main>
                 <Modal isOpen={isModalOpen} className="react-strap-modal-container" style={{height:"500px", overflow:"auto"}}>
@@ -246,28 +309,13 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
                                     <MessageBox id="mbox" message={successMessage} activeTab={1}/>        
                                     : null
                             }
-                                {/* <div className="mdflex modal-fwidth"> */}
-                                    {/* <div className="fwidth-modal-text m-r-1">
-                                        <label className="gf-form-label b-0 bg-transparent">Branch<span style={{ color: 'red' }}> * </span></label>
-                                        <select name="branchId" id="branchId" onChange={this.onChange} value={vehicleObj.branchId} className="gf-form-input">
-                                        <option value="">Select Branch</option>
-                                        {
-                                            commonFunctions.createSelectbox(branchList, "id", "id", "branchName")
-                                        }
-                                        </select>
-                                    </div> 
-                                    <div className="fwidth-modal-text">
-                                        <label className="gf-form-label b-0 bg-transparent">College<span style={{ color: 'red' }}> * </span></label>
-                                        <select name="collegeId" id="collegeId" onChange={this.onChange} value={vehicleObj.departmentId} className="gf-form-input">
-                                        <option value="">Select Department</option>
-                                        {
-                                            commonFunctions.createSelectbox(collegeList, "id", "id", "name")
-                                        }
-                                        </select>
-                                    </div> */}
-                                {/* </div> */}
-
                                 <div className="mdflex modal-fwidth">
+                                <div className="fwidth-modal-text m-r-1">
+                                <label htmlFor="">Route Assigned<span style={{ color: 'red' }}> * </span></label>
+                                 <select required name="transportRouteId" id="transportRouteId" onChange={this.onChange}  value={vehicleObj.transportRouteId} className="gf-form-label b-0 bg-transparent">
+                                    {this.createTransportRoutes(vehicleFilterCacheList.transportRoute)}
+                                </select>
+                                 </div>
                                     <div className="fwidth-modal-text m-r-1">
                                         <label className="gf-form-label b-0 bg-transparent">Vehicle Number <span style={{ color: 'red' }}> * </span></label>
                                         <input type="text" className="gf-form-input" onChange={this.onChange}  value={vehicleObj.vehicleNumber} placeholder="Vehicle Number" name="vehicleNumber" id="vehicleNumber" maxLength={255} />
@@ -363,6 +411,7 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
                                     <th>Capacity</th>
                                     <th>Contact No</th>
                                     <th>Date Of Registration</th>
+                                    <th>Route Name</th>
                                     <th>Edit</th>
                                     </tr>
                                 </thead>

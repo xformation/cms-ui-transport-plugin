@@ -26,6 +26,11 @@ export const ADD_VEHICLE_MUTATION = gql`
           contractId
           insuranceId
           employeeId
+          transportRoute {
+            id
+            routeName
+            routeMapUrl
+          }
         }
       }
     }
