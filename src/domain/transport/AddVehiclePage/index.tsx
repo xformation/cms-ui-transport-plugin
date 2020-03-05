@@ -8,6 +8,9 @@ import {
 } from '../_queries';
 import { withApollo } from 'react-apollo';
 import wsCmsBackendServiceSingletonClient from '../../../wsCmsBackendServiceClient';
+import AddInsurance from './AddInsurance';
+import AddContract from './AddContract';
+import AddVehicle from './AddVehicle';
 export interface VehicleProps extends React.HTMLAttributes<HTMLElement>{
     [data: string]: any;
     user?: any,
@@ -58,7 +61,7 @@ class vehicle extends React.Component<VehicleProps, any> {
 
 
     toggleTab(tabNo: any) {
-        if(tabNo === 0 ){
+        if(tabNo === 1 ){
             this.getVehicleFilterCacheList();
         }
         this.setState({
@@ -88,27 +91,35 @@ class vehicle extends React.Component<VehicleProps, any> {
                  <Nav tabs className="pl-3 pl-3 mb-4 mt-4 col-sm-2">
                     <NavItem className="cursor-pointer">
                         <NavLink className={`vertical-nav-link ${activeTab === 0 ? 'side-active' : ''}`} onClick={() => { this.toggleTab(0); }} >
-                        Vehicle Page
+                        Route Page
                         </NavLink>
                     </NavItem>
                     <NavItem className="cursor-pointer">
                         <NavLink className={`vertical-nav-link ${activeTab === 1 ? 'side-active' : ''}`} onClick={() => { this.toggleTab(1); }} >
-                        Route Page
+                        Vehicle Page
                         </NavLink> 
                     </NavItem>
-                    {/* <NavItem className="cursor-pointer">
+                    <NavItem className="cursor-pointer">
                         <NavLink className={`vertical-nav-link ${activeTab === 2 ? 'side-active' : ''}`} onClick={() => { this.toggleTab(2); }} >
-                           Vehicle List Page
+                           Insurance Page
                         </NavLink>
-                    </NavItem> */}
-                    {/* <NavItem className="cursor-pointer">
-                        <NavLink className={`vertical-nav-link ${activeTab === 2 ? 'side-active' : ''}`} onClick={() => { this.toggleTab(2); }} >
-                           Details Page 
+                    </NavItem>
+                    <NavItem className="cursor-pointer">
+                        <NavLink className={`vertical-nav-link ${activeTab === 3 ? 'side-active' : ''}`} onClick={() => { this.toggleTab(3); }} >
+                           Contract Page 
                         </NavLink>
-        </NavItem> */}
+                   </NavItem>
+                   {/* <NavItem className="cursor-pointer">
+                        <NavLink className={`vertical-nav-link ${activeTab === 4? 'side-active' : ''}`} onClick={() => { this.toggleTab(4); }} >
+                           Vehicle List Page 
+                        </NavLink>
+                   </NavItem> */}
                 </Nav>
                 <TabContent activeTab={activeTab} className="col-sm-9 border-left p-t-1">
-                    <TabPane tabId={0}>
+                   <TabPane tabId={0}>
+                         <AddRoute/>
+                    </TabPane>
+                    <TabPane tabId={1}>
                     {
                             user !== null && vehicleFilterCacheList !== null?
                                 <AddPage user={user} vehicleFilterCacheList={vehicleFilterCacheList.createVehicleDataCache}/>
@@ -116,11 +127,14 @@ class vehicle extends React.Component<VehicleProps, any> {
                             null
                         }
                     </TabPane>
-                    <TabPane tabId={1}>
-                         <AddRoute/>
+                    <TabPane tabId={2}>
+                        <AddInsurance/>
                     </TabPane>
-                    {/* <TabPane tabId={2}>
-                        <VehicleListPage/>
+                    <TabPane tabId={3}>
+                        <AddContract/>
+                    </TabPane>
+                    {/* <TabPane tabId={4}>
+                        <AddVehicle/>
                     </TabPane> */}
                 </TabContent> 
             </section>

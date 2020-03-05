@@ -9,45 +9,32 @@ import moment = require('moment');
 
 
 export interface VehicleProps extends React.HTMLAttributes<HTMLElement>{
-    [data: string]: any;
-    
+    [data: string]: any; 
     insuranceList?:any;
-
 }
-
-const ERROR_MESSAGE_MANDATORY_FIELD_MISSING = "Mandatory fields missing";
-const ERROR_MESSAGE_SERVER_SIDE_ERROR = "Due to some error in vehicle service, vehicle could not be saved. Please check preferences service logs";
-const SUCCESS_MESSAGE_VEHICLE_ADDED = "New Vehicle saved successfully";
-const SUCCESS_MESSAGE_VEHICLE_UPDATED = "vehicle updated successfully";
 const ERROR_MESSAGE_FIELD_MISSING = "Mandatory fields missing";
 const ERROR_MESSAGE_SERVER_ERROR = "Due to some error in insurance service, insurance could not be saved. Please check insurance service logs";
 const SUCCESS_MESSAGE_INSURANCE_ADDED = "New insurance saved successfully";
 const SUCCESS_MESSAGE_INSURANCE_UPDATED = "insurance updated successfully";
+const ERROR_MESSAGE_DATES_OVERLAP = "End date cannot be prior or same as start date";
 
 
 class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, any> {
     constructor(props: VehicleProps) {
         super(props);
-        this.state = {
-            
+        this.state = {     
             insurancelist: this.props.insuranceList,
             isModalOpen: false,
-           
             insuranceObj:{
                 insuranceCompany:"",
                 typeOfInsurance:"",
                 dateOfInsurance :"",
-                validTill :"",
-                
-
-                
+                validTill :"",       
             },
-
             errorMessage: "",
             successMessage: "",
             modelHeader: ""
-        };
-        
+        };    
     }
     
     showDetails(e: any, bShow: boolean, editObj: any, modelHeader: any) {
@@ -55,10 +42,8 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
         const { insuranceObj } = this.state;
         insuranceObj.insuranceCompany = editObj.insuranceCompany;
         insuranceObj.typeOfInsurance = editObj.typeOfInsurance;
-        insuranceObj.dateOfInsurance = editObj.dateOfInsurance;
-        insuranceObj.validTill = editObj.validTill;
-        
-        
+        insuranceObj.dateOfInsurance = moment(editObj.dateOfInsurance,"DD-MM-YYYY").format("YYYY-MM-DD");
+        insuranceObj.validTill =moment(editObj.validTill,"DD-MM-YYYY").format("YYYY-MM-DD")
         this.setState(() => ({
             isModalOpen: bShow,
             insuranceObj: insuranceObj,
@@ -91,6 +76,7 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
             const obj = objAry[i];
             retVal.push(
               <tr >
+                <td>{obj.id}</td>
                 <td>{obj.insuranceCompany}</td>
                 <td>{obj.typeOfInsurance}</td>
                 <td>{obj.strDateOfInsurance}</td>
@@ -135,9 +121,6 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
         
         commonFunctions.restoreTextBoxBorderToNormal(name);
     }
-
-    
-    
     validateField(obj: any){
         let isValid = true;
         let errorMessage = ""
@@ -147,14 +130,29 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
             errorMessage = ERROR_MESSAGE_FIELD_MISSING;
             isValid = false;
         }
+
+        if(isValid){
+            isValid = this.validateDates(obj.dateOfInsurance, obj.validTill);
+            if(isValid === false){
+                errorMessage = ERROR_MESSAGE_DATES_OVERLAP;
+            }
+         }
+
         this.setState({
             errorMessage: errorMessage
         });
         return isValid; 
 
+    }  
+
+    validateDates(dateOfInsurance: any, validTill: any){
+        let doIns = moment(dateOfInsurance, "YYYY-MM-DD");
+        let vdTill = moment(validTill, "YYYY-MM-DD");
+        if (vdTill.isSameOrBefore(doIns) || doIns.isSameOrAfter(vdTill)) {
+            return false;
+        }
+        return true;
     }
-
-
     
     getAddInsuranceInput(insuranceObj: any, modelHeader: any){
         let id = null;
@@ -162,11 +160,8 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
             id = insuranceObj.id;
         }
         let input = {
-            
-             insuranceCompany: insuranceObj.insuranceCompany,
+            insuranceCompany: insuranceObj.insuranceCompany,
             typeOfInsurance: insuranceObj.typeOfInsurance,
-            
-           
             strDateOfInsurance: moment(insuranceObj.dateOfInsurance).format("DD-MM-YYYY"),
             strValidTill: moment(insuranceObj.validTill).format("DD-MM-YYYY"),
             
@@ -247,27 +242,6 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
                                     <MessageBox id="mbox" message={successMessage} activeTab={1}/>        
                                     : null
                             }
-                                {/* <div className="mdflex modal-fwidth"> */}
-                                    {/* <div className="fwidth-modal-text m-r-1">
-                                        <label className="gf-form-label b-0 bg-transparent">Branch<span style={{ color: 'red' }}> * </span></label>
-                                        <select name="branchId" id="branchId" onChange={this.onChange} value={vehicleObj.branchId} className="gf-form-input">
-                                        <option value="">Select Branch</option>
-                                        {
-                                            commonFunctions.createSelectbox(branchList, "id", "id", "branchName")
-                                        }
-                                        </select>
-                                    </div> 
-
-                                    <div className="fwidth-modal-text">
-                                        <label className="gf-form-label b-0 bg-transparent">College<span style={{ color: 'red' }}> * </span></label>
-                                        <select name="collegeId" id="collegeId" onChange={this.onChange} value={vehicleObj.departmentId} className="gf-form-input">
-                                        <option value="">Select Department</option>
-                                        {
-                                            commonFunctions.createSelectbox(collegeList, "id", "id", "name")
-                                        }
-                                        </select>
-                                    </div> */}
-                                {/* </div> */}
 
                                 <div className="mdflex modal-fwidth">
                                 <div className="fwidth-modal-text m-r-1 ">
@@ -288,14 +262,15 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
                                     </div>
 
                                     <div className="fwidth-modal-text m-r-1">
-                                        <label className="gf-form-label b-0 bg-transparent">validTill <span style={{ color: 'red' }}> * </span></label>
-                                        <input type="Date" className="gf-form-input" onChange={this.onChange}  value={insuranceObj.validTill} placeholder="validTill" name="validTill" id="validTill" maxLength={255} />
-                                    </div>
-                                    <div className="fwidth-modal-text m-r-1">
                                         <label className="gf-form-label b-0 bg-transparent">dateOfInsurance <span style={{ color: 'red' }}> * </span></label>
                                         <input type="Date" className="gf-form-input" onChange={this.onChange}  value={insuranceObj.dateOfInsurance} placeholder="dateOfInsurance" name="dateOfInsurance" id="dateOfInsurance" maxLength={255} />
                                     </div>
-                                  
+
+                                    <div className="fwidth-modal-text m-r-1">
+                                        <label className="gf-form-label b-0 bg-transparent">validTill <span style={{ color: 'red' }}> * </span></label>
+                                        <input type="Date" className="gf-form-input" onChange={this.onChange}  value={insuranceObj.validTill} placeholder="validTill" name="validTill" id="validTill" maxLength={255} />
+                                    </div>
+
                                 <div className="m-t-1 text-center">
                                     {
                                         modelHeader === "Add New Insurance" ?
@@ -324,11 +299,12 @@ insuranceList !== null && insuranceList !== undefined && insuranceList.length > 
         <table id="ayTable" className="striped-table fwidth bg-white p-2 m-t-1">
             <thead>
                 <tr>
+                <th>id</th>
                 <th> insurance company</th>
                 <th>type of insurance</th>
-                <th>validTill</th>
                 <th>date Of insurance</th>
-               
+                <th>validTill</th>
+                <th>Edit</th>
                 </tr>
             </thead>
             <tbody>

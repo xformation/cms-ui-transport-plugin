@@ -10,7 +10,6 @@ import moment = require('moment');
 
 export interface VehicleProps extends React.HTMLAttributes<HTMLElement>{
     [data: string]: any;
-    
     contractList?:any;
 
 }
@@ -19,32 +18,35 @@ const ERROR_MESSAGE_FIELD_MISSING = "Mandatory fields missing";
 const ERROR_MESSAGE_SERVER_ERROR = "Due to some error in contract service, contract could not be saved. Please check insurance service logs";
 const SUCCESS_MESSAGE_CONTRACT_ADDED = "New contract saved successfully";
 const SUCCESS_MESSAGE_CONTRACT_UPDATED = "contract updated successfully";
-
+const ERROR_MESSAGE_DATES_OVERLAP = "End date cannot be prior or same as start date";
 
 class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, any> {
     constructor(props: VehicleProps) {
         super(props);
-        this.state = {
-            
+        this.state = { 
             contractlist: this.props.contractList,
             isModalOpen: false,
-           
             contractObj:{
                 vendorName:"",
                 durationOfContract:"",
                 typeOfOwnerShip:"",
                 startDate :"",
-                endDate :"",
-                
-
-                
+                endDate :"",      
             },
-
             errorMessage: "",
             successMessage: "",
             modelHeader: ""
         };
         
+    }
+
+    validateDates(startDate: any, endDate: any){
+        let stDate = moment(startDate, "YYYY-MM-DD");
+        let enDate = moment(endDate, "YYYY-MM-DD");
+        if (enDate.isSameOrBefore(stDate) || stDate.isSameOrAfter(enDate)) {
+            return false;
+        }
+        return true;
     }
     
     showDetails(e: any, bShow: boolean, editObj: any, modelHeader: any) {
@@ -53,10 +55,8 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
         contractObj.vendorName = editObj.vendorName;
         contractObj.durationOfContract = editObj.durationOfContract;
         contractObj.typeOfOwnerShip = editObj.typeOfOwnerShip;
-        contractObj.startDate = editObj.startDate;
-        contractObj.endDate = editObj.enddate;
-        
-        
+        contractObj.startDate = moment(editObj.strStartDate,"DD-MM-YYYY").format("YYYY-MM-DD");
+        contractObj.endDate = moment(editObj.strEndDate,"DD-MM-YYYY").format("YYYY-MM-DD")
         this.setState(() => ({
             isModalOpen: bShow,
             contractObj: contractObj,
@@ -65,8 +65,6 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
             successMessage: "",
         }));
     }
-
-   
     showModal(e: any, bShow: boolean, headerLabel: any) {
         e && e.preventDefault();
         this.setState(() => ({
@@ -89,6 +87,7 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
             const obj = objAry[i];
             retVal.push(
               <tr >
+                <td>{obj.id}</td>
                 <td>{obj.vendorName}</td>
                 <td>{obj.durationOfContract}</td>
                 <td>{obj.typeOfOwnerShip}</td>
@@ -115,7 +114,6 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
             successMessage: "",
         }));
     }
-
     onChange = (e: any) => {
         e.preventDefault();
         const { name, value } = e.nativeEvent.target;
@@ -134,9 +132,6 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
         
         commonFunctions.restoreTextBoxBorderToNormal(name);
     }
-
-    
-    
     validateField(obj: any){
         let isValid = true;
         let errorMessage = ""
@@ -146,28 +141,30 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
             errorMessage = ERROR_MESSAGE_FIELD_MISSING;
             isValid = false;
         }
+
+        if(isValid){
+            isValid = this.validateDates(obj.startDate, obj.endDate);
+            if(isValid === false){
+                errorMessage = ERROR_MESSAGE_DATES_OVERLAP;
+            }
+         }
         this.setState({
             errorMessage: errorMessage
         });
         return isValid; 
 
     }
-
-
-    
     getAddInsuranceInput(contractObj: any, modelHeader: any){
         let id = null;
         if(modelHeader === "edit Insurance"){
             id = contractObj.id;
         }
         let input = {
-            
              vendorName: contractObj.vendorName,
             durationOfContract: contractObj.durationOfContract,
             typeOfOwnerShip:contractObj.typeOfOwnerShip,
             strStartDate: moment(contractObj.startDate).format("DD-MM-YYYY"),
-            strEndDate: moment(contractObj.endDate).format("DD-MM-YYYY"),
-            
+            strEndDate: moment(contractObj.endDate).format("DD-MM-YYYY"),    
         };
         return input;
     }
@@ -245,27 +242,6 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
                                     <MessageBox id="mbox" message={successMessage} activeTab={1}/>        
                                     : null
                             }
-                                {/* <div className="mdflex modal-fwidth"> */}
-                                    {/* <div className="fwidth-modal-text m-r-1">
-                                        <label className="gf-form-label b-0 bg-transparent">Branch<span style={{ color: 'red' }}> * </span></label>
-                                        <select name="branchId" id="branchId" onChange={this.onChange} value={vehicleObj.branchId} className="gf-form-input">
-                                        <option value="">Select Branch</option>
-                                        {
-                                            commonFunctions.createSelectbox(branchList, "id", "id", "branchName")
-                                        }
-                                        </select>
-                                    </div> 
-
-                                    <div className="fwidth-modal-text">
-                                        <label className="gf-form-label b-0 bg-transparent">College<span style={{ color: 'red' }}> * </span></label>
-                                        <select name="collegeId" id="collegeId" onChange={this.onChange} value={vehicleObj.departmentId} className="gf-form-input">
-                                        <option value="">Select Department</option>
-                                        {
-                                            commonFunctions.createSelectbox(collegeList, "id", "id", "name")
-                                        }
-                                        </select>
-                                    </div> */}
-                                {/* </div> */}
 
                                 <div className="mdflex modal-fwidth">
                                 <div className="fwidth-modal-text m-r-1 ">
@@ -326,12 +302,13 @@ contractList !== null && contractList !== undefined && contractList.length > 0 ?
         <table id="ayTable" className="striped-table fwidth bg-white p-2 m-t-1">
             <thead>
                 <tr>
+                <th>id</th>
                 <th> vendor Name</th>
                 <th>duration Of Contract</th>
                 <th>type Of Owner Ship</th>
                 <th>start Date</th>
                 <th>end Date</th>
-               
+                <th>Edit</th>
                 </tr>
             </thead>
             <tbody>
