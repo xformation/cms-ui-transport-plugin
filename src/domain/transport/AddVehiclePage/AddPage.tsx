@@ -13,6 +13,7 @@ export interface VehicleProps extends React.HTMLAttributes<HTMLElement>{
     vehicleList?: any;
     vehicleFilterCacheList?: any;
     transportRoute: any;
+    insurance:any;
 }
 
 const ERROR_MESSAGE_MANDATORY_FIELD_MISSING = "Mandatory fields missing";
@@ -29,6 +30,7 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
             isModalOpen: false,
             vehicleObj: {
                 transportRouteId:"",
+                insuranceId:"",
                 branchId: null,
                 academicYearId: null,
                 departmentId: null,
@@ -46,11 +48,13 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
                 status:"",
             },
             transportRoute: "",
+            insurance:"",
             errorMessage: "",
             successMessage: "",
             modelHeader: ""
         };
         this.createTransportRoutes = this.createTransportRoutes.bind(this);
+        this.createInsurance = this.createInsurance.bind(this);
         
     }
 
@@ -94,17 +98,34 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
     for (let i = 0; i < transportRoute.length; i++) {
         transportRoutesOptions.push(
         <option key={transportRoute[i].id} value={transportRoute[i].id}>
-          {transportRoute[i].routeName}
+          {transportRoute[i].id}
         </option>
       );
     }
     return transportRoutesOptions;
+  }
+
+  createInsurance(insurance: any) {
+    let insurancesOptions = [
+      <option key={0} value="">
+        Select Insurance
+      </option>,
+    ];
+    for (let i = 0; i < insurance.length; i++) {
+        insurancesOptions.push(
+        <option key={insurance[i].id} value={insurance[i].id}>
+          {insurance[i].id}
+        </option>
+      );
+    }
+    return insurancesOptions;
   }
     
     showDetail(e: any, bShow: boolean, editObj: any, modelHeader: any) {
         e && e.preventDefault();
         const { vehicleObj } = this.state;
         vehicleObj.id = editObj.id;
+        vehicleObj.insuranceId = editObj.insuranceId;
         vehicleObj.transportRouteId = editObj.transportRouteId;
         vehicleObj.vehicleNumber = editObj.vehicleNumber;
         vehicleObj.vehicleType = editObj.vehicleType;
@@ -146,7 +167,6 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
                 <td>{obj.capacity}</td>
                 <td>{obj.contactNumber}</td>
                 <td>{obj.strDateOfRegistration}</td>
-                <td>{obj.transportRoute.routeName}</td>
                 <td>
                     {
                         <button className="btn btn-primary" onClick={e => this.showDetail(e, true, obj, "Edit Vehicle")}>Edit</button>
@@ -220,6 +240,7 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
         }
         let input = {
             id: id,
+            insuranceId: vehicleObj.insuranceId,
             transportRouteId: vehicleObj.transportRouteId,
             vehicleNumber: vehicleObj.vehicleNumber,
             vehicleType: vehicleObj.vehicleType,
@@ -316,6 +337,14 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
                                     {this.createTransportRoutes(vehicleFilterCacheList.transportRoute)}
                                 </select>
                                  </div>
+                                 <div className="fwidth-modal-text m-r-1">
+                                <label htmlFor="">Insurance<span style={{ color: 'red' }}> * </span></label>
+                                 <select required name="insuranceId" id="insuranceId" onChange={this.onChange}  value={vehicleObj.insuranceId} className="gf-form-label b-0 bg-transparent">
+                                    {this.createInsurance(vehicleFilterCacheList.insurance)}
+                                </select>
+                                 </div>
+                                 </div>
+                                 <div className="mdflex modal-fwidth">
                                     <div className="fwidth-modal-text m-r-1">
                                         <label className="gf-form-label b-0 bg-transparent">Vehicle Number <span style={{ color: 'red' }}> * </span></label>
                                         <input type="text" className="gf-form-input" onChange={this.onChange}  value={vehicleObj.vehicleNumber} placeholder="Vehicle Number" name="vehicleNumber" id="vehicleNumber" maxLength={255} />
@@ -411,7 +440,6 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
                                     <th>Capacity</th>
                                     <th>Contact No</th>
                                     <th>Date Of Registration</th>
-                                    <th>Route Name</th>
                                     <th>Edit</th>
                                     </tr>
                                 </thead>

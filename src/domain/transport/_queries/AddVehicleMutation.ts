@@ -31,6 +31,13 @@ export const ADD_VEHICLE_MUTATION = gql`
             routeName
             routeMapUrl
           }
+          insurance {
+            id
+            insuranceCompany
+            typeOfInsurance
+            dateOfInsurance
+            validTill
+          }
         }
       }
     }
