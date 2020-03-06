@@ -12,6 +12,7 @@ export const ADD_VEHICLE_MUTATION = gql`
           vehicleType
           capacity
           ownerShip
+          dateOfRegistration
           yearOfManufacturing
           manufacturingCompany
           model
@@ -29,15 +30,27 @@ export const ADD_VEHICLE_MUTATION = gql`
           transportRoute {
             id
             routeName
-            routeMapUrl
+            routeDetails
+            noOfStops
+            routeFrequency
           }
-          insurance {
+          cmsInsuranceVo {
             id
             insuranceCompany
             typeOfInsurance
             dateOfInsurance
             validTill
+            strDateOfInsurance
+            strValidTill
           }
+          dateOfInsurance
+          strDateOfInsurance
+          validTill
+          strValidTill
+          startDate
+          endDate
+          strStartDate
+          strEndDate
         }
       }
     }

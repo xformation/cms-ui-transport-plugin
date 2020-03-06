@@ -10,7 +10,6 @@ import { withApollo } from 'react-apollo';
 import wsCmsBackendServiceSingletonClient from '../../../wsCmsBackendServiceClient';
 import AddInsurance from './AddInsurance';
 import AddContract from './AddContract';
-import AddVehicle from './AddVehicle';
 import VehicleListPage from './VehicleListPage';
 export interface VehicleProps extends React.HTMLAttributes<HTMLElement>{
     [data: string]: any;
