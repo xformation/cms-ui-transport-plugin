@@ -422,8 +422,12 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
                                         <input type="text" className="gf-form-input" onChange={this.onChange}  value={vehicleObj.capacity} placeholder="Capacity" name="capacity" id="capacity" maxLength={255} />
                                     </div> 
                                     <div className="fwidth-modal-text">
-                                        <label className="gf-form-label b-0 bg-transparent">Ownership<span style={{ color: 'red' }}> * </span></label>
-                                        <input type="text" className="gf-form-input" onChange={this.onChange}  value={vehicleObj.ownerShip} placeholder="ownerShip" name="ownerShip" id="ownerShip" maxLength={255} />
+                                    <label className="gf-form-label b-0 bg-transparent">OwnerShip<span style={{ color: 'red' }}> * </span></label>
+                                        <select name="status" id="status" onChange={this.onChange} value={vehicleObj.status} className="gf-form-input">
+                                            <option key={""} value={""}>Select OwnerShip</option>
+                                            <option key={"ACTIVE"} value={"ACTIVE"}>Owned</option>
+                                            <option key={"DEACTIVE"} value={"DEACTIVE"}>Contracted</option>
+                                        </select>
                                     </div>
                                     <div className="fwidth-modal-text m-r-1">
                                         <label className="gf-form-label b-0 bg-transparent">Date OF Registration <span style={{ color: 'red' }}> * </span></label>
