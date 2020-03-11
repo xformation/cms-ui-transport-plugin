@@ -4,13 +4,14 @@ import '../../../css/college-settings.css';
 import AddRoute from './AddRoute';
 import AddPage from './AddPage';
 import {
-    VEHICLE_DATA_CACHE
+    VEHICLE_DATA_CACHE,EMPLOYEE_DATA_CACHE
 } from '../_queries';
 import { withApollo } from 'react-apollo';
 import wsCmsBackendServiceSingletonClient from '../../../wsCmsBackendServiceClient';
 import AddInsurance from './AddInsurance';
 import AddContract from './AddContract';
 import VehicleListPage from './VehicleListPage';
+// import DriverListPage from '../DriverListPage/DriverListPage';
 export interface VehicleProps extends React.HTMLAttributes<HTMLElement>{
     [data: string]: any;
     user?: any,
@@ -22,6 +23,7 @@ class vehicle extends React.Component<VehicleProps, any> {
             activeTab: 0,
             user: this.props.user,
             vehicleFilterCacheList: null,
+            // employeeFilterCacheList: null,
             branchId: null,
             academicYearId: null,
             departmentId: null,
@@ -29,6 +31,7 @@ class vehicle extends React.Component<VehicleProps, any> {
         this.toggleTab = this.toggleTab.bind(this);
         this.registerSocket = this.registerSocket.bind(this);
         this.getVehicleFilterCacheList = this.getVehicleFilterCacheList.bind(this);
+        // this.getEmployeeFilterCacheList = this.getEmployeeFilterCacheList.bind(this);
  
     }
     
@@ -64,6 +67,12 @@ class vehicle extends React.Component<VehicleProps, any> {
         if(tabNo === 1 ){
             this.getVehicleFilterCacheList();
         }
+        if(tabNo === 4 ){
+            this.getVehicleFilterCacheList();
+        }
+        // if(tabNo === 5 ){
+        //     this.getEmployeeFilterCacheList();
+        // }
         this.setState({
             activeTab: tabNo,
         });
@@ -84,8 +93,24 @@ class vehicle extends React.Component<VehicleProps, any> {
             vehicleFilterCacheList: data,
         });
       }
+
+    //   async getEmployeeFilterCacheList() {
+    //     // const {branchId, academicYearId} = this.state;
+    //     const {data} = await this.props.client.query({
+    //       query: EMPLOYEE_DATA_CACHE,
+    //         variables: {
+    //         //   branchId: branchId,
+    //         //   academicYearId: academicYearId,
+    //         },
+          
+    //       fetchPolicy: 'no-cache',
+    //     });
+    //     this.setState({
+    //         employeeFilterCacheList: data,
+    //     });
+    //   }
     render() {
-        const { activeTab,vehicleFilterCacheList,user } = this.state;
+        const { activeTab,vehicleFilterCacheList,employeeFilterCacheList,user } = this.state;
         return (
             <section className="tab-container row vertical-tab-container">
                  <Nav tabs className="pl-3 pl-3 mb-4 mt-4 col-sm-2">
@@ -114,6 +139,11 @@ class vehicle extends React.Component<VehicleProps, any> {
                            Vehicle List Page 
                         </NavLink>
                    </NavItem>
+                   {/* <NavItem className="cursor-pointer">
+                        <NavLink className={`vertical-nav-link ${activeTab === 5? 'side-active' : ''}`} onClick={() => { this.toggleTab(5); }} >
+                           Driver List Page 
+                        </NavLink>
+                   </NavItem> */}
                 </Nav>
                 <TabContent activeTab={activeTab} className="col-sm-9 border-left p-t-1">
                    <TabPane tabId={0}>
@@ -141,6 +171,14 @@ class vehicle extends React.Component<VehicleProps, any> {
                             null
                         }
                     </TabPane>
+                    {/* <TabPane tabId={5}>
+                    {
+                            user !== null && employeeFilterCacheList !== null?
+                                <DriverListPage user={user} employeeFilterCacheList={employeeFilterCacheList.createEmployeeDataCache}/>
+                            :
+                            null
+                        }
+                    </TabPane> */}
                 </TabContent> 
             </section>
         );

@@ -1,29 +1,44 @@
 
 import * as React from 'react';
 import { withRouter, RouteComponentProps, Link } from 'react-router-dom';
-import { graphql, QueryProps, MutationFunc, compose } from "react-apollo";
-import { LOAD_DRIVER_FILTER_DATA_CACHE_QUERY, DRIVER_LIST_QUERY } from '../_queries';
+import { graphql, QueryProps, MutationFunc, compose, withApollo } from "react-apollo";
+import { EMPLOYEE_DATA_CACHE, EMPLOYEE_LIST } from '../_queries';
 import withLoadingHandler from '../withLoadingHandler';
+import wsCmsBackendServiceSingletonClient from '../../../wsCmsBackendServiceClient';
 
 const w180 = {
   width: '180px'
 };
 
 type DriverTableStates = {
+  user:any,
   employees: any,
   employeeData: any,
   vehicles: any,
   pageSize: any,
+  employeeFilterCacheList:any,
+  branchId: any,
+  academicYearId: any,
+  departmentId: any,
   search: any
 };
 
-class DriverTable extends React.Component<any, DriverTableStates> {
+export interface EmployeeListProps extends React.HTMLAttributes<HTMLElement> {
+  [data: string]: any;
+  employeeFilterCacheList?: any;
+}
+
+class DriverTable<T = {[data: string]: any}>  extends React.Component<any, DriverTableStates> {
   constructor(props: any) {
     super(props);
     this.state = {
+      user: this.props.user,
+      employeeFilterCacheList: this.props.employeeFilterCacheList,
+      branchId: null,
+      academicYearId: null,
+      departmentId: null,
       employees: {},
       employeeData: {
-       
         vehicle: {
           id: ""
         },
@@ -50,7 +65,35 @@ class DriverTable extends React.Component<any, DriverTableStates> {
     this.createNoRecordMessage = this.createNoRecordMessage.bind(this);
   }
 
+  async componentDidMount(){
+    await this.registerSocket();
+  }
 
+  registerSocket() {
+    const socket = wsCmsBackendServiceSingletonClient.getInstance();
+
+    socket.onmessage = (response: any) => {
+        let message = JSON.parse(response.data);
+        console.log("Vehicle Index. message received from server ::: ", message);
+        this.setState({
+            branchId: message.selectedBranchId,
+            academicYearId: message.selectedAcademicYearId,
+            departmentId: message.selectedDepartmentId,
+        });
+        console.log("Vehicle Index. branchId: ",this.state.branchId);
+        console.log("Vehicle Index. departmentId: ",this.state.departmentId);  
+        console.log("Vehicle Index. ayId: ",this.state.academicYearId);  
+    }
+
+    socket.onopen = () => {
+        console.log("Vehicle Index. Opening websocekt connection to cmsbackend. User : ",this.state.user.login);
+        socket.send(this.state.user.login);
+    }
+
+    window.onbeforeunload = () => {
+        console.log("Vehicle. Closing websocket connection with cms backend service");
+    }
+  }
 
   createDrivers(employees: any) {
     let employeesOptions = [<option key={0} value="">Select DriverId</option>];
@@ -63,15 +106,15 @@ class DriverTable extends React.Component<any, DriverTableStates> {
     return employeesOptions;
   }
 
-  createVehicles(vehicles: any, selectedEmployeeId: any) {
+  createVehicles(vehicles: any) {
     let vehiclesOptions = [<option key={0} value="">Select VehicleId</option>];
     for (let i = 0; i < vehicles.length; i++) {
-      if (selectedEmployeeId == vehicles[i].employee.id) {
+      // if (selectedEmployeeId == vehicles[i].employee.id) {
         vehiclesOptions.push(
           <option key={vehicles[i].id} value={vehicles[i].id}>{vehicles[i].id}</option>
         );
       }
-    }
+    // }
     return vehiclesOptions;
   }
 
@@ -139,7 +182,6 @@ class DriverTable extends React.Component<any, DriverTableStates> {
                 <td>{employee.drivingLicenceNo}</td>
                 <td>{employee.strdrivingLicenceValidity}</td>
                 <td>{employee.vehicle.vehicleNumber}</td>
-                <td>{employee.transportRoute.routeName}</td>
                 <td>{employee.vehicle.vehicleType}</td>
               </tr>
             );
@@ -158,7 +200,6 @@ class DriverTable extends React.Component<any, DriverTableStates> {
             <td>{employee.drivingLicenceNo}</td>
             <td>{employee.strdrivingLicenceValidity}</td>
             <td>{employee.vehicle.vehicleNumber}</td>
-            <td>{employee.transportRoute.routeName}</td>
             <td>{employee.vehicle.vehicleType}</td>
           </tr>
           );
@@ -212,11 +253,13 @@ class DriverTable extends React.Component<any, DriverTableStates> {
       vehicleId: employeeData.vehicle.id,
       employeeId: employeeData.employee.id
     };
-
-
-    return getEmployeeList({
-      variables: { filter: driverFilterInputObject },
-    }).then((data:any) => {
+    this.props.client
+      .mutate({
+        mutation: EMPLOYEE_LIST,
+        variables: {
+          filter: driverFilterInputObject,
+        },
+      }).then((data:any) => {
       const edt = data;
       employeeData.mutateResult = [];
       employeeData.mutateResult.push(edt);
@@ -232,8 +275,7 @@ class DriverTable extends React.Component<any, DriverTableStates> {
   }
 
   render() {
-    const { data: { createEmployeeDataCache, refetch }, mutate } = this.props;
-    const { employeeData } = this.state;
+    const { employeeData, employeeFilterCacheList} = this.state;
     // { studentData.filter((this.state.search)).map() }
     return (
       <section className="customCss">
@@ -247,20 +289,45 @@ class DriverTable extends React.Component<any, DriverTableStates> {
           <div>
             <div className="student-flex">
             <div>
-                <label htmlFor="">Driver ID</label>
-                <select required name="employee" id="employee" onChange={this.onChange} value={employeeData.employee.id} className="gf-form-input max-width-22">
-                  {this.createDrivers(this.props.data.createEmployeeDataCache.employees)}
+                <label htmlFor="">Employee Id</label>
+                <select
+                  required
+                  name="employeeId"
+                  id="employeeId"
+                  onChange={this.onChange}
+                  value={employeeData.employee.id}
+                  className="gf-form-input max-width-22"
+                >
+                  {employeeFilterCacheList !== null &&
+                  employeeFilterCacheList !== undefined &&
+                  employeeFilterCacheList.employee !== null &&
+                  employeeFilterCacheList.employee !== undefined
+                    ? this.createDrivers(
+                        employeeFilterCacheList.employee
+                      )
+                    : null}
                 </select>
               </div>
-             
               <div>
-                <label htmlFor="">Vehicle ID</label>
-                <select name="vehicle" id="vehicle" onChange={this.onChange} value={employeeData.vehicle.id} className="gf-form-input max-width-22">
-                  {this.createVehicles(this.props.data.createEmployeeDataCache.vehicles,employeeData.employee.id)}
+                <label htmlFor="">Vehicle Id</label>
+                <select
+                  required
+                  name="vehicleId"
+                  id="vehicleId"
+                  onChange={this.onChange}
+                  value={employeeData.vehicle.id}
+                  className="gf-form-input max-width-22"
+                >
+                  {employeeFilterCacheList !== null &&
+                  employeeFilterCacheList !== undefined &&
+                  employeeFilterCacheList.vehicle !== null &&
+                  employeeFilterCacheList.vehicle !== undefined
+                    ? this.createVehicles(
+                        employeeFilterCacheList.vehicle
+                      )
+                    : null}
                 </select>
               </div>
-              
-
               <div className="margin-bott max-width-22">
                 <label htmlFor="">Driver Name</label>
                 <input type="text" name="search" value={employeeData.search} onChange={this.onChange} />
@@ -282,7 +349,7 @@ class DriverTable extends React.Component<any, DriverTableStates> {
                   <th>DrivingLicence No</th>
                   <th>DrivingLicence Validity</th>
                   <th>Bus Assigned</th>
-                  <th>Route Assigned</th>
+                  {/* <th>Route Assigned</th> */}
                   <th>Vehicle Type</th>
                 </tr>
               </thead>
@@ -303,17 +370,4 @@ class DriverTable extends React.Component<any, DriverTableStates> {
     );
   }
 }
-
-export default graphql(LOAD_DRIVER_FILTER_DATA_CACHE_QUERY, {
-    options: ({ }) => ({
-      variables: {
-       
-      }
-    })
-  })(withLoadingHandler(
-    compose(
-      graphql(DRIVER_LIST_QUERY, { name: "getEmployeeList" }),
-      
-    )
-      (DriverTable) as any
-  ));
+export default withApollo(DriverTable);

@@ -13,13 +13,16 @@ export interface VehicleProps extends React.HTMLAttributes<HTMLElement>{
     vehicleList?: any;
     vehicleFilterCacheList?: any;
     transportRoute: any;
-    insurance:any;
+    // insurance:any;
+    employee:any;
+    branches:any;
 }
 
 const ERROR_MESSAGE_MANDATORY_FIELD_MISSING = "Mandatory fields missing";
 const ERROR_MESSAGE_SERVER_SIDE_ERROR = "Due to some error in vehicle service, vehicle could not be saved. Please check vehicles service logs";
 const SUCCESS_MESSAGE_VEHICLE_ADDED = "New Vehicle saved successfully";
 const SUCCESS_MESSAGE_VEHICLE_UPDATED = "vehicle updated successfully";
+const ERROR_MESSAGE_INSURANCE_FIELD = "select one insurance for one vehicle only"
 
 class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, any> {
     constructor(props: VehicleProps) {
@@ -30,8 +33,9 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
             isModalOpen: false,
             vehicleObj: {
                 transportRouteId:"",
-                insuranceId:"",
-                branchId: null,
+                // insuranceId:"",
+                employeeId:"",
+                branchId: "",
                 academicYearId: null,
                 departmentId: null,
                 vehicleNumber:"",
@@ -49,15 +53,19 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
             },
             transportRoute: "",
             insurance:"",
+            employee:"",
+            branches:"",
             errorMessage: "",
             successMessage: "",
             modelHeader: ""
         };
         this.createTransportRoutes = this.createTransportRoutes.bind(this);
-        this.createInsurance = this.createInsurance.bind(this);
+        // this.createInsurance = this.createInsurance.bind(this);
+        this.registerSocket = this.registerSocket.bind(this);
+        this.createEmployee = this.createEmployee.bind(this);
+        this.createBranches = this.createBranches.bind(this);
         
     }
-
     
   async componentDidMount(){
     await this.registerSocket();
@@ -98,34 +106,70 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
     for (let i = 0; i < transportRoute.length; i++) {
         transportRoutesOptions.push(
         <option key={transportRoute[i].id} value={transportRoute[i].id}>
-          {transportRoute[i].id}
+          {transportRoute[i].routeName}
         </option>
       );
     }
     return transportRoutesOptions;
   }
 
-  createInsurance(insurance: any) {
-    let insurancesOptions = [
+//   createInsurance(insurance: any) {
+//     let insurancesOptions = [
+//       <option key={0} value="">
+//         Select Insurance
+//       </option>,
+//     ];
+//     for (let i = 0; i < insurance.length; i++) {
+//         insurancesOptions.push(
+//         <option key={insurance[i].id} value={insurance[i].id}>
+//           {insurance[i].insuranceCompany}
+//         </option>
+//       );
+//     }
+//     return insurancesOptions;
+//   }
+
+  createEmployee(employee: any) {
+    let employeesOptions = [
       <option key={0} value="">
-        Select Insurance
+        Select Employee
       </option>,
     ];
-    for (let i = 0; i < insurance.length; i++) {
-        insurancesOptions.push(
-        <option key={insurance[i].id} value={insurance[i].id}>
-          {insurance[i].id}
+    for (let i = 0; i < employee.length; i++) {
+        employeesOptions.push(
+        <option key={employee[i].id} value={employee[i].id}>
+          {employee[i].employeeName}
         </option>
       );
     }
-    return insurancesOptions;
+    return employeesOptions;
   }
+
+  createBranches(branches: any) {
+    let branchesOptions = [
+      <option key={0} value="">
+        Select Branch
+      </option>,
+    ];
+    for (let i = 0; i < branches.length; i++) {
+        branchesOptions.push(
+        <option key={branches[i].id} value={branches[i].id}>
+          {branches[i].branchName}
+        </option>
+      );
+    }
+    return branchesOptions;
+  }
+
+
     
     showDetail(e: any, bShow: boolean, editObj: any, modelHeader: any) {
         e && e.preventDefault();
         const { vehicleObj } = this.state;
         vehicleObj.id = editObj.id;
-        vehicleObj.insuranceId = editObj.insuranceId;
+        vehicleObj.employeeId = editObj.employeeId;
+        vehicleObj.branchId = editObj.branchId;
+        // vehicleObj.insuranceId = editObj.insuranceId;
         vehicleObj.transportRouteId = editObj.transportRouteId;
         vehicleObj.vehicleNumber = editObj.vehicleNumber;
         vehicleObj.vehicleType = editObj.vehicleType;
@@ -167,6 +211,7 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
                 <td>{obj.capacity}</td>
                 <td>{obj.contactNumber}</td>
                 <td>{obj.strDateOfRegistration}</td>
+                <td>{obj.transportRoute.routeName}</td>
                 <td>
                     {
                         <button className="btn btn-primary" onClick={e => this.showDetail(e, true, obj, "Edit Vehicle")}>Edit</button>
@@ -240,8 +285,10 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
         }
         let input = {
             id: id,
-            insuranceId: vehicleObj.insuranceId,
+            // insuranceId: vehicleObj.insuranceId,
             transportRouteId: vehicleObj.transportRouteId,
+            employeeId:vehicleObj.employeeId,
+            branchId:vehicleObj.branchId,
             vehicleNumber: vehicleObj.vehicleNumber,
             vehicleType: vehicleObj.vehicleType,
             capacity: vehicleObj.capacity, 
@@ -338,11 +385,25 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
                                 </select>
                                  </div>
                                  <div className="fwidth-modal-text m-r-1">
+                                <label htmlFor="">Driver Assigned<span style={{ color: 'red' }}> * </span></label>
+                                 <select required name="employeeId" id="employeeId" onChange={this.onChange}  value={vehicleObj.employeeId} className="gf-form-label b-0 bg-transparent">
+                                    {this.createEmployee(vehicleFilterCacheList.employee)}
+                                </select>
+                                 </div>
+                                 </div>
+                                 <div className="mdflex modal-fwidth">
+                                <div className="fwidth-modal-text m-r-1">
+                                <label htmlFor="">Branch<span style={{ color: 'red' }}> * </span></label>
+                                 <select required name="branchId" id="branchId" onChange={this.onChange}  value={vehicleObj.branchId} className="gf-form-label b-0 bg-transparent">
+                                    {this.createBranches(vehicleFilterCacheList.branches)}
+                                </select>
+                                 </div>
+                                 {/* <div className="fwidth-modal-text m-r-1">
                                 <label htmlFor="">Insurance<span style={{ color: 'red' }}> * </span></label>
                                  <select required name="insuranceId" id="insuranceId" onChange={this.onChange}  value={vehicleObj.insuranceId} className="gf-form-label b-0 bg-transparent">
                                     {this.createInsurance(vehicleFilterCacheList.insurance)}
                                 </select>
-                                 </div>
+                                 </div> */}
                                  </div>
                                  <div className="mdflex modal-fwidth">
                                     <div className="fwidth-modal-text m-r-1">
@@ -440,6 +501,7 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
                                     <th>Capacity</th>
                                     <th>Contact No</th>
                                     <th>Date Of Registration</th>
+                                    <th>Route Name</th>
                                     <th>Edit</th>
                                     </tr>
                                 </thead>

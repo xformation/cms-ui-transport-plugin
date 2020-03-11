@@ -1,11 +1,15 @@
 import gql from 'graphql-tag';
 
-export const DRIVER_LIST_QUERY = gql`
+export const EMPLOYEE_LIST = gql`
   mutation getEmployeeList($filter: EmployeeListFilterInput!) {
     getEmployeeList(filter: $filter) {
       id
       employeeName
       designation
+      joiningDate
+      jobEndDate
+      resignationDate
+      resignationAcceptanceDate
       aadharNo
       panNo
       passportNo
@@ -20,9 +24,11 @@ export const DRIVER_LIST_QUERY = gql`
       officialMailId
       disability
       drivingLicenceNo
+      drivingLicenceValidity
       gender
       typeOfEmployment
       managerId
+      status
       status
       maritalStatus
       strjoiningDate
@@ -32,16 +38,12 @@ export const DRIVER_LIST_QUERY = gql`
       strdrivingLicenceValidity
       transportRoute {
         id
-        routeName
       }
       branch {
         id
       }
-      vehicle {
-        id
-        vehicleNumber
-        vehicleType
-      }
+      branchId
+      transportRouteId
     }
   }
 `;

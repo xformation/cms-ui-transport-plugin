@@ -25,6 +25,18 @@ export const VEHICLE_DATA_CACHE = gql`
         vehicleNumber
         vehicleType
       }
+      employee {
+        id
+        employeeName
+        designation
+      }
+      branches {
+        id
+        branchName
+        college {
+          id
+        }
+      }
     }
   }
 `;

@@ -34,10 +34,15 @@ export const GET_VEHICLE_LIST = gql`
         id
         insuranceCompany
         typeOfInsurance
-        dateOfInsurance
-        validTill
         strDateOfInsurance
         strValidTill
+        dateOfInsurance
+        validTill
+      }
+      employee {
+        id
+        employeeName
+        designation
       }
       dateOfInsurance
       strDateOfInsurance

@@ -43,6 +43,11 @@ export const ADD_VEHICLE_MUTATION = gql`
             strDateOfInsurance
             strValidTill
           }
+          employee {
+            id
+            employeeName
+            designation
+          }
           dateOfInsurance
           strDateOfInsurance
           validTill

@@ -16,6 +16,7 @@ type VehicleTableStates = {
   vehicle: any,
   vehicleData: any,
   transportRoute: any,
+  employee: any,
   pageSize: any,
   search: any,
   vehicleFilterCacheList: any,
@@ -46,15 +47,20 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
         vehicle: {
           id: ""
         },
+        employee:{
+          id:""
+        },
         mutateResult: [],
         search: ""
       },
       transportRoute: [],
+      employee:[],
       pageSize: 5,
       search: ''
 
     };
     this.createVehicles = this.createVehicles.bind(this);
+    this.createDrivers = this.createDrivers.bind(this);
     this.createTransportRoutes = this.createTransportRoutes.bind(this);
     this.checkAllVehicles = this.checkAllVehicles.bind(this);
     this.onClickCheckbox = this.onClickCheckbox.bind(this);
@@ -114,6 +120,16 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
     return vehiclesOptions;
   }
 
+  createDrivers(employee: any) {
+    let employeesOptions = [<option key={0} value="">Select DriverId</option>];
+    for (let i = 0; i < employee.length; i++) {
+        employeesOptions.push(
+          <option key={employee[i].id} value={employee[i].id}>{employee[i].id}</option>
+        );
+      }
+    
+    return employeesOptions;
+  }
 
   checkAllVehicles(e: any) {
     const { vehicleData } = this.state;
@@ -188,6 +204,9 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
                 <td>{vehicle.transportRoute.routeName}</td>
                 <td>{vehicle.transportRoute.noOfStops}</td>
                 <td>{vehicle.transportRoute.routeFrequency}</td>
+                {/* <td>{vehicle.employee.employeeName}</td>
+                <td>{vehicle.employee.designation}</td> */}
+                <td>{vehicle.employeeId} </td>
               </tr>
             );
           }
@@ -206,10 +225,12 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
                 <td>{vehicle.capacity}</td>
                 <td>{vehicle.id}</td>
                 <td>{vehicle.status}</td>
-                {/* <td>{vehicle.insurance.insuranceCompany}</td> */}
                 <td>{vehicle.transportRoute.routeName}</td>
                 <td>{vehicle.transportRoute.noOfStops}</td>
                 <td>{vehicle.transportRoute.routeFrequency}</td>
+                {/* <td>{vehicle.employee.employeeName}</td>
+                <td>{vehicle.employee.designation}</td> */}
+                <td>{vehicle.employeeId}</td>
             </tr>
           );
         }
@@ -233,6 +254,9 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
           vehicle: {
             id: ""
           },
+          employee:{
+            id:""
+          }
         }
       });
     } else if (name === "vehicle") {
@@ -240,6 +264,19 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
         vehicleData: {
           ...vehicleData,
           vehicle: {
+            id: value
+          },
+          employee: {
+            id:""
+          }
+        }
+      });
+    } 
+    else if (name === "employee") {
+      this.setState({
+        vehicleData: {
+          ...vehicleData,
+          employee: {
             id: value
           },
         }
@@ -264,6 +301,7 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
 
     let vehicleFilterInputObject = {
       transportRouteId: vehicleData.transportRoute.id,
+      employeeId: vehicleData.employee.id,
       vehicleId: vehicleData.vehicle.id
     };
     this.props.client
@@ -322,6 +360,26 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
                 </select>
               </div>
               <div>
+                <label htmlFor="">Employee Id</label>
+                <select
+                  required
+                  name="employee"
+                  id="employee"
+                  onChange={this.onChange}
+                  value={vehicleData.employee.id}
+                  className="gf-form-input max-width-22"
+                >
+                  {vehicleFilterCacheList !== null &&
+                  vehicleFilterCacheList !== undefined &&
+                  vehicleFilterCacheList.employee !== null &&
+                  vehicleFilterCacheList.employee !== undefined
+                    ? this.createDrivers(
+                      vehicleFilterCacheList.employee
+                      )
+                    : null}
+                </select>
+              </div>
+              <div>
                 <label htmlFor="">Vehicle Id</label>
                 <select
                   required
@@ -361,9 +419,11 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
                   <th>Vehicle Type</th>
                   <th>Capacity</th>
                   <th>Status</th>
-                  <th>Route Name</th>
+                  <th>Route Assigned</th>
                   <th>No Of Seats</th> 
                   <th>Route Frequency</th>
+                  <th>Id</th>
+                  <th>employeeName</th>
                 </tr>
               </thead>
               <tbody>
