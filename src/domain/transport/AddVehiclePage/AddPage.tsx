@@ -423,10 +423,10 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
                                     </div> 
                                     <div className="fwidth-modal-text">
                                     <label className="gf-form-label b-0 bg-transparent">OwnerShip<span style={{ color: 'red' }}> * </span></label>
-                                        <select name="status" id="status" onChange={this.onChange} value={vehicleObj.status} className="gf-form-input">
+                                        <select name="ownerShip" id="ownerShip" onChange={this.onChange} value={vehicleObj.ownerShip} className="gf-form-input">
                                             <option key={""} value={""}>Select OwnerShip</option>
-                                            <option key={"ACTIVE"} value={"ACTIVE"}>Owned</option>
-                                            <option key={"DEACTIVE"} value={"DEACTIVE"}>Contracted</option>
+                                            <option key={"OWNED"} value={"OWNED"}>Owned</option>
+                                            <option key={"CONTRACTED"} value={"CONTRACTED"}>Contracted</option>
                                         </select>
                                     </div>
                                     <div className="fwidth-modal-text m-r-1">
