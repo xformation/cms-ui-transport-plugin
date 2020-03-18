@@ -11,6 +11,8 @@ import moment = require('moment');
 export interface VehicleProps extends React.HTMLAttributes<HTMLElement>{
     [data: string]: any; 
     insuranceList?:any;
+    insuranceFilterCacheList:any;
+    vehicle:any;
 }
 const ERROR_MESSAGE_FIELD_MISSING = "Mandatory fields missing";
 const ERROR_MESSAGE_SERVER_ERROR = "Due to some error in insurance service, insurance could not be saved. Please check insurance service logs";
@@ -24,22 +26,41 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
         super(props);
         this.state = {     
             insurancelist: this.props.insuranceList,
+            insuranceFilterCacheList:this.props.insuranceFilterCacheList,
             isModalOpen: false,
             insuranceObj:{
+                vehicleId:"",
                 insuranceCompany:"",
                 typeOfInsurance:"",
                 dateOfInsurance :"",
                 validTill :"",       
             },
+            vehicle:"",
             errorMessage: "",
             successMessage: "",
             modelHeader: ""
-        };    
+        };  
+        this.createVehicle = this.createVehicle.bind(this);  
     }
-    
+    createVehicle(vehicle: any) {
+        let vehiclesOptions = [
+          <option key={0} value="">
+            Select Vehicle
+          </option>,
+        ];
+        for (let i = 0; i < vehicle.length; i++) {
+            vehiclesOptions.push(
+            <option key={vehicle[i].id} value={vehicle[i].id}>
+              {vehicle[i].vehicleNumber}
+            </option>
+          );
+        }
+        return vehiclesOptions;
+      }
     showDetails(e: any, bShow: boolean, editObj: any, modelHeader: any) {
         e && e.preventDefault();
         const { insuranceObj } = this.state;
+        insuranceObj.vehicleId =editObj.vehicleId;
         insuranceObj.insuranceCompany = editObj.insuranceCompany;
         insuranceObj.typeOfInsurance = editObj.typeOfInsurance;
         insuranceObj.dateOfInsurance = moment(editObj.dateOfInsurance,"DD-MM-YYYY").format("YYYY-MM-DD");
@@ -160,6 +181,8 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
             id = insuranceObj.id;
         }
         let input = {
+            id:id,
+            vehicleId:insuranceObj.vehicleId,
             insuranceCompany: insuranceObj.insuranceCompany,
             typeOfInsurance: insuranceObj.typeOfInsurance,
             strDateOfInsurance: moment(insuranceObj.dateOfInsurance).format("DD-MM-YYYY"),
@@ -222,7 +245,7 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
         
     }
     render() {
-        const {collegeList, branchList,insuranceList, isModalOpen, vehicleObj,insuranceObj, modelHeader, errorMessage, successMessage} = this.state;
+        const {collegeList, insuranceFilterCacheList,insuranceList, isModalOpen, vehicleObj,insuranceObj, modelHeader, errorMessage, successMessage} = this.state;
         return (
             <main>
                 <Modal isOpen={isModalOpen} className="react-strap-modal-container" style={{height:"500px", overflow:"auto"}}>
@@ -242,8 +265,14 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
                                     <MessageBox id="mbox" message={successMessage} activeTab={1}/>        
                                     : null
                             }
-
-                                <div className="mdflex modal-fwidth">
+                                 <div className="mdflex modal-fwidth">
+                                <div className="fwidth-modal-text m-r-1">
+                                <label htmlFor="">vehicle<span style={{ color: 'red' }}> * </span></label>
+                                 <select required name="vehicleId" id="vehicleId" onChange={this.onChange}  value={insuranceObj.vehicleId} className="gf-form-label b-0 bg-transparent">
+                                    {this.createVehicle(insuranceFilterCacheList.vehicle)}
+                                </select>
+                                </div>
+                                
                                 <div className="fwidth-modal-text m-r-1 ">
                                         <label className="gf-form-label b-0 bg-transparent">insuranceCompany</label>
                                         <input type="text" required className="gf-form-input" onChange={this.onChange}  value={insuranceObj.insuranceCompany} placeholder="insuranceCompany" name="insuranceCompany" id="insuranceCompany" maxLength={255}/>

@@ -9,4 +9,5 @@ export {ADD_DOCUMENT_MUTATION} from './AddDocumentMutation';
 export {ADD_VEHICLE_MUTATION} from './AddVehicleMutation';
 export {ADD_ROUTE_MUTATION} from './AddTransportRouteMutation';
 export {VEHICLE_DATA_CACHE} from './VehicleDataCache';
+export {INSURANCE_DATA_CACHE} from './InsuranceDataCache ';
 export {GET_TRANSPORT_ROUTE_LIST} from './getTransportList';

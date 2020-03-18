@@ -4,7 +4,7 @@ import '../../../css/college-settings.css';
 import AddRoute from './AddRoute';
 import AddPage from './AddPage';
 import {
-    VEHICLE_DATA_CACHE,EMPLOYEE_DATA_CACHE
+    VEHICLE_DATA_CACHE,INSURANCE_DATA_CACHE
 } from '../_queries';
 import { withApollo } from 'react-apollo';
 import wsCmsBackendServiceSingletonClient from '../../../wsCmsBackendServiceClient';
@@ -23,6 +23,7 @@ class vehicle extends React.Component<VehicleProps, any> {
             activeTab: 0,
             user: this.props.user,
             vehicleFilterCacheList: null,
+            insuranceFilterCacheList:null,
             // employeeFilterCacheList: null,
             branchId: null,
             academicYearId: null,
@@ -31,6 +32,8 @@ class vehicle extends React.Component<VehicleProps, any> {
         this.toggleTab = this.toggleTab.bind(this);
         this.registerSocket = this.registerSocket.bind(this);
         this.getVehicleFilterCacheList = this.getVehicleFilterCacheList.bind(this);
+        this.getInsuranceFilterCacheList = this.getInsuranceFilterCacheList.bind(this);
+
         // this.getEmployeeFilterCacheList = this.getEmployeeFilterCacheList.bind(this);
  
     }
@@ -67,6 +70,9 @@ class vehicle extends React.Component<VehicleProps, any> {
         if(tabNo === 1 ){
             this.getVehicleFilterCacheList();
         }
+        if(tabNo===2){
+            this.getInsuranceFilterCacheList();
+        }
         if(tabNo === 4 ){
             this.getVehicleFilterCacheList();
         }
@@ -93,6 +99,21 @@ class vehicle extends React.Component<VehicleProps, any> {
             vehicleFilterCacheList: data,
         });
       }
+      async getInsuranceFilterCacheList() {
+        // const {branchId, academicYearId} = this.state;
+        const {data} = await this.props.client.query({
+          query: INSURANCE_DATA_CACHE,
+            variables: {
+            //   branchId: branchId,
+            //   academicYearId: academicYearId,
+            },
+          
+          fetchPolicy: 'no-cache',
+        });
+        this.setState({
+            insuranceFilterCacheList: data,
+        });
+      }
 
     //   async getEmployeeFilterCacheList() {
     //     // const {branchId, academicYearId} = this.state;
@@ -110,7 +131,7 @@ class vehicle extends React.Component<VehicleProps, any> {
     //     });
     //   }
     render() {
-        const { activeTab,vehicleFilterCacheList,employeeFilterCacheList,user } = this.state;
+        const { activeTab,vehicleFilterCacheList,insuranceFilterCacheList,user } = this.state;
         return (
             <section className="tab-container row vertical-tab-container">
                  <Nav tabs className="pl-3 pl-3 mb-4 mt-4 col-sm-2">
@@ -158,7 +179,13 @@ class vehicle extends React.Component<VehicleProps, any> {
                         }
                     </TabPane>
                     <TabPane tabId={2}>
-                        <AddInsurance/>
+                    {
+                            user !== null && insuranceFilterCacheList !== null?
+                                <AddInsurance user={user} insuranceFilterCacheList={insuranceFilterCacheList.createInsuranceDataCache}/>
+                            :
+                            null
+                        }
+                        
                     </TabPane>
                     <TabPane tabId={3}>
                         <AddContract/>
