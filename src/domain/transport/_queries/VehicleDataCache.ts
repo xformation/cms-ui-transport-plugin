@@ -33,9 +33,15 @@ export const VEHICLE_DATA_CACHE = gql`
       branches {
         id
         branchName
-        college {
-          id
-        }
+      }
+      contract {
+        id
+        vendorName
+        durationOfContract
+        strStartDate
+        strEndDate
+        startDate
+        endDate
       }
     }
   }

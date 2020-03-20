@@ -43,6 +43,15 @@ export const ADD_VEHICLE_MUTATION = gql`
             strDateOfInsurance
             strValidTill
           }
+          cmsContractVo {
+            id
+            vendorName
+            durationOfContract
+            strStartDate
+            strEndDate
+            startDate
+            endDate
+          }
           employee {
             id
             employeeName

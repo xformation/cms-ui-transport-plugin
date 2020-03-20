@@ -13,6 +13,7 @@ export interface VehicleProps extends React.HTMLAttributes<HTMLElement>{
     vehicleList?: any;
     vehicleFilterCacheList?: any;
     transportRoute: any;
+    contract:any;
     // insurance:any;
     employee:any;
     branches:any;
@@ -34,6 +35,7 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
             vehicleObj: {
                 transportRouteId:"",
                 // insuranceId:"",
+                contractId:"",
                 employeeId:"",
                 branchId: "",
                 academicYearId: null,
@@ -52,6 +54,7 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
                 status:"",
             },
             transportRoute: "",
+            contract:"",
             insurance:"",
             employee:"",
             branches:"",
@@ -60,6 +63,8 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
             modelHeader: ""
         };
         this.createTransportRoutes = this.createTransportRoutes.bind(this);
+        this.createContract = this.createContract.bind(this);
+
         // this.createInsurance = this.createInsurance.bind(this);
         this.registerSocket = this.registerSocket.bind(this);
         this.createEmployee = this.createEmployee.bind(this);
@@ -112,6 +117,22 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
     }
     return transportRoutesOptions;
   }
+  createContract(contract: any) {
+    let contractOptions = [
+      <option key={0} value="">
+        Select contract
+      </option>,
+    ];
+    for (let i = 0; i < contract.length; i++) {
+        contractOptions.push(
+        <option key={contract[i].id} value={contract[i].id}>
+          {contract[i].vendorName}
+        </option>
+      );
+    }
+    return contractOptions;
+  }
+
 
 //   createInsurance(insurance: any) {
 //     let insurancesOptions = [
@@ -171,6 +192,8 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
         vehicleObj.branchId = editObj.branchId;
         // vehicleObj.insuranceId = editObj.insuranceId;
         vehicleObj.transportRouteId = editObj.transportRouteId;
+    
+        vehicleObj.contractId = editObj.contractId;
         vehicleObj.vehicleNumber = editObj.vehicleNumber;
         vehicleObj.vehicleType = editObj.vehicleType;
         vehicleObj.capacity = editObj.capacity;
@@ -211,7 +234,7 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
                 <td>{obj.capacity}</td>
                 <td>{obj.contactNumber}</td>
                 <td>{obj.strDateOfRegistration}</td>
-                <td>{obj.transportRoute.routeName}</td>
+                
                 <td>
                     {
                         <button className="btn btn-primary" onClick={e => this.showDetail(e, true, obj, "Edit Vehicle")}>Edit</button>
@@ -287,6 +310,7 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
             id: id,
             // insuranceId: vehicleObj.insuranceId,
             transportRouteId: vehicleObj.transportRouteId,
+            contractId:vehicleObj.contractId,
             employeeId:vehicleObj.employeeId,
             branchId:vehicleObj.branchId,
             vehicleNumber: vehicleObj.vehicleNumber,
@@ -397,6 +421,11 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
                                  <select required name="branchId" id="branchId" onChange={this.onChange}  value={vehicleObj.branchId} className="gf-form-label b-0 bg-transparent">
                                     {this.createBranches(vehicleFilterCacheList.branches)}
                                 </select>
+                                 </div><div className="fwidth-modal-text m-r-1">
+                                <label htmlFor="">Contract<span style={{ color: 'red' }}> * </span></label>
+                                 <select required name="contractId" id="contractId" onChange={this.onChange}  value={vehicleObj.contractId} className="gf-form-label b-0 bg-transparent">
+                                    {this.createContract(vehicleFilterCacheList.contract)}
+                                </select>
                                  </div>
                                  {/* <div className="fwidth-modal-text m-r-1">
                                 <label htmlFor="">Insurance<span style={{ color: 'red' }}> * </span></label>
@@ -505,7 +534,7 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
                                     <th>Capacity</th>
                                     <th>Contact No</th>
                                     <th>Date Of Registration</th>
-                                    <th>Route Name</th>
+                            
                                     <th>Edit</th>
                                     </tr>
                                 </thead>
