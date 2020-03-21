@@ -1,14 +1,16 @@
 import * as React from 'react';
 import { withRouter, RouteComponentProps, Link } from 'react-router-dom';
-import {NavItem,NavLink} from 'reactstrap';
+import {NavItem,NavLink, TabPane, TabContent} from 'reactstrap';
 import { graphql, QueryProps, MutationFunc, compose, withApollo } from "react-apollo";
-import {GET_VEHICLE_LIST} from '../_queries';
+import {GET_VEHICLE_LIST,VEHICLE_DATA_CACHE} from '../_queries';
 import withLoadingHandler from '../withLoadingHandler';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import wsCmsBackendServiceSingletonClient from '../../../wsCmsBackendServiceClient';
+import VehicleDetails from './VehicleDetails';
 
 const w180 = {
-    width: '180px'
+    width: '180px',
+    marginBottom: '5px'
 };
 
 type VehicleTableStates = {
@@ -19,6 +21,8 @@ type VehicleTableStates = {
   employee: any,
   pageSize: any,
   search: any,
+  activeTab: any,
+  vObj: any,
   vehicleFilterCacheList: any,
   branchId: any,
   academicYearId: any,
@@ -34,7 +38,9 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
   constructor(props: VehicleListProps) {
     super(props);
     this.state = {
-       user: this.props.user,
+      activeTab: 4,
+      vObj: {},
+      user: this.props.user,
       vehicleFilterCacheList: this.props.vehicleFilterCacheList,
       branchId: null,
       academicYearId: null,
@@ -66,13 +72,21 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
     this.onClickCheckbox = this.onClickCheckbox.bind(this);
     this.createVehicleRows = this.createVehicleRows.bind(this);
     this.createNoRecordMessage = this.createNoRecordMessage.bind(this);
+    this.toggleTab = this.toggleTab.bind(this);
   }
     
   async componentDidMount(){
     await this.registerSocket();
   }
+  
+  async toggleTab(tabNo: any) {
+    await this.setState({
+      activeTab: tabNo,
+    });
+  }
 
-  registerSocket() {
+
+ async registerSocket() {
     const socket = wsCmsBackendServiceSingletonClient.getInstance();
 
     socket.onmessage = (response: any) => {
@@ -97,6 +111,7 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
         console.log("Vehicle. Closing websocket connection with cms backend service");
     }
   }
+
   createTransportRoutes(transportRoute: any) {
     let transportRoutesOptions = [<option key={0} value="">Select RouteId</option>];
     for (let i = 0; i < transportRoute.length; i++) {
@@ -167,10 +182,19 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
     return retVal;
   }
 
-  showDetail(obj: any, e: any) {
-    console.log('object details:', obj);
-    const {vehicleData} = this.state;
-    vehicleData.id = obj.id;
+
+  async showDetail(obj: any, e: any) {
+    await this.SetObject(obj);
+    console.log('3. data in vObj:', this.state.vObj);
+    await this.toggleTab(1);
+  }
+
+  async SetObject(obj: any) {
+    console.log('1. setting object :', obj);
+    await this.setState({
+      vObj: obj,
+    });
+    console.log('2. data in obj:', obj);
   }
 
   createVehicleRows(objAry: any) {
@@ -189,8 +213,13 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
             retVal.push(
               <tr key={vehicle.id}>
                 <td>
-                  <input onClick={(e: any) => this.onClickCheckbox(i, e)} checked={vehicle.isChecked} type="checkbox" name="" id={"chk" + vehicle.id} />
+                  <input onClick={(e: any) => this.onClickCheckbox(i, e)} 
+                  checked={vehicle.isChecked} 
+                  type="checkbox" 
+                  name="chk" 
+                  id={"chk" + vehicle.id} />
                 </td>
+                <td>{vehicle.id}</td>
                 <td>
                 <a onClick={(e: any) => this.showDetail(vehicle, e)}>
                   {vehicle.vehicleNumber}
@@ -198,24 +227,26 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
               </td>
                 <td>{vehicle.vehicleType}</td>
                 <td>{vehicle.capacity}</td>
-                <td>{vehicle.id}</td>
                 <td>{vehicle.status}</td>
-                {/* <td>{vehicle.insurance.insuranceCompany}</td> */}
                 <td>{vehicle.transportRoute.routeName}</td>
                 <td>{vehicle.transportRoute.noOfStops}</td>
                 <td>{vehicle.transportRoute.routeFrequency}</td>
-                {/* <td>{vehicle.employee.employeeName}</td>
-                <td>{vehicle.employee.designation}</td> */}
                 <td>{vehicle.employeeId} </td>
               </tr>
             );
+            console.log('print student obj:', vehicle);
           }
         } else{
           retVal.push(
             <tr key={vehicle.id}>
               <td>
-                <input onClick={(e: any) => this.onClickCheckbox(i, e)} checked={vehicle.isChecked} type="checkbox" name="" id={"chk" + vehicle.id} />
+                <input onClick={(e: any) => this.onClickCheckbox(i, e)} 
+                checked={vehicle.isChecked} 
+                type="checkbox" 
+                name="chk" 
+                id={"chk" + vehicle.id} />
               </td>
+              <td>{vehicle.id}</td>
               <td>
               <a onClick={(e: any) => this.showDetail(vehicle, e)}>
                   {vehicle.vehicleNumber}
@@ -223,7 +254,6 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
                </td>
                <td>{vehicle.vehicleType}</td>
                 <td>{vehicle.capacity}</td>
-                <td>{vehicle.id}</td>
                 <td>{vehicle.status}</td>
                 <td>{vehicle.transportRoute.routeName}</td>
                 <td>{vehicle.transportRoute.noOfStops}</td>
@@ -233,6 +263,7 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
                 <td>{vehicle.employeeId}</td>
             </tr>
           );
+          console.log('print student obj:', vehicle);
         }
       }
     }
@@ -327,10 +358,12 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
   }
 
   render() {
-    const { vehicleFilterCacheList,  vehicleData  }= this.state;
+    const { vehicleFilterCacheList, vehicleData, activeTab, user,  }= this.state;
   
     return (
       <section className="customCss">
+         <TabContent activeTab={activeTab}>
+          <TabPane tabId={4}>
         <div className="container-fluid p-1 ">
           <div className="m-b-1 bg-heading-bgStudent studentListFlex">
             <div className="">
@@ -437,6 +470,38 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
             }
           </div>
         </div>
+        </TabPane>
+        <TabPane tabId={1}>
+            <div className="container-fluid" style={{padding: '0px'}}>
+              <div className="m-b-1 bg-heading-bgStudent studentListFlex p-point5">
+                <div className="">
+                  <h4 className="ptl-06">Vehicle Details</h4>
+                </div>
+                <div className="">
+                  <a
+                    className="btn btn-primary m-l-1"
+                    onClick={() => {
+                      this.toggleTab(4);
+                    }}
+                  >
+                    Back
+                  </a>
+                  <a
+                    className="btn btn-primary m-l-1"
+                    onClick={(e: any) => {
+                      print();
+                    }}
+                  >
+                    Print
+                  </a>
+                </div>
+              </div>
+              {this.state.vObj !== null && this.state.vObj !== undefined && (
+                <VehicleDetails data={this.state.vObj} />
+              )}
+            </div>
+          </TabPane>
+        </TabContent>
       </section>
 
     );

@@ -11,6 +11,7 @@ import wsCmsBackendServiceSingletonClient from '../../../wsCmsBackendServiceClie
 import AddInsurance from './AddInsurance';
 import AddContract from './AddContract';
 import VehicleListPage from './VehicleListPage';
+import VehicleDetails from './VehicleDetails';
 // import DriverListPage from '../DriverListPage/DriverListPage';
 export interface VehicleProps extends React.HTMLAttributes<HTMLElement>{
     [data: string]: any;
@@ -162,7 +163,7 @@ class vehicle extends React.Component<VehicleProps, any> {
                    </NavItem>
                    {/* <NavItem className="cursor-pointer">
                         <NavLink className={`vertical-nav-link ${activeTab === 5? 'side-active' : ''}`} onClick={() => { this.toggleTab(5); }} >
-                           Driver List Page 
+                         Vehicle Details Page
                         </NavLink>
                    </NavItem> */}
                 </Nav>
@@ -199,12 +200,7 @@ class vehicle extends React.Component<VehicleProps, any> {
                         }
                     </TabPane>
                     {/* <TabPane tabId={5}>
-                    {
-                            user !== null && employeeFilterCacheList !== null?
-                                <DriverListPage user={user} employeeFilterCacheList={employeeFilterCacheList.createEmployeeDataCache}/>
-                            :
-                            null
-                        }
+                     <VehicleDetails/>
                     </TabPane> */}
                 </TabContent> 
             </section>
