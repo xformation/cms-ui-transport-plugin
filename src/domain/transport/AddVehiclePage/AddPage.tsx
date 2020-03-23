@@ -105,7 +105,7 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
   createTransportRoutes(transportRoute: any) {
     let transportRoutesOptions = [
       <option key={0} value="">
-        Select TransportRoute
+        Select Route
       </option>,
     ];
     for (let i = 0; i < transportRoute.length; i++) {
@@ -120,7 +120,7 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
   createContract(contract: any) {
     let contractOptions = [
       <option key={0} value="">
-        Select contract
+        Select TypeOfContract
       </option>,
     ];
     for (let i = 0; i < contract.length; i++) {
@@ -153,13 +153,13 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
   createEmployee(employee: any) {
     let employeesOptions = [
       <option key={0} value="">
-        Select Employee
+        Select Designation
       </option>,
     ];
     for (let i = 0; i < employee.length; i++) {
         employeesOptions.push(
         <option key={employee[i].id} value={employee[i].id}>
-          {employee[i].employeeName}
+          {employee[i].designation}
         </option>
       );
     }
@@ -183,6 +183,24 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
   }
 
 
+  async showDetails(obj: any, e: any) {
+    await this.SetObject(obj);
+    console.log('3. data in vObj:', this.state.vObj);
+    await this.toggleTab(0);
+  }
+
+  async SetObject(obj: any) {
+    console.log('1. setting object :', obj);
+    await this.setState({
+      vObj: obj,
+    });
+    console.log('2. data in obj:', obj);
+  }
+  async toggleTab(tabNo: any) {
+    await this.setState({
+      activeTab: tabNo,
+    });
+  }
     
     showDetail(e: any, bShow: boolean, editObj: any, modelHeader: any) {
         e && e.preventDefault();
@@ -455,7 +473,7 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
                                         <select name="ownerShip" id="ownerShip" onChange={this.onChange} value={vehicleObj.ownerShip} className="gf-form-input">
                                             <option key={""} value={""}>Select OwnerShip</option>
                                             <option key={"OWNED"} value={"OWNED"}>Owned</option>
-                                            <option key={"CONTRACTED"} value={"CONTRACTED"}>Contracted</option>
+                                         <option key={"CONTRACTED"} value={"CONTRACTED"}>Contracted</option>
                                         </select>
                                     </div>
                                     <div className="fwidth-modal-text m-r-1">
