@@ -231,7 +231,8 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
                 <td>{vehicle.transportRoute.routeName}</td>
                 <td>{vehicle.transportRoute.noOfStops}</td>
                 <td>{vehicle.transportRoute.routeFrequency}</td>
-                <td>{vehicle.employeeId} </td>
+                <td>{vehicle.employee.employeeName} </td>
+                <td>{vehicle.employee.designation}</td>
               </tr>
             );
             console.log('print student obj:', vehicle);
@@ -258,9 +259,8 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
                 <td>{vehicle.transportRoute.routeName}</td>
                 <td>{vehicle.transportRoute.noOfStops}</td>
                 <td>{vehicle.transportRoute.routeFrequency}</td>
-                {/* <td>{vehicle.employee.employeeName}</td>
-                <td>{vehicle.employee.designation}</td> */}
-                <td>{vehicle.employeeId}</td>
+                <td>{vehicle.employee.employeeName} </td>
+                <td>{vehicle.employee.designation}</td>
             </tr>
           );
           console.log('print student obj:', vehicle);
@@ -455,8 +455,8 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
                   <th>Route Assigned</th>
                   <th>No Of Seats</th> 
                   <th>Route Frequency</th>
-                  <th>Id</th>
-                  {/* <th>employeeName</th> */}
+                  <th>Employee Name</th>
+                  <th>Designation</th>
                 </tr>
               </thead>
               <tbody>
