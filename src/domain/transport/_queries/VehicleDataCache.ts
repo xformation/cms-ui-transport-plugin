@@ -11,19 +11,12 @@ export const VEHICLE_DATA_CACHE = gql`
         noOfStops
         routeFrequency
       }
-      insurance {
-        id
-        insuranceCompany
-        typeOfInsurance
-        dateOfInsurance
-        validTill
-        strDateOfInsurance
-        strValidTill
-      }
       vehicle {
         id
         vehicleNumber
         vehicleType
+        capacity
+        ownerShip
       }
       employee {
         id
@@ -37,6 +30,7 @@ export const VEHICLE_DATA_CACHE = gql`
       contract {
         id
         vendorName
+        typeOfOwnerShip
         durationOfContract
         strStartDate
         strEndDate

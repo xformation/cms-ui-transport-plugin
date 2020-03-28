@@ -25,7 +25,6 @@ export const ADD_VEHICLE_MUTATION = gql`
           collegeId
           branchId
           contractId
-          insuranceId
           employeeId
           transportRoute {
             id
@@ -33,15 +32,6 @@ export const ADD_VEHICLE_MUTATION = gql`
             routeDetails
             noOfStops
             routeFrequency
-          }
-          cmsInsuranceVo {
-            id
-            insuranceCompany
-            typeOfInsurance
-            dateOfInsurance
-            validTill
-            strDateOfInsurance
-            strValidTill
           }
           cmsContractVo {
             id
@@ -57,10 +47,6 @@ export const ADD_VEHICLE_MUTATION = gql`
             employeeName
             designation
           }
-          dateOfInsurance
-          strDateOfInsurance
-          validTill
-          strValidTill
           startDate
           endDate
           strStartDate

@@ -6,8 +6,6 @@ export const ADD_INSURANCE_MUTATION = gql`
       cmsInsuranceVo {
         exitCode
         exitDescription
-        insuranceCompany
-
         dataList {
           id
           insuranceCompany

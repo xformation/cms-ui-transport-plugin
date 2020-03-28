@@ -21,7 +21,6 @@ export const GET_VEHICLE_LIST = gql`
       collegeId
       branchId
       contractId
-      insuranceId
       employeeId
       transportRoute {
         id
@@ -30,24 +29,11 @@ export const GET_VEHICLE_LIST = gql`
         noOfStops
         routeFrequency
       }
-      cmsInsuranceVo {
-        id
-        insuranceCompany
-        typeOfInsurance
-        strDateOfInsurance
-        strValidTill
-        dateOfInsurance
-        validTill
-      }
       employee {
         id
         employeeName
         designation
       }
-      dateOfInsurance
-      strDateOfInsurance
-      validTill
-      strValidTill
       startDate
       endDate
       strStartDate

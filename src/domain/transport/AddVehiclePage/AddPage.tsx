@@ -439,7 +439,8 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
                                  <select required name="branchId" id="branchId" onChange={this.onChange}  value={vehicleObj.branchId} className="gf-form-label b-0 bg-transparent">
                                     {this.createBranches(vehicleFilterCacheList.branches)}
                                 </select>
-                                 </div><div className="fwidth-modal-text m-r-1">
+                                 </div>
+                                 <div className="fwidth-modal-text m-r-1">
                                 <label htmlFor="">Contract<span style={{ color: 'red' }}> * </span></label>
                                  <select required name="contractId" id="contractId" onChange={this.onChange}  value={vehicleObj.contractId} className="gf-form-label b-0 bg-transparent">
                                     {this.createContract(vehicleFilterCacheList.contract)}
