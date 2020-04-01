@@ -8,7 +8,7 @@ import { ADD_VEHICLE_MUTATION ,ADD_INSURANCE_MUTATION } from '../_queries';
 import moment = require('moment');
 
 
-export interface VehicleProps extends React.HTMLAttributes<HTMLElement>{
+export interface InsuranceProps extends React.HTMLAttributes<HTMLElement>{
     [data: string]: any; 
     insuranceList?:any;
     insuranceFilterCacheList:any;
@@ -21,8 +21,8 @@ const SUCCESS_MESSAGE_INSURANCE_UPDATED = "insurance updated successfully";
 const ERROR_MESSAGE_DATES_OVERLAP = "End date cannot be prior or same as start date";
 
 
-class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, any> {
-    constructor(props: VehicleProps) {
+class Insurance<T = {[data: string]: any}> extends React.Component<InsuranceProps, any> {
+    constructor(props: InsuranceProps) {
         super(props);
         this.state = {     
             insurancelist: this.props.insuranceList,
@@ -60,11 +60,12 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
     showDetails(e: any, bShow: boolean, editObj: any, modelHeader: any) {
         e && e.preventDefault();
         const { insuranceObj } = this.state;
+        insuranceObj.id = editObj.id;
         insuranceObj.vehicleId =editObj.vehicleId;
         insuranceObj.insuranceCompany = editObj.insuranceCompany;
         insuranceObj.typeOfInsurance = editObj.typeOfInsurance;
-        insuranceObj.dateOfInsurance = moment(editObj.dateOfInsurance,"DD-MM-YYYY").format("YYYY-MM-DD");
-        insuranceObj.validTill =moment(editObj.validTill,"DD-MM-YYYY").format("YYYY-MM-DD")
+        insuranceObj.dateOfInsurance = moment(editObj.strDateOfInsurance,"DD-MM-YYYY").format("YYYY-MM-DD");
+        insuranceObj.validTill =moment(editObj.strValidTill,"DD-MM-YYYY").format("YYYY-MM-DD")
         this.setState(() => ({
             isModalOpen: bShow,
             insuranceObj: insuranceObj,
@@ -73,21 +74,9 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
             successMessage: "",
         }));
     }
-
-   
-    showModal(e: any, bShow: boolean, headerLabel: any) {
-        e && e.preventDefault();
-        this.setState(() => ({
-            isModalOpen: bShow,
-            vehicleObj: {},
-            modelHeader: headerLabel,
-            errorMessage: "",
-            successMessage: "",
-        }));
-    }
     createRow(objAry: any) {
         const { source } = this.state;
-        console.log("createRow() - insurance list on vehicle page:  ", objAry);
+        console.log("createRow() - insurance list on insurance page:  ", objAry);
         if(objAry === undefined || objAry === null) {
             return;
         }
@@ -102,6 +91,7 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
                 <td>{obj.typeOfInsurance}</td>
                 <td>{obj.strDateOfInsurance}</td>
                 <td>{obj.strValidTill}</td>
+                {/* <td>{obj.vehicle.vehicleNumber}</td> */}
                 <td>
                     {
                         <button className="btn btn-primary" onClick={e => this.showDetails(e, true, obj, "Edit Insurance")}>Edit</button>
@@ -127,19 +117,15 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
     onChange = (e: any) => {
         e.preventDefault();
         const { name, value } = e.nativeEvent.target;
-
-        const { insuranceObj } = this.state;
-        
+        const { insuranceObj } = this.state  
         this.setState({
-            
-            insuranceObj: {
+           insuranceObj: {
                 ...insuranceObj,
                 [name]: value
             },
             errorMessage: "",
             successMessage: "",
-        });
-        
+        }); 
         commonFunctions.restoreTextBoxBorderToNormal(name);
     }
     validateField(obj: any){
@@ -151,19 +137,16 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
             errorMessage = ERROR_MESSAGE_FIELD_MISSING;
             isValid = false;
         }
-
         if(isValid){
             isValid = this.validateDates(obj.dateOfInsurance, obj.validTill);
             if(isValid === false){
                 errorMessage = ERROR_MESSAGE_DATES_OVERLAP;
             }
          }
-
-        this.setState({
+       this.setState({
             errorMessage: errorMessage
         });
         return isValid; 
-
     }  
 
     validateDates(dateOfInsurance: any, validTill: any){
@@ -177,22 +160,21 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
     
     getAddInsuranceInput(insuranceObj: any, modelHeader: any){
         let id = null;
-        if(modelHeader === "edit Insurance"){
+        if(modelHeader === "Edit Insurance"){
             id = insuranceObj.id;
         }
-        let input = {
+        let inputObj = {
             id:id,
             vehicleId:insuranceObj.vehicleId,
             insuranceCompany: insuranceObj.insuranceCompany,
             typeOfInsurance: insuranceObj.typeOfInsurance,
             strDateOfInsurance: moment(insuranceObj.dateOfInsurance).format("DD-MM-YYYY"),
-            strValidTill: moment(insuranceObj.validTill).format("DD-MM-YYYY"),
-            
+            strValidTill: moment(insuranceObj.validTill).format("DD-MM-YYYY"),            
         };
-        return input;
+        return inputObj;
     }
     
-    async doSaveIns(inp: any, id: any){
+    async doSaveIns(inputObj: any, id: any){
         let btn = document.querySelector("#"+id);
         btn && btn.setAttribute("disabled", "true");
         let exitCode = 0;
@@ -200,7 +182,7 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
         await this.props.client.mutate({
             mutation: ADD_INSURANCE_MUTATION,
             variables: { 
-                input: inp
+                input: inputObj
             },
         }).then((resp: any) => {
             console.log("Success in addInsurance Mutation. Exit code : ",resp.data.addInsurance.cmsInsuranceVo.exitCode);
@@ -220,7 +202,7 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
         let successMessage = "";
         if(exitCode === 0 ){
             successMessage = SUCCESS_MESSAGE_INSURANCE_ADDED;
-            if(inp.id !== null){
+            if(inputObj.id !== null){
                 successMessage = SUCCESS_MESSAGE_INSURANCE_UPDATED;
             }
         }else {
@@ -241,8 +223,6 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
         }
         const inputObj = this.getAddInsuranceInput(insuranceObj, modelHeader);
         this.doSaveIns(inputObj, id);
-        this.saveIns(inputObj);
-        
     }
     render() {
         const {collegeList, insuranceFilterCacheList,insuranceList, isModalOpen, vehicleObj,insuranceObj, modelHeader, errorMessage, successMessage} = this.state;
@@ -307,7 +287,7 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
                                         :
                                         <button type="button" id="btnUpdate" className="btn btn-primary border-bottom" onClick={this.saveIns}>Update</button>
                                     }
-                                    &nbsp;<button className="btn btn-danger border-bottom" onClick={(e) => this.showModal(e, false, modelHeader)}>Cancel</button>
+                                    &nbsp;<button className="btn btn-danger border-bottom" onClick={(e) => this.showModals(e, false, modelHeader)}>Cancel</button>
                                     
                                 </div> </div>
                         </form>
@@ -317,7 +297,7 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
                 </Modal>
                
 
-<button className="btn btn-primary" style={{width:'200px'}} onClick={e => this.showModal(e, true, "Add New Insurance")}>
+<button className="btn btn-primary" style={{width:'200px'}} onClick={e => this.showModals(e, true, "Add New Insurance")}>
 <i className="fa fa-plus-circle"></i> Add New insurance
 </button>
 {
@@ -329,10 +309,11 @@ insuranceList !== null && insuranceList !== undefined && insuranceList.length > 
             <thead>
                 <tr>
                 <th>id</th>
-                <th> insurance company</th>
+                <th>insurance company</th>
                 <th>type of insurance</th>
                 <th>date Of insurance</th>
                 <th>validTill</th>
+                {/* <th>Vehicle Number</th> */}
                 <th>Edit</th>
                 </tr>
             </thead>
@@ -348,4 +329,4 @@ insuranceList !== null && insuranceList !== undefined && insuranceList.length > 
     }
 }
 
-export default withApollo(Vehicle);
+export default withApollo(Insurance);
