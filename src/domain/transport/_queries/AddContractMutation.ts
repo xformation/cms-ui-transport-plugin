@@ -5,11 +5,14 @@ export const ADD_CONTRACT_MUTATION = gql`
     addContract(input: $input) {
       cmsContractVo {
         exitCode
+        exitDescription
         dataList {
           id
           vendorName
           typeOfOwnerShip
           durationOfContract
+          startDate
+          endDate
           strStartDate
           strEndDate
         }

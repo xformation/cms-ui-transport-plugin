@@ -5,10 +5,10 @@ import "../../../css/custom.css"
 import {MessageBox} from '../../Message/MessageBox'
 import { withApollo } from 'react-apollo';
 import { ADD_CONTRACT_MUTATION  } from '../_queries';
-import moment = require('moment');
+import * as moment from 'moment';
 
 
-export interface VehicleProps extends React.HTMLAttributes<HTMLElement>{
+export interface ContractProps extends React.HTMLAttributes<HTMLElement>{
     [data: string]: any;
     contractList?:any;
 
@@ -20,8 +20,8 @@ const SUCCESS_MESSAGE_CONTRACT_ADDED = "New contract saved successfully";
 const SUCCESS_MESSAGE_CONTRACT_UPDATED = "contract updated successfully";
 const ERROR_MESSAGE_DATES_OVERLAP = "End date cannot be prior or same as start date";
 
-class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, any> {
-    constructor(props: VehicleProps) {
+class Contract<T = {[data: string]: any}> extends React.Component<ContractProps, any> {
+    constructor(props: ContractProps) {
         super(props);
         this.state = { 
             contractlist: this.props.contractList,
@@ -40,18 +40,11 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
         
     }
 
-    validateDates(startDate: any, endDate: any){
-        let stDate = moment(startDate, "YYYY-MM-DD");
-        let enDate = moment(endDate, "YYYY-MM-DD");
-        if (enDate.isSameOrBefore(stDate) || stDate.isSameOrAfter(enDate)) {
-            return false;
-        }
-        return true;
-    }
-    
+
     showDetails(e: any, bShow: boolean, editObj: any, modelHeader: any) {
         e && e.preventDefault();
         const { contractObj } = this.state;
+        contractObj.id = editObj.id;
         contractObj.vendorName = editObj.vendorName;
         contractObj.durationOfContract = editObj.durationOfContract;
         contractObj.typeOfOwnerShip = editObj.typeOfOwnerShip;
@@ -65,19 +58,9 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
             successMessage: "",
         }));
     }
-    showModal(e: any, bShow: boolean, headerLabel: any) {
-        e && e.preventDefault();
-        this.setState(() => ({
-            isModalOpen: bShow,
-            contractObj: {},
-            modelHeader: headerLabel,
-            errorMessage: "",
-            successMessage: "",
-        }));
-    }
     createRow(objAry: any) {
         const { source } = this.state;
-        console.log("createRow() - insurance list on vehicle page:  ", objAry);
+        console.log("createRow() - Contract list on Contract page:  ", objAry);
         if(objAry === undefined || objAry === null) {
             return;
         }
@@ -95,7 +78,7 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
                 <td>{obj.strEndDate}</td>
                 <td>
                     {
-                        <button className="btn btn-primary" onClick={e => this.showDetails(e, true, obj, "Edit contract")}>Edit</button>
+                        <button className="btn btn-primary" onClick={e => this.showDetails(e, true, obj, "Edit Contract")}>Edit</button>
                     }
                 </td>
               </tr>
@@ -117,19 +100,15 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
     onChange = (e: any) => {
         e.preventDefault();
         const { name, value } = e.nativeEvent.target;
-
         const { contractObj } = this.state;
-        
-        this.setState({
-            
+        this.setState({    
             contractObj: {
                 ...contractObj,
                 [name]: value
             },
             errorMessage: "",
             successMessage: "",
-        });
-        
+        });   
         commonFunctions.restoreTextBoxBorderToNormal(name);
     }
     validateField(obj: any){
@@ -141,7 +120,6 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
             errorMessage = ERROR_MESSAGE_FIELD_MISSING;
             isValid = false;
         }
-
         if(isValid){
             isValid = this.validateDates(obj.startDate, obj.endDate);
             if(isValid === false){
@@ -152,24 +130,34 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
             errorMessage: errorMessage
         });
         return isValid; 
-
     }
-    getAddInsuranceInput(contractObj: any, modelHeader: any){
+
+    validateDates(startDate: any, endDate: any){
+        let stDate = moment(startDate, "YYYY-MM-DD");
+        let enDate = moment(endDate, "YYYY-MM-DD");
+        if (enDate.isSameOrBefore(stDate) || stDate.isSameOrAfter(enDate)) {
+            return false;
+        }
+        return true;
+    }
+    
+    getAddContractInput(contractObj: any, modelHeader: any){
         let id = null;
-        if(modelHeader === "edit Insurance"){
+        if(modelHeader === "Edit Contract"){
             id = contractObj.id;
         }
-        let input = {
-             vendorName: contractObj.vendorName,
+        let inputObj = {
+            id: id,
+            vendorName: contractObj.vendorName,
             durationOfContract: contractObj.durationOfContract,
             typeOfOwnerShip:contractObj.typeOfOwnerShip,
             strStartDate: moment(contractObj.startDate).format("DD-MM-YYYY"),
             strEndDate: moment(contractObj.endDate).format("DD-MM-YYYY"),    
         };
-        return input;
+        return inputObj;
     }
     
-    async doSave(inp: any, id: any){
+    async doSave(inputObj: any, id: any){
         let btn = document.querySelector("#"+id);
         btn && btn.setAttribute("disabled", "true");
         let exitCode = 0;
@@ -177,7 +165,7 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
         await this.props.client.mutate({
             mutation: ADD_CONTRACT_MUTATION,
             variables: { 
-                input: inp
+                input: inputObj
             },
         }).then((resp: any) => {
             console.log("Success in addContract Mutation. Exit code : ",resp.data.addContract.cmsContractVo.exitCode);
@@ -197,7 +185,7 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
         let successMessage = "";
         if(exitCode === 0 ){
             successMessage = SUCCESS_MESSAGE_CONTRACT_ADDED;
-            if(inp.id !== null){
+            if(inputObj.id !== null){
                 successMessage = SUCCESS_MESSAGE_CONTRACT_UPDATED;
             }
         }else {
@@ -216,13 +204,11 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
         if(isValid === false){
             return;
         }
-        const inputObj = this.getAddInsuranceInput(contractObj, modelHeader);
-        this.doSave(inputObj, id);
-        this.save(inputObj);
-        
+        const inputObj = this.getAddContractInput(contractObj, modelHeader);
+        this.doSave(inputObj, id);   
     }
     render() {
-        const {collegeList, branchList,contractList, isModalOpen, vehicleObj,contractObj, modelHeader, errorMessage, successMessage} = this.state;
+        const {contractList, isModalOpen,contractObj, modelHeader, errorMessage, successMessage} = this.state;
         return (
             <main>
                 <Modal isOpen={isModalOpen} className="react-strap-modal-container" style={{height:"500px", overflow:"auto"}}>
@@ -252,10 +238,7 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
                                         <label className="gf-form-label b-0 bg-transparent">durationOfContract</label>
                                         <input type="text" required className="gf-form-input" onChange={this.onChange}  value={contractObj.durationOfContract} placeholder="durationOfContract" name="durationOfContract" id="durationOfContract" maxLength={255}/>
                                     </div> 
-                                   
-
                                    </div>
-
                                     <div className="fwidth-modal-text">
                                         <label className="gf-form-label b-0 bg-transparent">typeOfOwnerShip<span style={{ color: 'red' }}> * </span></label>
                                         <select name="typeOfOwnerShip" id="typeOfOwnerShip" onChange={this.onChange} value={contractObj.typeOfOwnerShip} className="gf-form-input">
@@ -264,14 +247,13 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
                                             <option key={"CONTRACTUAL"} value={"CONTRACTUAL"}>CONTRACTUAL</option>
                                         </select>
                                     </div>
-
                                     <div className="fwidth-modal-text m-r-1">
-                                        <label className="gf-form-label b-0 bg-transparent">startDate <span style={{ color: 'red' }}> * </span></label>
-                                        <input type="Date" className="gf-form-input" onChange={this.onChange}  value={contractObj.startDate} placeholder="startDate" name="startDate" id="startDate" maxLength={255} />
+                                        <label className="gf-form-label b-0 bg-transparent">Start Date <span style={{ color: 'red' }}> * </span></label>
+                                        <input type="Date" className="gf-form-input" onChange={this.onChange}  value={contractObj.startDate} placeholder="Start date" name="startDate" id="startDate" maxLength={10}  />
                                     </div>
                                     <div className="fwidth-modal-text m-r-1">
-                                        <label className="gf-form-label b-0 bg-transparent">endDate <span style={{ color: 'red' }}> * </span></label>
-                                        <input type="Date" className="gf-form-input" onChange={this.onChange}  value={contractObj.endDate} placeholder="endDate" name="endDate" id="endDate" maxLength={255} />
+                                        <label className="gf-form-label b-0 bg-transparent">End Date <span style={{ color: 'red' }}> * </span></label>
+                                        <input type="Date" className="gf-form-input" onChange={this.onChange}  value={contractObj.endDate} placeholder="End date" name="endDate" id="endDate" maxLength={10}  />
                                     </div>
                                   
                                 <div className="m-t-1 text-center">
@@ -281,9 +263,10 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
                                         :
                                         <button type="button" id="btnUpdate" className="btn btn-primary border-bottom" onClick={this.save}>Update</button>
                                     }
-                                    &nbsp;<button className="btn btn-danger border-bottom" onClick={(e) => this.showModal(e, false, modelHeader)}>Cancel</button>
+                                    &nbsp;<button className="btn btn-danger border-bottom" onClick={(e) => this.showModals(e, false, modelHeader)}>Cancel</button>
                                     
-                                </div> </div>
+                                </div>
+                                 </div>
                         </form>
                         
                         
@@ -291,7 +274,7 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
                 </Modal>
                
 
-<button className="btn btn-primary" style={{width:'200px'}} onClick={e => this.showModal(e, true, "Add New Contract")}>
+<button className="btn btn-primary" style={{width:'200px'}} onClick={e => this.showModals(e, true, "Add New Contract")}>
 <i className="fa fa-plus-circle"></i> Add New contract
 </button>
 {
@@ -299,15 +282,15 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
 
 contractList !== null && contractList !== undefined && contractList.length > 0 ?
     <div style={{width:'100%', height:'250px', overflow:'auto'}}>
-        <table id="ayTable" className="striped-table fwidth bg-white p-2 m-t-1">
+        <table id="contractTable" className="striped-table fwidth bg-white p-2 m-t-1">
             <thead>
                 <tr>
                 <th>id</th>
                 <th> vendor Name</th>
                 <th>duration Of Contract</th>
                 <th>type Of Owner Ship</th>
-                <th>start Date</th>
-                <th>end Date</th>
+                <th>Start Date</th>
+                <th>End Date</th>
                 <th>Edit</th>
                 </tr>
             </thead>
@@ -316,11 +299,11 @@ contractList !== null && contractList !== undefined && contractList.length > 0 ?
             </tbody>
         </table>
     </div>
-               : null
-            }  
-            </main>
+    : null
+  }  
+</main>
         );
     }
 }
 
-export default withApollo(Vehicle);
+export default withApollo(Contract);
