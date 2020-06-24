@@ -18,39 +18,29 @@ export const ADD_VEHICLE_MUTATION = gql`
           model
           chasisNo
           rcNo
-          contactNumber
           status
           strDateOfRegistration
-          transportRouteId
-          collegeId
+          routeVehicleList {
+            transportRoute {
+              id
+              routeName
+              routeDetails
+              routeMapUrl
+              noOfStops
+              routeFrequency
+              status
+            }
+            vehicle {
+              id
+              vehicleNumber
+              vehicleType
+              capacity
+              ownerShip
+              dateOfRegistration
+              yearOfManufacturing
+            }
+          }
           branchId
-          contractId
-          employeeId
-          transportRoute {
-            id
-            routeName
-            routeDetails
-            noOfStops
-            routeFrequency
-          }
-          cmsContractVo {
-            id
-            vendorName
-            durationOfContract
-            strStartDate
-            strEndDate
-            startDate
-            endDate
-          }
-          employee {
-            id
-            employeeName
-            designation
-          }
-          startDate
-          endDate
-          strStartDate
-          strEndDate
         }
       }
     }

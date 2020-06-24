@@ -34,7 +34,15 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
             isModalOpen: false,
             vehicleObj: {
                 transportRouteId:"",
-                // insuranceId:"",
+                contract:{
+                    id:""
+                },
+                vehicle:{
+                    id:""
+                },
+                transportRoute:{
+                    id:""
+                },
                 contractId:"",
                 employeeId:"",
                 branchId: "",
@@ -52,10 +60,13 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
                 rcNo:"",
                 contactNumber:"",
                 status:"",
+                osIds:{
+                   key_owned: "",
+                   key_contracted: ""
+                }
             },
             transportRoute: "",
             contract:"",
-            insurance:"",
             employee:"",
             branches:"",
             errorMessage: "",
@@ -279,7 +290,42 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
         e.preventDefault();
         const { name, value } = e.nativeEvent.target;
         const { vehicleObj } = this.state;
-        
+        if (name === "ownerShip") {
+            let cid: any = document.querySelector("#contractId");
+            if(value === "OWNED"){
+              cid.setAttribute("disabled", true);
+              this.setState({
+                vehicleObj: {
+                  ...vehicleObj,
+                  ownerShip: {
+                    id: value
+                  },
+                }
+              });
+              this.getAddVehicleInput(vehicleObj, value);
+            }else{
+              cid.removeAttribute("disabled");
+              this.setState({
+                vehicleObj: {
+                  ...vehicleObj,
+                  ownerShip: {
+                    id: value
+                  }
+                }
+              });
+              this.getAddVehicleInput(vehicleObj, value);
+            }
+            
+          }else if (name === "CONTRACTED") {
+            this.setState({
+              vehicleObj: {
+                ...vehicleObj,
+                contractId: {
+                  id: value
+                }
+              }
+            });
+        }
         this.setState({
             vehicleObj: {
                 ...vehicleObj,
@@ -319,7 +365,7 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
 
     }
 
-    getAddVehicleInput(vehicleObj: any, modelHeader: any){
+   async getAddVehicleInput(vehicleObj: any, modelHeader: any){
         let id = null;
         if(modelHeader === "Edit Vehicle"){
             id = vehicleObj.id;
@@ -344,6 +390,7 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
             contactNumber: vehicleObj.contactNumber,
             status: vehicleObj.status,
         };
+        this.initOwnerShip(input);
         return input;
     }
     
@@ -386,6 +433,33 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
             errorMessage: errorMessage
         });
     }
+    initOwnerShip(data: any){
+        const { vehicleObj } = this.state;
+        // feeSettingData.dueDate.id = data.dueDateId;
+    
+        let ows: any = document.querySelector("#ownerShip");
+        let cid: any = document.querySelector("#contractid");
+    
+        if(ows.options[ows.selectedIndex].value === "OWNED"){
+          vehicleObj.osIds.key_owned = data.vehicleId;
+        }else if(ows.options[ows.selectedIndex].value === "CONTRACTED"){ 
+          vehicleObj.osIds.key_contracted = data.vehicleId;
+        }
+        vehicleObj.contract.id = data.contract;
+        if(ows.options[ows.selectedIndex].value === "OWNED"){
+            cid.setAttribute("disabled", true);
+            cid.options.selectedIndex = 0;
+          }else if(ows.options[ows.selectedIndex].value === ""){
+            cid.removeAttribute("disabled");
+            cid.options.selectedIndex = 0;
+          }
+          else{
+            cid.removeAttribute("disabled");
+          }
+          this.setState({
+            vehicleObj: vehicleObj
+          });
+    }
 
     save = (e: any) => {
         const { id } = e.nativeEvent.target;
@@ -420,32 +494,6 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
                                     : null
                             }
                                 <div className="mdflex modal-fwidth">
-                                <div className="fwidth-modal-text m-r-1">
-                                <label htmlFor="">Route Assigned<span style={{ color: 'red' }}> * </span></label>
-                                 <select required name="transportRouteId" id="transportRouteId" onChange={this.onChange}  value={vehicleObj.transportRouteId} className="gf-form-label b-0 bg-transparent">
-                                    {this.createTransportRoutes(vehicleFilterCacheList.transportRoute)}
-                                </select>
-                                 </div>
-                                 <div className="fwidth-modal-text m-r-1">
-                                <label htmlFor="">Driver Assigned<span style={{ color: 'red' }}> * </span></label>
-                                 <select required name="employeeId" id="employeeId" onChange={this.onChange}  value={vehicleObj.employeeId} className="gf-form-label b-0 bg-transparent">
-                                    {this.createEmployee(vehicleFilterCacheList.employee)}
-                                </select>
-                                 </div>
-                                 </div>
-                                 <div className="mdflex modal-fwidth">
-                                <div className="fwidth-modal-text m-r-1">
-                                <label htmlFor="">Branch<span style={{ color: 'red' }}> * </span></label>
-                                 <select required name="branchId" id="branchId" onChange={this.onChange}  value={vehicleObj.branchId} className="gf-form-label b-0 bg-transparent">
-                                    {this.createBranches(vehicleFilterCacheList.branches)}
-                                </select>
-                                 </div>
-                                 <div className="fwidth-modal-text m-r-1">
-                                <label htmlFor="">Contract<span style={{ color: 'red' }}> * </span></label>
-                                 <select required name="contractId" id="contractId" onChange={this.onChange}  value={vehicleObj.contractId} className="gf-form-label b-0 bg-transparent">
-                                    {this.createContract(vehicleFilterCacheList.contract)}
-                                </select>
-                                 </div>
                                  {/* <div className="fwidth-modal-text m-r-1">
                                 <label htmlFor="">Insurance<span style={{ color: 'red' }}> * </span></label>
                                  <select required name="insuranceId" id="insuranceId" onChange={this.onChange}  value={vehicleObj.insuranceId} className="gf-form-label b-0 bg-transparent">
@@ -508,10 +556,6 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
                                     </div>
                                 </div> 
                                 <div className="mdflex modal-fwidth">
-                                    <div className="fwidth-modal-text m-r-1 ">
-                                        <label className="gf-form-label b-0 bg-transparent">Contact Number</label>
-                                        <input type="text" required className="gf-form-input" onChange={this.onChange}  value={vehicleObj.contactNumber} placeholder="contactNumber" name="contactNumber" id="contactNumber" maxLength={255}/>
-                                    </div>
                                     <div className="fwidth-modal-text">
                                         <label className="gf-form-label b-0 bg-transparent">Status<span style={{ color: 'red' }}> * </span></label>
                                         <select name="status" id="status" onChange={this.onChange} value={vehicleObj.status} className="gf-form-input">

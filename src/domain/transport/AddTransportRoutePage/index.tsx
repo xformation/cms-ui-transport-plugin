@@ -1,15 +1,15 @@
 import * as React from 'react';
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
 import '../../../css/college-settings.css';
-import AddRoute from './AddRoute';
-import AddPage from './AddPage';
+// import AddRoute from './AddRoute';
+// import AddPage from './AddPage';
 import {
     VEHICLE_DATA_CACHE,INSURANCE_DATA_CACHE
 } from '../_queries';
-import { withApollo } from 'react-apollo';
-import wsCmsBackendServiceSingletonClient from '../../../wsCmsBackendServiceClient';
-import AddInsurance from './AddInsurance';
-import AddContract from './AddContract';
+ import { withApollo } from 'react-apollo';
+ import wsCmsBackendServiceSingletonClient from '../../../wsCmsBackendServiceClient';
+// import AddInsurance from './AddInsurance';
+// import AddContract from './AddContract';
 // import VehicleListPage from './VehicleListPage';
 // import VehicleDetails from './VehicleDetails';
 // import DriverListPage from '../DriverListPage/DriverListPage';
@@ -112,63 +112,46 @@ class vehicle extends React.Component<VehicleProps, any> {
                  <Nav tabs className="pl-3 pl-3 mb-4 mt-4 col-sm-2">
                     <NavItem className="cursor-pointer">
                         <NavLink className={`vertical-nav-link ${activeTab === 0 ? 'side-active' : ''}`} onClick={() => { this.toggleTab(0); }} >
-                           Add Vehicle Page
+                            Add Route Page
                         </NavLink>
                     </NavItem>
                     <NavItem className="cursor-pointer">
                         <NavLink className={`vertical-nav-link ${activeTab === 1 ? 'side-active' : ''}`} onClick={() => { this.toggleTab(1); }} >
-                          Add Contract Page
+                            Add Stop page
                         </NavLink> 
                     </NavItem>
                     <NavItem className="cursor-pointer">
                         <NavLink className={`vertical-nav-link ${activeTab === 2 ? 'side-active' : ''}`} onClick={() => { this.toggleTab(2); }} >
-                            Add Insurance Page
+                           Vehicle Route Details
                         </NavLink>
                     </NavItem>
                     <NavItem className="cursor-pointer">
                         <NavLink className={`vertical-nav-link ${activeTab === 3 ? 'side-active' : ''}`} onClick={() => { this.toggleTab(3); }} >
-                           Vehicle Contract page
+                           Vehicle Driver Details
                         </NavLink>
                    </NavItem>
-                   {/* <NavItem className="cursor-pointer">
+                   <NavItem className="cursor-pointer">
                         <NavLink className={`vertical-nav-link ${activeTab === 4? 'side-active' : ''}`} onClick={() => { this.toggleTab(4); }} >
                            Vehicle List Page 
                         </NavLink>
-                   </NavItem> */}
+                   </NavItem>
                 </Nav>
                 <TabContent activeTab={activeTab} className="col-sm-9 border-left p-t-1">
                    <TabPane tabId={0}>
-                         add vehicle
+                        AddRoute
                     </TabPane>
                     <TabPane tabId={1}>
-                    {/* {
-                            user !== null && vehicleFilterCacheList !== null?
-                                <AddPage user={user} vehicleFilterCacheList={vehicleFilterCacheList.createVehicleDataCache}/>
-                            :
-                            null
-                        } */}
-                        add contract
+                        AddStop
                     </TabPane>
                     <TabPane tabId={2}>
-                    {/* {
-                            user !== null && insuranceFilterCacheList !== null?
-                                <AddInsurance user={user} insuranceFilterCacheList={insuranceFilterCacheList.createInsuranceDataCache}/>
-                            :
-                            null
-                        } */}
-                        add insurance
+                        VehicleRouteLink
                     </TabPane>
                     <TabPane tabId={3}>
-                        vehicle contarct details
+                       VehicleDriverLink
                     </TabPane>
-                    {/* <TabPane tabId={4}>
-                    {
-                            user !== null && vehicleFilterCacheList !== null?
-                                <VehicleListPage user={user} vehicleFilterCacheList={vehicleFilterCacheList.createVehicleDataCache}/>
-                            :
-                            null
-                        }
-                    </TabPane> */}
+                    <TabPane tabId={4}>
+                         ListPAge
+                    </TabPane>
                 </TabContent> 
             </section>
         );

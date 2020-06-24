@@ -1,8 +1,3 @@
-export {EMPLOYEE_DATA_CACHE} from './EmployeeDataCache';
-export {DRIVER_QUERY} from './DriverQuery';
-export {EMPLOYEE_LIST} from './getEmployeeList';
-export {GET_VEHICLE_LIST} from './getVehicleList';
-export {VEHICLE_QUERY} from './VehicleQuery';
 export {ADD_CONTRACT_MUTATION} from './AddContractMutation';
 export {ADD_INSURANCE_MUTATION} from './AddInsuranceMutation';
 export {ADD_DOCUMENT_MUTATION} from './AddDocumentMutation';
@@ -10,4 +5,3 @@ export {ADD_VEHICLE_MUTATION} from './AddVehicleMutation';
 export {ADD_ROUTE_MUTATION} from './AddTransportRouteMutation';
 export {VEHICLE_DATA_CACHE} from './VehicleDataCache';
 export {INSURANCE_DATA_CACHE} from './InsuranceDataCache ';
-export {GET_TRANSPORT_ROUTE_LIST} from './getTransportList';

@@ -7,6 +7,7 @@ import { FaUserGraduate } from 'react-icons/fa';
 import '../../../css/tabs.css';
 import '../../../css/college-settings.css'
 import AddVehiclePage from '../AddVehiclePage';
+import AddTransportRoutePage from '../AddTransportRoutePage';
 
 
 export default class FeesTab extends React.Component<any, any> {
@@ -41,27 +42,27 @@ export default class FeesTab extends React.Component<any, any> {
                 this.toggleTab(0);
               }}
             >
-              Vehicle page
+               Vehicle page
             </NavLink>
           </NavItem>
-          {/* <NavItem className="cursor-pointer">
+          <NavItem className="cursor-pointer">
             <NavLink
               className={`${activeTab === 1 ? 'active' : ''}`}
               onClick={() => {
                 this.toggleTab(1);
               }}
             >
-             Driver List Page
+              Transport Page
             </NavLink>
-          </NavItem> */}
+          </NavItem>
         </Nav>
         <TabContent activeTab={activeTab} className="border-right">
           <TabPane tabId={0}>
             <AddVehiclePage />
           </TabPane>
-          {/* <TabPane tabId={1}>
-          <DriverListPage />
-          </TabPane> */}
+          <TabPane tabId={1}>
+             <AddTransportRoutePage />
+          </TabPane>
         </TabContent>
       </section>
     );
