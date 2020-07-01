@@ -19,27 +19,13 @@ export const ADD_VEHICLE_MUTATION = gql`
           chasisNo
           rcNo
           status
+          startDate
+          endDate
+          strStartDate
+          strEndDate
           strDateOfRegistration
-          routeVehicleList {
-            transportRoute {
-              id
-              routeName
-              routeDetails
-              routeMapUrl
-              noOfStops
-              routeFrequency
-              status
-            }
-            vehicle {
-              id
-              vehicleNumber
-              vehicleType
-              capacity
-              ownerShip
-              dateOfRegistration
-              yearOfManufacturing
-            }
-          }
+          strOnBoardingDate
+          strValidTill
           branchId
         }
       }

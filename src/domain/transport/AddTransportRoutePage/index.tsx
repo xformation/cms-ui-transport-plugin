@@ -1,15 +1,13 @@
 import * as React from 'react';
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
 import '../../../css/college-settings.css';
-// import AddRoute from './AddRoute';
-// import AddPage from './AddPage';
 import {
-    VEHICLE_DATA_CACHE,INSURANCE_DATA_CACHE
+    VEHICLE_DATA_CACHE,INSURANCE_DATA_CACHE,GET_TRANSPORT_ROUTE_LIST, GET_STOPAGE_LIST
 } from '../_queries';
  import { withApollo } from 'react-apollo';
  import wsCmsBackendServiceSingletonClient from '../../../wsCmsBackendServiceClient';
-// import AddInsurance from './AddInsurance';
-// import AddContract from './AddContract';
+import AddRoute from './AddRoute';
+import AddStopage from './AddStopage';
 // import VehicleListPage from './VehicleListPage';
 // import VehicleDetails from './VehicleDetails';
 // import DriverListPage from '../DriverListPage/DriverListPage';
@@ -23,6 +21,8 @@ class vehicle extends React.Component<VehicleProps, any> {
         this.state = {
             activeTab: 0,
             user: this.props.user,
+            transportRouteList: null,
+            stopageList: null,
             vehicleFilterCacheList: null,
             insuranceFilterCacheList:null,
             branchId: null,
@@ -32,7 +32,9 @@ class vehicle extends React.Component<VehicleProps, any> {
         this.toggleTab = this.toggleTab.bind(this);
         this.registerSocket = this.registerSocket.bind(this);
         this.getVehicleFilterCacheList = this.getVehicleFilterCacheList.bind(this);
-        this.getInsuranceFilterCacheList = this.getInsuranceFilterCacheList.bind(this);
+        this.getTransportRouteList = this.getTransportRouteList.bind(this);
+        this.getStopageList = this.getStopageList.bind(this);
+        // this.getInsuranceFilterCacheList = this.getInsuranceFilterCacheList.bind(this);
     }
     
 
@@ -62,25 +64,47 @@ class vehicle extends React.Component<VehicleProps, any> {
         }
       }
 
-
     toggleTab(tabNo: any) {
         if(tabNo === 1 ){
             this.getVehicleFilterCacheList();
         }
         if(tabNo===2){
-            this.getInsuranceFilterCacheList();
+            this.getStopageList();
+            // this.getVehicleFilterCacheList();
+
         }
-        if(tabNo === 4 ){
+        if(tabNo === 3 ){
             this.getVehicleFilterCacheList();
         }
-        // if(tabNo === 5 ){
+        // if(tabNo === 4 ){
         //     this.getEmployeeFilterCacheList();
         // }
         this.setState({
             activeTab: tabNo,
         });
     }
-
+    async getStopageList(){
+        const {data} = await this.props.client.query({
+            query: GET_STOPAGE_LIST,
+            variables: {
+            },
+            fetchPolicy: 'no-cache',
+          });
+          this.setState({
+            stopageList: data,
+          });
+    }
+    async getTransportRouteList(){
+        const {data} = await this.props.client.query({
+            query: GET_TRANSPORT_ROUTE_LIST,
+            variables: {
+            },
+            fetchPolicy: 'no-cache',
+          });
+          this.setState({
+            transportRouteList: data,
+          });
+    }
     async getVehicleFilterCacheList() {
         const {data} = await this.props.client.query({
           query: VEHICLE_DATA_CACHE,
@@ -106,42 +130,66 @@ class vehicle extends React.Component<VehicleProps, any> {
         });
       }
     render() {
-        const { activeTab,vehicleFilterCacheList,insuranceFilterCacheList,user } = this.state;
+        const { activeTab,stopageList,vehicleFilterCacheList, transportRouteList,insuranceFilterCacheList,user } = this.state;
         return (
             <section className="tab-container row vertical-tab-container">
                  <Nav tabs className="pl-3 pl-3 mb-4 mt-4 col-sm-2">
                     <NavItem className="cursor-pointer">
-                        <NavLink className={`vertical-nav-link ${activeTab === 0 ? 'side-active' : ''}`} onClick={() => { this.toggleTab(0); }} >
+                        <NavLink className={`vertical-nav-link ${activeTab === 0 ? 'side-active' : ''}`} onClick={() => 
+                            { this.toggleTab(0); }} >
                             Add Route Page
                         </NavLink>
                     </NavItem>
                     <NavItem className="cursor-pointer">
-                        <NavLink className={`vertical-nav-link ${activeTab === 1 ? 'side-active' : ''}`} onClick={() => { this.toggleTab(1); }} >
+                        <NavLink className={`vertical-nav-link ${activeTab === 1 ? 'side-active' : ''}`} onClick={() => 
+                            { this.toggleTab(1); }} >
                             Add Stop page
                         </NavLink> 
                     </NavItem>
                     <NavItem className="cursor-pointer">
-                        <NavLink className={`vertical-nav-link ${activeTab === 2 ? 'side-active' : ''}`} onClick={() => { this.toggleTab(2); }} >
+                        <NavLink className={`vertical-nav-link ${activeTab === 2 ? 'side-active' : ''}`} onClick={() => 
+                            { this.toggleTab(2); }} >
                            Vehicle Route Details
                         </NavLink>
                     </NavItem>
                     <NavItem className="cursor-pointer">
-                        <NavLink className={`vertical-nav-link ${activeTab === 3 ? 'side-active' : ''}`} onClick={() => { this.toggleTab(3); }} >
+                        <NavLink className={`vertical-nav-link ${activeTab === 3 ? 'side-active' : ''}`} onClick={() => 
+                            { this.toggleTab(3); }} >
                            Vehicle Driver Details
                         </NavLink>
                    </NavItem>
                    <NavItem className="cursor-pointer">
-                        <NavLink className={`vertical-nav-link ${activeTab === 4? 'side-active' : ''}`} onClick={() => { this.toggleTab(4); }} >
+                        <NavLink className={`vertical-nav-link ${activeTab === 4? 'side-active' : ''}`} onClick={() => 
+                            { this.toggleTab(4); }} >
                            Vehicle List Page 
                         </NavLink>
                    </NavItem>
                 </Nav>
                 <TabContent activeTab={activeTab} className="col-sm-9 border-left p-t-1">
-                   <TabPane tabId={0}>
-                        AddRoute
+     
+               <TabPane tabId={0}>
+                         <AddRoute/>
+                         {/* 
+                        {
+                            user !== null && transportRouteList !== null && (
+                                <AddRoute user={user} transportRouteList={transportRouteList.getTransportRouteList} />
+                            )
+                        } 
+                         {
+                            user !== null && vehicleFilterCacheList !== null?
+                                <AddRoute user={user} vehicleFilterCacheList={vehicleFilterCacheList.createVehicleDataCache}/>
+                            :
+                            null
+                        }  */}
                     </TabPane>
                     <TabPane tabId={1}>
-                        AddStop
+                    {
+                            user !== null && stopageList !== null && (
+                                <AddStopage user={user} stopageList={stopageList.getStopageList}/>
+                            )
+                  
+                        }      
+                        {/* ADD STOPAGE */}
                     </TabPane>
                     <TabPane tabId={2}>
                         VehicleRouteLink
@@ -150,7 +198,7 @@ class vehicle extends React.Component<VehicleProps, any> {
                        VehicleDriverLink
                     </TabPane>
                     <TabPane tabId={4}>
-                         ListPAge
+                         ListPage
                     </TabPane>
                 </TabContent> 
             </section>

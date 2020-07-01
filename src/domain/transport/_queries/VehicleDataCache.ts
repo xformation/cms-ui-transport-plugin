@@ -18,15 +18,6 @@ export const VEHICLE_DATA_CACHE = gql`
         capacity
         ownerShip
       }
-      employee {
-        id
-        employeeName
-        designation
-      }
-      branches {
-        id
-        branchName
-      }
       contract {
         id
         vendorName

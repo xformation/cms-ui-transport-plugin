@@ -10,14 +10,16 @@ export const ADD_INSURANCE_MUTATION = gql`
           id
           insuranceCompany
           typeOfInsurance
+          dateOfInsurance
+          validTill
           strDateOfInsurance
           strValidTill
-          validTill
-          dateOfInsurance
-        }
-        vehicle {
-          id
-          vehicleNumber
+          strDateOfInsurance
+          strValidTill
+          vehicle {
+            id
+          }
+          vehicleId
         }
       }
     }
