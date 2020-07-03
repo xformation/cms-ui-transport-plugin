@@ -61,7 +61,7 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
                 model:"",
                 chasisNo:"",
                 rcNo:"",
-                contactNumber:"",
+                // contactNumber:"",
                 status:"",
                 // osIds:{
                 //    key_owned: "",
@@ -375,7 +375,7 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
             model: vehicleObj.model,
             chasisNo: vehicleObj.chasisNo,
             rcNo: vehicleObj.rcNo,
-            contactNumber: vehicleObj.contactNumber,
+            // contactNumber: vehicleObj.contactNumber,
             status: vehicleObj.status,
         };
         // this.initOwnerShip(input);
@@ -384,11 +384,11 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
     validateFields(obj: any){
         let isValid = true;
         let errorMessage = ""
-        if(obj.transportRouteId === undefined || obj.transportRouteId === null || obj.transportRouteId === ""){
-            commonFunctions.changeTextBoxBorderToError((obj.transportRouteId === undefined || obj.transportRouteId === null) ? "" : obj.transportRouteId, "transportRouteId");
-            errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
-            isValid = false;
-        }
+        // if(obj.transportRouteId === undefined || obj.transportRouteId === null || obj.transportRouteId === ""){
+        //     commonFunctions.changeTextBoxBorderToError((obj.transportRouteId === undefined || obj.transportRouteId === null) ? "" : obj.transportRouteId, "transportRouteId");
+        //     errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
+        //     isValid = false;
+        // }
         if(obj.vehicleNumber === undefined || obj.vehicleNumber === null || obj.vehicleNumber === ""){
             commonFunctions.changeTextBoxBorderToError((obj.vehicleNumber === undefined || obj.vehicleNumber === null) ? "" : obj.vehicleNumber, "vehicleNumber");
             errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
