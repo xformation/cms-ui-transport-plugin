@@ -11,6 +11,7 @@ export const ADD_ROUTE_MUTATION = gql`
           routeName
           routeDetails
           noOfStops
+          routeMapUrl
           routeFrequency
           status
           createdBy

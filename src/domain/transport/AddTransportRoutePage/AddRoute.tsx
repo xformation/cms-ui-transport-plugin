@@ -128,9 +128,10 @@ class RouteGrid<T = {[data: string]: any}> extends React.Component<RouteProps, a
               input: trInput
           },
       }).then((resp: any) => {
-          console.log("Success in addTransportRoute Mutation. Exit code : ",resp.data.addTransportRoute.cmsTransportVo.exitCode);
-          exitCode = resp.data.addTransportRoute.cmsTransportVo.exitCode;
-          let temp = resp.data.addTransportRoute.cmsTransportVo.dataList; 
+          console.log("Success in addTransportRoute Mutation. Exit code : ",resp.data.addTransportRoute.cmsTransportRouteVo.exitCode);
+          exitCode = resp.data.addTransportRoute.cmsTransportRouteVo.exitCode;
+        //   this.props.onSaveUpdate(resp.data.addTransportRoute.cmsTransportVo.dataList);
+          let temp = resp.data.addTransportRoute.cmsTransportRouteVo.dataList; 
           console.log("New Transport Route list : ", temp);
           this.setState({
               trList: temp
@@ -202,8 +203,8 @@ const {trList, isModalOpen, trObj, modelHeader, errorMessage, successMessage} = 
             <input type="text" required className="fwidth" style={{ width: '250px' }} onChange={this.onChange}  value={trObj.routeName} placeholder="routeName" name="routeName" id="routeName"/>
            </div>
            <div>
-             <label className="gf-form-label b-0 bg-transparent">Route Details<span style={{ color: 'red' }}> * </span></label>
-             <input type="text" required className="fwidth" style={{ width: '250px' }} onChange={this.onChange}  value={trObj.routeDetails} placeholder="routeDetails" name="routeDetails" id="routeDetails"/>
+             <label className="gf-form-label b-0 bg-transparent">Route Details</label>
+             <input type="text"  className="fwidth" style={{ width: '250px' }} onChange={this.onChange}  value={trObj.routeDetails} placeholder="routeDetails" name="routeDetails" id="routeDetails"/>
            </div>
            <div>
              <label className="gf-form-label b-0 bg-transparent">RouteMapUrl</label>
@@ -215,8 +216,8 @@ const {trList, isModalOpen, trObj, modelHeader, errorMessage, successMessage} = 
            </div>
 
            <div>
-                        <label className="gf-form-label b-0 bg-transparent">Route Frequency</label>
-                         <select name="routeFrequency" id="routeFrequency" onChange={this.onChange} value={trObj.routeFrequency} className="fwidth" style={{ width: '250px' }}>
+                        <label className="gf-form-label b-0 bg-transparent">Route Frequency<span style={{ color: 'red' }}> * </span></label>
+                         <select name="routeFrequency" id="routeFrequency" onChange={this.onChange} value={trObj.routeFrequency} required className="fwidth" style={{ width: '250px' }}>
                                 <option key={""} value={""}>Select Route Frequency</option>
                                 <option key={"MORNINGPICKUP"} value={"MORNINGPICKUP"}>MORNINGPICKUP</option>
                                <option key={"AFTERNOONDROPANDPICKUP"} value={"AFTERNOONDROPANDPICKUP"}>AFTERNOONDROPANDPICKUP</option>
@@ -226,7 +227,7 @@ const {trList, isModalOpen, trObj, modelHeader, errorMessage, successMessage} = 
                          </select>
                          </div> 
            <div>
-                        <label className="gf-form-label b-0 bg-transparent">Status<span style={{ color: 'red' }}> * </span></label>
+                        <label className="gf-form-label b-0 bg-transparent">Status</label>
                         <select name="status" id="status" onChange={this.onChange} value={trObj.status} className="fwidth" style={{ width: '250px' }}>
                                 <option key={""} value={""}>Select Status</option>
                                  <option key={"ACTIVE"} value={"ACTIVE"}>ACTIVE</option>
