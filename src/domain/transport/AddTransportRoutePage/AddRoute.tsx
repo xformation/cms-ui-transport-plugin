@@ -130,7 +130,6 @@ class RouteGrid<T = {[data: string]: any}> extends React.Component<RouteProps, a
       }).then((resp: any) => {
           console.log("Success in addTransportRoute Mutation. Exit code : ",resp.data.addTransportRoute.cmsTransportRouteVo.exitCode);
           exitCode = resp.data.addTransportRoute.cmsTransportRouteVo.exitCode;
-        //   this.props.onSaveUpdate(resp.data.addTransportRoute.cmsTransportVo.dataList);
           let temp = resp.data.addTransportRoute.cmsTransportRouteVo.dataList; 
           console.log("New Transport Route list : ", temp);
           this.setState({

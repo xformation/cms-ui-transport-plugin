@@ -10,6 +10,7 @@ import { withApollo } from 'react-apollo';
 import wsCmsBackendServiceSingletonClient from '../../../wsCmsBackendServiceClient';
 import AddInsurance from './AddInsurance';
 import AddContract from './AddContract';
+import AddVehicleContractPage from './AddVehicleContractPage';
 // import VehicleListPage from './VehicleListPage';
 // import VehicleDetails from './VehicleDetails';
 // import DriverListPage from '../DriverListPage/DriverListPage';
@@ -74,12 +75,12 @@ class vehicle extends React.Component<VehicleProps, any> {
         if(tabNo===2){
             this.getContractList();
         }
-        if(tabNo === 3 ){
-            this.getInsuranceFilterCacheList();
-        }
-        // if(tabNo === 4 ){
-        //     this.getEmployeeFilterCacheList();
+        // if(tabNo === 3 ){
+        //     this.getInsuranceFilterCacheList();
         // }
+        if(tabNo === 3 ){
+            this.getVehicleFilterCacheList();
+        }
         this.setState({
             activeTab: tabNo,
         });
@@ -190,12 +191,17 @@ class vehicle extends React.Component<VehicleProps, any> {
                     
                     </TabPane>
                     <TabPane tabId={3}>
-                        vehicle contract details
+                    {
+                            user !== null && vehicleFilterCacheList !== null?
+                                <AddVehicleContractPage user={user} vehicleFilterCacheList={vehicleFilterCacheList.createVehicleDataCache}/>
+                            :
+                            null
+                        }
                     </TabPane>
                     {/* <TabPane tabId={4}>
                     {
                             user !== null && vehicleFilterCacheList !== null?
-                                <VehicleListPage user={user} vehicleFilterCacheList={vehicleFilterCacheList.createVehicleDataCache}/>
+                                <AddVehicleContractPage user={user} vehicleFilterCacheList={vehicleFilterCacheList.createVehicleDataCache}/>
                             :
                             null
                         }
