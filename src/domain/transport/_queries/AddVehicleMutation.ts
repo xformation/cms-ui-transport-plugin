@@ -13,19 +13,15 @@ export const ADD_VEHICLE_MUTATION = gql`
           capacity
           ownerShip
           dateOfRegistration
+          onBoardingDate
           yearOfManufacturing
           manufacturingCompany
           model
           chasisNo
           rcNo
           status
-          startDate
-          endDate
-          strStartDate
-          strEndDate
           strDateOfRegistration
           strOnBoardingDate
-          strValidTill
           branchId
         }
       }
