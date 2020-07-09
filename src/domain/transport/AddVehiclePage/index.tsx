@@ -75,9 +75,9 @@ class vehicle extends React.Component<VehicleProps, any> {
         if(tabNo===2){
             this.getContractList();
         }
-        // if(tabNo === 3 ){
-        //     this.getInsuranceFilterCacheList();
-        // }
+        if(tabNo === 3 ){
+            this.getInsuranceFilterCacheList();
+        }
         if(tabNo === 3 ){
             this.getVehicleFilterCacheList();
         }
