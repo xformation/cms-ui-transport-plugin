@@ -18,21 +18,19 @@ export const ADD_VEHICLE_DRIVER_MUTATION = gql`
             dateOfRegistration
             yearOfManufacturing
             manufacturingCompany
-            onBoardingDate
             model
             chasisNo
             rcNo
             status
+            onBoardingDate
+            strDateOfRegistration
+            strOnBoardingDate
             branchId
           }
           employee {
             id
             employeeName
             designation
-            joiningDate
-            jobEndDate
-            resignationDate
-            resignationAcceptanceDate
             aadharNo
             panNo
             primaryContactNo

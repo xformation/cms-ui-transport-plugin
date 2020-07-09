@@ -16,12 +16,16 @@ export const ADD_VEHICLE_CONTRACT_MUTATION = gql`
             vehicleType
             capacity
             ownerShip
+            dateOfRegistration
             yearOfManufacturing
             manufacturingCompany
             model
             chasisNo
             rcNo
             status
+            onBoardingDate
+            strDateOfRegistration
+            strOnBoardingDate
             branchId
           }
           contract {
@@ -29,6 +33,10 @@ export const ADD_VEHICLE_CONTRACT_MUTATION = gql`
             vendorName
             typeOfOwnerShip
             durationOfContract
+            startDate
+            endDate
+            strStartDate
+            strEndDate
           }
         }
       }

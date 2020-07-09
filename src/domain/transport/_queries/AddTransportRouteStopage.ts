@@ -12,10 +12,19 @@ export const ADD_TRANSPORTROUTE_STOP_MUTATION = gql`
           transportRoute {
             id
             routeName
+            routeDetails
+            noOfStops
+            routeMapUrl
+            routeFrequency
+            status
           }
           stopage {
             id
             stopageName
+            status
+            strCreatedOn
+            strUpdatedOn
+            branchId
           }
         }
       }
