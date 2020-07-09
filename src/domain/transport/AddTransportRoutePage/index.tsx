@@ -161,6 +161,12 @@ class vehicle extends React.Component<VehicleProps, any> {
                    <NavItem className="cursor-pointer">
                         <NavLink className={`vertical-nav-link ${activeTab === 4? 'side-active' : ''}`} onClick={() => 
                             { this.toggleTab(4); }} >
+                           Route Stopage Details
+                        </NavLink>
+                   </NavItem>
+                   <NavItem className="cursor-pointer">
+                        <NavLink className={`vertical-nav-link ${activeTab === 5? 'side-active' : ''}`} onClick={() => 
+                            { this.toggleTab(5); }} >
                            Vehicle List Page 
                         </NavLink>
                    </NavItem>
@@ -198,6 +204,9 @@ class vehicle extends React.Component<VehicleProps, any> {
                        VehicleDriverLink
                     </TabPane>
                     <TabPane tabId={4}>
+                         Route Stopage Link
+                    </TabPane>
+                    <TabPane tabId={5}>
                          ListPage
                     </TabPane>
                 </TabContent> 
