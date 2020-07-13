@@ -8,6 +8,7 @@ import {
  import wsCmsBackendServiceSingletonClient from '../../../wsCmsBackendServiceClient';
 import AddRoute from './AddRoute';
 import AddStopage from './AddStopage';
+import AddVehicleDriverLink from './AddVehicleDriverLink';
 // import VehicleListPage from './VehicleListPage';
 // import VehicleDetails from './VehicleDetails';
 // import DriverListPage from '../DriverListPage/DriverListPage';
@@ -69,16 +70,19 @@ class vehicle extends React.Component<VehicleProps, any> {
             this.getVehicleFilterCacheList();
         }
         if(tabNo===2){
-            this.getStopageList();
-            // this.getVehicleFilterCacheList();
+            // this.getStopageList();
+            this.getVehicleFilterCacheList();
 
         }
         if(tabNo === 3 ){
             this.getVehicleFilterCacheList();
         }
-        // if(tabNo === 4 ){
-        //     this.getEmployeeFilterCacheList();
-        // }
+        if(tabNo === 4 ){
+            this.getVehicleFilterCacheList();
+        }
+        if(tabNo === 5 ){
+            this.getVehicleFilterCacheList();
+        }
         this.setState({
             activeTab: tabNo,
         });
@@ -201,7 +205,12 @@ class vehicle extends React.Component<VehicleProps, any> {
                         VehicleRouteLink
                     </TabPane>
                     <TabPane tabId={3}>
-                       VehicleDriverLink
+                    {
+                            user !== null && vehicleFilterCacheList !== null?
+                                <AddVehicleDriverLink user={user} vehicleFilterCacheList={vehicleFilterCacheList.createVehicleDataCache}/>
+                            :
+                            null
+                        }
                     </TabPane>
                     <TabPane tabId={4}>
                          Route Stopage Link

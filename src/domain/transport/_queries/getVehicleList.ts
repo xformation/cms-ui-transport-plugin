@@ -15,16 +15,9 @@ query {
       chasisNo
       rcNo
       status
-      startDate
-      endDate
       onBoardingDate
-      validTill
-      strStartDate
-      strEndDate
       strDateOfRegistration
-      strOnBoardingDate
-      strValidTill
-      
+      strOnBoardingDate 
     }
   }
   `;

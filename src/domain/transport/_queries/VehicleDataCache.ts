@@ -55,6 +55,11 @@ export const VEHICLE_DATA_CACHE = gql`
         drivingLicenceNo
         drivingLicenceValidity
       }
+      stopage {
+        id
+        stopageName
+        status
+      }
       vehicleContractLink {
         id
         vehicleId
