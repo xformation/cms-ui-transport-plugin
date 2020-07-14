@@ -71,9 +71,9 @@ class Stopage<T = {[data: string]: any}> extends React.Component<StopageProps, a
     }
     getAddStopageInput(stopageObj: any, modelHeader: any){
         let id = null;
-        // if(modelHeader === "Edit Stopage"){
-        //     id = stopageObj.id;
-        // }
+        if(modelHeader === "Edit Stopage"){
+            id = stopageObj.id;
+        }
         let inputObj = {
             id: id,
             stopageName: stopageObj.stopageName,

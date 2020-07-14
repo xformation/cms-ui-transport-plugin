@@ -272,7 +272,7 @@ class Contract<T = {[data: string]: any}> extends React.Component<ContractProps,
                                     <div>
                                         <label className="gf-form-label b-0 bg-transparent">End Date <span style={{ color: 'red' }}> * </span></label>
                                         <input type="Date" className="fwidth" style={{ width: '250px' }} onChange={this.onChange}  value={contractObj.endDate} placeholder="End date" name="endDate" id="endDate"   />
-                                    </div>
+                                    </div>  
                                  </div>
                                  </div>
                                  </section>

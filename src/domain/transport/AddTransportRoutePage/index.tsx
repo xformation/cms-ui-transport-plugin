@@ -8,7 +8,10 @@ import {
  import wsCmsBackendServiceSingletonClient from '../../../wsCmsBackendServiceClient';
 import AddRoute from './AddRoute';
 import AddStopage from './AddStopage';
+import AddTransportRouteStopage from './AddTransportRouteStopage';
+import AddVehicleRouteLink from './AddVehicleRouteLink';
 import AddVehicleDriverLink from './AddVehicleDriverLink';
+// import AddTransportRouteStopage from './AddTransportRouteStopage';
 // import VehicleListPage from './VehicleListPage';
 // import VehicleDetails from './VehicleDetails';
 // import DriverListPage from '../DriverListPage/DriverListPage';
@@ -24,6 +27,7 @@ class vehicle extends React.Component<VehicleProps, any> {
             user: this.props.user,
             transportRouteList: null,
             stopageList: null,
+            vehicleList: null,
             vehicleFilterCacheList: null,
             insuranceFilterCacheList:null,
             branchId: null,
@@ -72,7 +76,6 @@ class vehicle extends React.Component<VehicleProps, any> {
         if(tabNo===2){
             // this.getStopageList();
             this.getVehicleFilterCacheList();
-
         }
         if(tabNo === 3 ){
             this.getVehicleFilterCacheList();
@@ -159,19 +162,19 @@ class vehicle extends React.Component<VehicleProps, any> {
                     <NavItem className="cursor-pointer">
                         <NavLink className={`vertical-nav-link ${activeTab === 3 ? 'side-active' : ''}`} onClick={() => 
                             { this.toggleTab(3); }} >
-                           Vehicle Driver Details
-                        </NavLink>
-                   </NavItem>
-                   <NavItem className="cursor-pointer">
-                        <NavLink className={`vertical-nav-link ${activeTab === 4? 'side-active' : ''}`} onClick={() => 
-                            { this.toggleTab(4); }} >
                            Route Stopage Details
+                        </NavLink>
+                    </NavItem>
+                    <NavItem className="cursor-pointer">
+                        <NavLink className={`vertical-nav-link ${activeTab === 4 ? 'side-active' : ''}`} onClick={() => 
+                            { this.toggleTab(4); }} >
+                           Vehicle Driver Details
                         </NavLink>
                    </NavItem>
                    <NavItem className="cursor-pointer">
                         <NavLink className={`vertical-nav-link ${activeTab === 5? 'side-active' : ''}`} onClick={() => 
                             { this.toggleTab(5); }} >
-                           Vehicle List Page 
+                           TransportRoute List Page 
                         </NavLink>
                    </NavItem>
                 </Nav>
@@ -194,27 +197,43 @@ class vehicle extends React.Component<VehicleProps, any> {
                     </TabPane>
                     <TabPane tabId={1}>
                     {
+                            user !== null && vehicleFilterCacheList !== null?
+                                <AddStopage user={user} vehicleFilterCacheList={vehicleFilterCacheList.createVehicleDataCache}/>
+                            :
+                            null
+                        }
+                    {/* {
                             user !== null && stopageList !== null && (
                                 <AddStopage user={user} stopageList={stopageList.getStopageList}/>
                             )
-                  
-                        }      
+                        }       */}
                         {/* ADD STOPAGE */}
                     </TabPane>
                     <TabPane tabId={2}>
-                        VehicleRouteLink
-                    </TabPane>
-                    <TabPane tabId={3}>
                     {
                             user !== null && vehicleFilterCacheList !== null?
-                                <AddVehicleDriverLink user={user} vehicleFilterCacheList={vehicleFilterCacheList.createVehicleDataCache}/>
+                                <AddVehicleRouteLink user={user} vehicleFilterCacheList={vehicleFilterCacheList.createVehicleDataCache}/>
                             :
                             null
                         }
                     </TabPane>
-                    <TabPane tabId={4}>
-                         Route Stopage Link
+                 <TabPane tabId={3}>
+                 {
+                            user !== null && vehicleFilterCacheList !== null && (
+                                <AddTransportRouteStopage user={user} vehicleFilterCacheList={vehicleFilterCacheList.createVehicleDataCache}/>
+                            // :
+                            // null
+                            )
+                        }
                     </TabPane>
+                    <TabPane tabId={4}>
+{
+                            user !== null && vehicleFilterCacheList !== null?
+                                <AddVehicleDriverLink user={user} vehicleFilterCacheList={vehicleFilterCacheList.createVehicleDataCache}/>
+                            :
+                            null
+                        }                   
+                         </TabPane>
                     <TabPane tabId={5}>
                          ListPage
                     </TabPane>

@@ -10,6 +10,9 @@ export const GET_TRANSPORT_ROUTE_LIST = gql`
       noOfStops
       routeFrequency
       status
+      createdOn
+      updatedOn
+      branchId
     }
   }
 `;

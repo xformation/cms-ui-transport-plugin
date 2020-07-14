@@ -4,7 +4,7 @@ import { commonFunctions } from '../../_utilites/common.functions';
 import "../../../css/custom.css"
 import {MessageBox} from '../../Message/MessageBox'
 import { withApollo } from 'react-apollo';
-import { ADD_VEHICLE_MUTATION, ADD_ROUTE_MUTATION, ADD_TRANSPORTROUTE_VEHICLE_MUTATION  } from '../_queries';
+import { ADD_ROUTE_MUTATION, ADD_STOPAGE_MUTATION, ADD_TRANSPORTROUTE_STOP_MUTATION  } from '../_queries';
 import moment = require('moment');
 import wsCmsBackendServiceSingletonClient from '../../../wsCmsBackendServiceClient';
 
@@ -13,15 +13,15 @@ export interface VehicleProps extends React.HTMLAttributes<HTMLElement>{
     transportRouteList?: any;
     vehicleFilterCacheList?: any;
     transportRoute: any;
-    vehicle: any;
+    stopage: any;
     onSaveUpdate?: any;
     user?:any;
 }
 
 const ERROR_MESSAGE_MANDATORY_FIELD_MISSING = "Mandatory fields missing";
-const ERROR_MESSAGE_SERVER_SIDE_ERROR = "Due to some error in Transportroutevehicle service, Transportroutevehicle could not be saved. Please check Transportroutevehicle service logs";
-const SUCCESS_MESSAGE_TRANSPORTROUTEVEHICLE_ADDED = "New TransportRouteStopage saved successfully";
-const SUCCESS_MESSAGE_TRANSPORTROUTEVEHICLE_UPDATED = "Transportroutevehicle updated successfully";
+const ERROR_MESSAGE_SERVER_SIDE_ERROR = "Due to some error in Transportroutestopage service, Transportroutestopage could not be saved. Please check Transportroutestopage service logs";
+const SUCCESS_MESSAGE_TRANSPORTROUTESTOPAGE_ADDED = "New TransportRouteStopage saved successfully";
+const SUCCESS_MESSAGE_TRANSPORTROUTESTOPAGE_UPDATED = "Transportroutestopage updated successfully";
 // const ERROR_MESSAGE_INSURANCE_FIELD = "select one insurance for one vehicle only"
 
 class TransportRouteStopageList<T = {[data: string]: any}> extends React.Component<VehicleProps, any> {
@@ -32,13 +32,13 @@ class TransportRouteStopageList<T = {[data: string]: any}> extends React.Compone
             vehicleFilterCacheList: this.props.vehicleFilterCacheList,
             isModalOpen: false,
             transportRouteObj: {
-                vehicle:{
+                stopage:{
                     id:""
                 },
                 transportRoute:{
                     id:""
                 },
-                vehicleId:"",
+                stopageId:"",
                 transportRouteId:"",
             },
             errorMessage: "",
@@ -46,7 +46,7 @@ class TransportRouteStopageList<T = {[data: string]: any}> extends React.Compone
             modelHeader: ""
         };
         this.createTransportRoute = this.createTransportRoute.bind(this);
-        this.createVehicle = this.createVehicle.bind(this);
+        this.createStopage = this.createStopage.bind(this);  
     }
 
   async registerSocket() {
@@ -90,20 +90,20 @@ class TransportRouteStopageList<T = {[data: string]: any}> extends React.Compone
     }
     return transportRouteOptions;
   }
-  createVehicle(vehicle: any) {
-    let vehicleOptions = [
+  createStopage(stopage: any) {
+    let stopageOptions = [
       <option key={0} value="">
-        Select Vehicle
+        Select StopageName 
       </option>,
     ];
-    for (let i = 0; i < vehicle.length; i++) {
-      vehicleOptions.push(
-        <option key={vehicle[i].id} value={vehicle[i].id}>
-          {vehicle[i].vehicleNumber}
+    for (let i = 0; i < stopage.length; i++) {
+        stopageOptions.push(
+        <option key={stopage[i].id} value={stopage[i].id}>
+          {stopage[i].stopageName}
         </option>
       );
     }
-    return vehicleOptions;
+    return stopageOptions;
   }
     onChange = (e: any) => {
         e.preventDefault();
@@ -126,7 +126,7 @@ class TransportRouteStopageList<T = {[data: string]: any}> extends React.Compone
         let input = {
             id: id,
             transportRouteId: transportRouteObj.transportRouteId,
-            vehicleId: transportRouteObj.vehicleId,
+            stopageId: transportRouteObj.stopageId,
         };
         return input;
     }
@@ -138,11 +138,11 @@ class TransportRouteStopageList<T = {[data: string]: any}> extends React.Compone
             errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
             isValid = false;
         }
-        if(obj.vehicleId === undefined || obj.vehicleId === null || obj.vehicleId === ""){
-            commonFunctions.changeTextBoxBorderToError((obj.vehicleId === undefined || obj.vehicleId === null) ? "" : obj.vehicleId, "vehicleId");
-            errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
-            isValid = false;
-        }
+        if(obj.stopageId === undefined || obj.stopageId === null || obj.stopageId === ""){
+          commonFunctions.changeTextBoxBorderToError((obj.stopageId === undefined || obj.stopageId === null) ? "" : obj.stopageId, "stopageId");
+          errorMessage = ERROR_MESSAGE_MANDATORY_FIELD_MISSING;
+          isValid = false;
+      }
         this.setState({
             errorMessage: errorMessage
         });
@@ -155,30 +155,30 @@ class TransportRouteStopageList<T = {[data: string]: any}> extends React.Compone
         let exitCode = 0;
         
         await this.props.client.mutate({
-            mutation: ADD_TRANSPORTROUTE_VEHICLE_MUTATION,
+            mutation: ADD_TRANSPORTROUTE_STOP_MUTATION,
             variables: { 
                 input: inp
             },
         }).then((resp: any) => {
-            console.log("Success in saveTransportRouteVehicleLink Mutation. Exit code : ",resp.data.saveTransportRouteVehicleLink.cmsTransportRouteVehicleLinkVo.exitCode);
-            exitCode = resp.data.saveTransportRouteVehicleLink.cmsTransportRouteVehicleLinkVo.exitCode;
-            let temp = resp.data.saveTransportRouteVehicleLink.cmsTransportRouteVehicleLinkVo.dataList; 
-            console.log("New TransportRouteVehcile list : ", temp);
+            console.log("Success in saveTransportRouteStopageLink Mutation. Exit code : ",resp.data.saveTransportRouteStopageLink.cmsTransportRouteStopageLinkVo.exitCode);
+            exitCode = resp.data.saveTransportRouteStopageLink.cmsTransportRouteStopageLinkVo.exitCode;
+            let temp = resp.data.saveTransportRouteStopageLink.cmsTransportRouteStopageLinkVo.dataList; 
+            console.log("New TransportRouteStopage list : ", temp);
             this.setState({
                 transportRouteList: temp
             });
         }).catch((error: any) => {
             exitCode = 1;
-            console.log('Error in saveTransportRouteVehicleLink : ', error);
+            console.log('Error in saveTransportRouteStopageLink : ', error);
         });
         btn && btn.removeAttribute("disabled");
         
         let errorMessage = "";
         let successMessage = "";
         if(exitCode === 0 ){
-            successMessage = SUCCESS_MESSAGE_TRANSPORTROUTEVEHICLE_ADDED;
+            successMessage = SUCCESS_MESSAGE_TRANSPORTROUTESTOPAGE_ADDED;
             if(inp.id !== null){
-                successMessage = SUCCESS_MESSAGE_TRANSPORTROUTEVEHICLE_UPDATED;
+                successMessage = SUCCESS_MESSAGE_TRANSPORTROUTESTOPAGE_UPDATED;
             }
         }else {
             errorMessage = ERROR_MESSAGE_SERVER_SIDE_ERROR;
@@ -214,23 +214,15 @@ class TransportRouteStopageList<T = {[data: string]: any}> extends React.Compone
                                     : null
                             }
                             <div className="bg-heading px-1 dfinline m-b-1">
-                             <h5 className="mtf-8 dark-gray">TransportRoute Vehicle Details</h5>
+                             <h5 className="mtf-8 dark-gray">TransportRoute Stopage Details</h5>
                             </div>
                             <div id="headerRowDiv" className="b-1 h5-fee-bg j-between">
-                            <div className="m-1 fwidth">Add TransportRoute Vehicle Data</div>
+                            <div className="m-1 fwidth">Add TransportRoute Stopage Data</div>
                             <div id="saveRouteCatDiv" className="fee-flex">
-                            <button className="btn btn-primary mr-1" id="btnSaveFeeCategory" name="btnSaveFeeCategory" onClick={this.addTransportRoute} style={{ width: '140px' }}>Add Route Vehicle</button>
+                            <button className="btn btn-primary mr-1" id="btnSaveFeeCategory" name="btnSaveFeeCategory" onClick={this.addTransportRoute} style={{ width: '140px' }}>Add Route Stopage</button>
                             {/* <button className="btn btn-primary mr-1" id="btnUpdateFeeCategory" name="btnUpdateFeeCategory" onClick={this.addLibrary} style={{ width: '170px' }}>Update Book</button> */}
                             </div>
                             </div>
-                            <div className="mdflex modal-fwidth"> 
-                                  <div className="fwidth-modal-text m-r-1">
-                                <label htmlFor="">Vehicle<span style={{ color: 'red' }}> * </span></label>
-                                 <select required name="vehicleId" id="vehicleId" onChange={this.onChange}  value={transportRouteObj.vehicleId} className="gf-form-label b-0 bg-transparent">
-                                    {this.createVehicle(vehicleFilterCacheList.vehicle)}
-                                </select>
-                                 </div>
-                                 </div>
                                 <div className="mdflex modal-fwidth"> 
                                   <div className="fwidth-modal-text m-r-1">
                                 <label htmlFor="">TransportRoute<span style={{ color: 'red' }}> * </span></label>
@@ -239,7 +231,14 @@ class TransportRouteStopageList<T = {[data: string]: any}> extends React.Compone
                                 </select>
                                  </div>
                                  </div>
-                               
+                                <div className="mdflex modal-fwidth"> 
+                                  <div className="fwidth-modal-text m-r-1">
+                                <label htmlFor="">Stopage<span style={{ color: 'red' }}> * </span></label>
+                                 <select required name="stopageId" id="stopageId" onChange={this.onChange}  value={transportRouteObj.stopageId} className="gf-form-label b-0 bg-transparent">
+                                    {this.createStopage(vehicleFilterCacheList.stopage)}
+                                </select>
+                                 </div>
+                                 </div> 
                           </section>
  
         );
