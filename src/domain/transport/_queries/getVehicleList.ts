@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
 
-export const GET_VEHICLE_LIST = gql`\
-query {
-    getVehicleList {
+export const GET_VEHICLE_LIST = gql`
+  mutation getVehicleList($filter: VehicleListFilterInput!) {
+    getVehicleList(filter: $filter) {
       id
       vehicleNumber
       vehicleType
@@ -15,9 +15,10 @@ query {
       chasisNo
       rcNo
       status
-      onBoardingDate
       strDateOfRegistration
-      strOnBoardingDate 
+      onBoardingDate
+      strOnBoardingDate
+      branchId
     }
   }
-  `;
+`;
