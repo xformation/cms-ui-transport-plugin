@@ -34,12 +34,12 @@ class TransportRouteStopageList<T = {[data: string]: any}> extends React.Compone
             vehicleFilterCacheList: this.props.vehicleFilterCacheList,
             isModalOpen: false,
             transportRouteObj: {
-                // stopage:{
-                //     id:""
-                // },
-                // transportRoute:{
-                //     id:""
-                // },
+                stopage:{
+                    id:""
+                },
+                transportRoute:{
+                    id:""
+                },
                 // routeName: "",
                 // routeDetails: "",
                 // routeMapUrl: "",
@@ -123,6 +123,7 @@ class TransportRouteStopageList<T = {[data: string]: any}> extends React.Compone
   }
   createRouteStopageRow(objAry: any) {
     const {source} = this.state;
+    console.log("TRANSPORT R---->> ", objAry);
       console.log("createTransportRouteStopageAddRow() - RouteStopage list on AddTRansportRouteStopage page:  ", objAry);
       if(objAry === undefined || objAry === null) {
         return;
@@ -134,13 +135,13 @@ class TransportRouteStopageList<T = {[data: string]: any}> extends React.Compone
         retVal.push(
             <tr>
           <td>{transportRouteObj.id}</td>
-          <td>{transportRouteObj.routeName}</td>
-          <td>{transportRouteObj.routeDetails}</td>
-          <td>{transportRouteObj.noOfStops}</td>
-          <td>{transportRouteObj.routeMapUrl}</td>
-          <td>{transportRouteObj.routeFrequency}</td>
-          <td>{transportRouteObj.status}</td>
-          <td>{transportRouteObj.stopageName}</td>
+          <td>{transportRouteObj.transportRoute.routeName}</td>
+          <td>{transportRouteObj.transportRoute.routeDetails}</td>
+          <td>{transportRouteObj.transportRoute.noOfStops}</td>
+          <td>{transportRouteObj.transportRoute.routeMapUrl}</td>
+          <td>{transportRouteObj.transportRoute.routeFrequency}</td>
+          <td>{transportRouteObj.transportRoute.status}</td>
+          <td>{transportRouteObj.stopage.stopageName}</td>
           <td>      
           <button className="btn btn-primary" onClick={e => this.showDetail(e, true, transportRouteObj, "Edit RouteStopage")}>Edit</button>
 
@@ -446,13 +447,15 @@ showModal(e: any, bShow: boolean, headerLabel: any) {
                 // transportRouteObj.feeCategoryData.length > 0 && this.state.add === true && this.state.update === false && (
                 //   this.createRouteStopageRow(transportRouteObj.transportRouteObj)
                 // )
-                transportRouteObj.transportRouteStopageData.length > 0 && this.state.add === true && this.state.update === false && (
-               this.createRouteStopageRow(transportRouteObj.transportRouteObj)
-
+                // (transportRouteObj !== null && transportRouteObj !== undefined || transportRouteObj.transportRouteStopageData !== null && transportRouteObj.transportRouteStopageData !== undefined) &&
+                // ( transportRouteObj.transportRouteStopageData.length > 0 && this.state.add === true && this.state.update === false && (
+                (this.state.List !== null && this.state.List !== undefined) &&
+                this.createRouteStopageRow(this.state.List)
+// )
                     // this.createRouteStopageRow(this.state.transportRouteObj.mutateResult)
                     // this.createRouteStopageRow(list)
 
-                  )
+                //   )
               }
               
            
