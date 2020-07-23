@@ -40,13 +40,13 @@ class TransportRouteStopageList<T = {[data: string]: any}> extends React.Compone
                 transportRoute:{
                     id:""
                 },
-                // routeName: "",
-                // routeDetails: "",
-                // routeMapUrl: "",
-                // noOfStops: "",
-                // routeFrequency: "", 
-                // status: "",
-                // stopageName: "", 
+                routeName: "",
+                routeDetails: "",
+                routeMapUrl: "",    
+                noOfStops: "",
+                routeFrequency: "", 
+                status: "",
+                stopageName: "", 
                 stopageId:"",
                 transportRouteId:"",
                 transportRouteStopageData: [],
@@ -135,13 +135,13 @@ class TransportRouteStopageList<T = {[data: string]: any}> extends React.Compone
         retVal.push(
             <tr>
           <td>{transportRouteObj.id}</td>
-          <td>{transportRouteObj.transportRoute.routeName}</td>
-          <td>{transportRouteObj.transportRoute.routeDetails}</td>
-          <td>{transportRouteObj.transportRoute.noOfStops}</td>
-          <td>{transportRouteObj.transportRoute.routeMapUrl}</td>
-          <td>{transportRouteObj.transportRoute.routeFrequency}</td>
-          <td>{transportRouteObj.transportRoute.status}</td>
-          <td>{transportRouteObj.stopage.stopageName}</td>
+          <td>{transportRouteObj.routeName}</td>
+          <td>{transportRouteObj.routeDetails}</td>
+          <td>{transportRouteObj.noOfStops}</td>
+          <td>{transportRouteObj.routeMapUrl}</td>
+          <td>{transportRouteObj.routeFrequency}</td>
+          <td>{transportRouteObj.status}</td>
+          <td>{transportRouteObj.stopageName}</td>
           <td>      
           <button className="btn btn-primary" onClick={e => this.showDetail(e, true, transportRouteObj, "Edit RouteStopage")}>Edit</button>
 
@@ -432,12 +432,12 @@ showModal(e: any, bShow: boolean, headerLabel: any) {
               <tr>
                 <th>Id</th>
                 <th>Route Name</th>
-                <th>RouteDetails</th>
+                <th>Route Details</th>
                 <th>RouteMapUrl</th>
                 <th>NoOfStops</th>
-                <th>RouteFrequency</th>
+                <th>Route Frequency</th>
                 <th>Status</th>
-                <th>StopageName</th>   
+                <th>Stopage Name</th>   
                 <th>Edit</th>
               </tr>
             </thead>

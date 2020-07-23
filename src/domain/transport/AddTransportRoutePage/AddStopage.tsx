@@ -186,6 +186,14 @@ class Stopage<T = {[data: string]: any}> extends React.Component<StopageProps, a
                                         <input type="text" required className="fwidth" style={{ width: '250px' }} onChange={this.onChange}  value={stopageObj.stopageName} placeholder="stopageName" name="stopageName" id="stopageName" />
                                     </div>  
                                     <div>
+                                        <label className="gf-form-label b-0 bg-transparent">CreatedOn <span style={{ color: 'red' }}> * </span></label>
+                                        <input type="Date" className="fwidth" style={{ width: '250px' }} onChange={this.onChange}  value={stopageObj.createdOn} placeholder="createdOn" name="createdOn" id="createdOn"  />
+                                    </div>
+                                    <div>
+                                        <label className="gf-form-label b-0 bg-transparent">UpdatedOn <span style={{ color: 'red' }}> * </span></label>
+                                        <input type="Date" className="fwidth" style={{ width: '250px' }} onChange={this.onChange}  value={stopageObj.updatedOn} placeholder="updatedOn" name="updatedOn" id="updatedOn"   />
+                                    </div>
+                                    <div>
                                 <label className="gf-form-label b-0 bg-transparent">Status<span style={{ color: 'red' }}> * </span></label>
                                 <select name="status" id="status" onChange={this.onChange} value={stopageObj.status} className="fwidth" style={{ width: '250px' }}>
                                 <option key={""} value={""}>Select Status</option>
@@ -194,14 +202,6 @@ class Stopage<T = {[data: string]: any}> extends React.Component<StopageProps, a
                                 <option key={"DRAFT"} value={"DRAFT"}>DRAFT</option>
                                 </select>
                                 </div>
-                                    <div>
-                                        <label className="gf-form-label b-0 bg-transparent">CreatedOn <span style={{ color: 'red' }}> * </span></label>
-                                        <input type="Date" className="fwidth" style={{ width: '250px' }} onChange={this.onChange}  value={stopageObj.createdOn} placeholder="createdOn" name="createdOn" id="createdOn"  />
-                                    </div>
-                                    <div>
-                                        <label className="gf-form-label b-0 bg-transparent">UpdatedOn <span style={{ color: 'red' }}> * </span></label>
-                                        <input type="Date" className="fwidth" style={{ width: '250px' }} onChange={this.onChange}  value={stopageObj.updatedOn} placeholder="updatedOn" name="updatedOn" id="updatedOn"   />
-                                    </div>
                                  </div>
                                  </div>
                                  </section>

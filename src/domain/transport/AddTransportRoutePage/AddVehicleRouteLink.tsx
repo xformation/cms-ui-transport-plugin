@@ -223,23 +223,26 @@ class TransportRouteStopageList<T = {[data: string]: any}> extends React.Compone
                             {/* <button className="btn btn-primary mr-1" id="btnUpdateFeeCategory" name="btnUpdateFeeCategory" onClick={this.addLibrary} style={{ width: '170px' }}>Update Book</button> */}
                             </div>
                             </div>
+                            <div id="feeCategoryDiv" className="b-1">
+          <div className="b1 row m-1 j-between">
                             <div className="mdflex modal-fwidth"> 
-                                  <div className="fwidth-modal-text m-r-1">
-                                <label htmlFor="">Vehicle<span style={{ color: 'red' }}> * </span></label>
+                            <div className="fwidth-modal-text m-r-1">
+                            <label htmlFor="">Vehicle<span style={{ color: 'red' }}> * </span></label>
                                  <select required name="vehicleId" id="vehicleId" onChange={this.onChange}  value={transportRouteObj.vehicleId} className="gf-form-label b-0 bg-transparent">
                                     {this.createVehicle(vehicleFilterCacheList.vehicle)}
                                 </select>
-                                 </div>
-                                 </div>
-                                <div className="mdflex modal-fwidth"> 
-                                  <div className="fwidth-modal-text m-r-1">
-                                <label htmlFor="">TransportRoute<span style={{ color: 'red' }}> * </span></label>
+                            </div>
+                            <div className="fwidth-modal-text m-r-1">
+                            <label htmlFor="">TransportRoute<span style={{ color: 'red' }}> * </span></label>
                                  <select required name="transportRouteId" id="transportRouteId" onChange={this.onChange}  value={transportRouteObj.transportRouteId} className="gf-form-label b-0 bg-transparent">
                                     {this.createTransportRoute(vehicleFilterCacheList.transportRoute)}
                                 </select>
-                                 </div>
-                                 </div>
-                               
+                            </div>
+                            </div> 
+                            </div>
+          <div className="b1 row m-1">
+          </div> 
+                                 </div>  
                           </section>
  
         );
