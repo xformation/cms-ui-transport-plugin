@@ -4,13 +4,14 @@ import { commonFunctions } from '../../_utilites/common.functions';
 import "../../../css/custom.css"
 import {MessageBox} from '../../Message/MessageBox'
 import { withApollo } from 'react-apollo';
-import { ADD_ROUTE_MUTATION, ADD_STOPAGE_MUTATION, ADD_TRANSPORTROUTE_STOP_MUTATION, GET_TRANSPORT_ROUTE_LIST, GET_TRANSPORT_ROUTE_STOPAGE_LIST  } from '../_queries';
+import { ADD_TRANSPORTROUTE_STOP_MUTATION,  GET_TRANSPORT_ROUTE_STOPAGE_LIST  } from '../_queries';
 import moment = require('moment');
 import wsCmsBackendServiceSingletonClient from '../../../wsCmsBackendServiceClient';
 
 export interface VehicleProps extends React.HTMLAttributes<HTMLElement>{
     [data: string]: any;
     transportRouteList?: any;
+    transportRouteStopageList?: any;
     vehicleFilterCacheList?: any;
     transportRoute: any;
     stopage: any;
@@ -30,6 +31,7 @@ class TransportRouteStopageList<T = {[data: string]: any}> extends React.Compone
         this.state = {
             list: this.props.data,
             transportRouteList: this.props.transportRouteList,
+            transportRouteStopageList: this.props.transportRouteStopageList,
             stopageList: this.props.stopaeList,
             vehicleFilterCacheList: this.props.vehicleFilterCacheList,
             isModalOpen: false,
@@ -135,13 +137,13 @@ class TransportRouteStopageList<T = {[data: string]: any}> extends React.Compone
         retVal.push(
             <tr>
           <td>{transportRouteObj.id}</td>
-          <td>{transportRouteObj.routeName}</td>
-          <td>{transportRouteObj.routeDetails}</td>
-          <td>{transportRouteObj.noOfStops}</td>
-          <td>{transportRouteObj.routeMapUrl}</td>
-          <td>{transportRouteObj.routeFrequency}</td>
-          <td>{transportRouteObj.status}</td>
-          <td>{transportRouteObj.stopageName}</td>
+          <td>{transportRouteObj.transportRoute.routeName}</td>
+          <td>{transportRouteObj.transportRoute.routeDetails}</td>
+          <td>{transportRouteObj.transportRoute.noOfStops}</td>
+          <td>{transportRouteObj.transportRoute.routeMapUrl}</td>
+          <td>{transportRouteObj.transportRoute.routeFrequency}</td>
+          <td>{transportRouteObj.transportRoute.status}</td>
+          <td>{transportRouteObj.stopage.stopageName}</td>
           <td>      
           <button className="btn btn-primary" onClick={e => this.showDetail(e, true, transportRouteObj, "Edit RouteStopage")}>Edit</button>
 
@@ -301,7 +303,7 @@ showModal(e: any, bShow: boolean, headerLabel: any) {
             let temp = resp.data.saveTransportRouteStopageLink.cmsTransportRouteStopageLinkVo.dataList; 
             console.log("New TransportRouteStopage list : ", temp);
             this.setState({
-                List: temp
+              transportRouteStopageList: temp
             });
         }).catch((error: any) => {
             exitCode = 1;
@@ -380,7 +382,7 @@ showModal(e: any, bShow: boolean, headerLabel: any) {
     //     return retVal;
     //   }
     render() {
-        const {list,transportRouteList,stopageList ,vehicleFilterCacheList,  isModalOpen, transportRouteObj, modelHeader, errorMessage, successMessage} = this.state;
+        const {transportRouteStopageList,stopageList ,vehicleFilterCacheList,  isModalOpen, transportRouteObj, modelHeader, errorMessage, successMessage} = this.state;
         return (
                             <section  className="plugin-bg-white p-1">
                             {
@@ -443,24 +445,9 @@ showModal(e: any, bShow: boolean, headerLabel: any) {
             </thead>
 
             <tbody>
-              {
-                // transportRouteObj.feeCategoryData.length > 0 && this.state.add === true && this.state.update === false && (
-                //   this.createRouteStopageRow(transportRouteObj.transportRouteObj)
-                // )
-                // (transportRouteObj !== null && transportRouteObj !== undefined || transportRouteObj.transportRouteStopageData !== null && transportRouteObj.transportRouteStopageData !== undefined) &&
-                // ( transportRouteObj.transportRouteStopageData.length > 0 && this.state.add === true && this.state.update === false && (
-                (this.state.List !== null && this.state.List !== undefined) &&
-                this.createRouteStopageRow(this.state.List)
-// )
-                    // this.createRouteStopageRow(this.state.transportRouteObj.mutateResult)
-                    // this.createRouteStopageRow(list)
-
-                //   )
-              }
-              
-           
-            </tbody>
-          </table>
+               { this.createRouteStopageRow(transportRouteStopageList) }
+            </tbody> 
+           </table>
           {/* {
               this.createNoRecordMessage(this.state.transportRouteObj.mutateResult)
             } */}

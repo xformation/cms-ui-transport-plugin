@@ -2,7 +2,7 @@ import * as React from 'react';
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
 import '../../../css/college-settings.css';
 import {
-    VEHICLE_DATA_CACHE,INSURANCE_DATA_CACHE,GET_TRANSPORT_ROUTE_LIST, GET_STOPAGE_LIST
+    VEHICLE_DATA_CACHE,INSURANCE_DATA_CACHE,GET_TRANSPORT_ROUTE_LIST, GET_STOPAGE_LIST,GET_TRANSPORT_ROUTE_STOPAGE_LIST
 } from '../_queries';
  import { withApollo } from 'react-apollo';
  import wsCmsBackendServiceSingletonClient from '../../../wsCmsBackendServiceClient';
@@ -30,6 +30,7 @@ class vehicle extends React.Component<VehicleProps, any> {
             vehicleList: null,
             vehicleFilterCacheList: null,
             insuranceFilterCacheList:null,
+            transportRouteStopageList: null,
             branchId: null,
             academicYearId: null,
             departmentId: null,
@@ -39,6 +40,7 @@ class vehicle extends React.Component<VehicleProps, any> {
         this.getVehicleFilterCacheList = this.getVehicleFilterCacheList.bind(this);
         this.getTransportRouteList = this.getTransportRouteList.bind(this);
         this.getStopageList = this.getStopageList.bind(this);
+        this.getTransportRouteStopageList = this.getTransportRouteStopageList.bind(this);
         // this.getInsuranceFilterCacheList = this.getInsuranceFilterCacheList.bind(this);
     }
     
@@ -79,6 +81,7 @@ class vehicle extends React.Component<VehicleProps, any> {
         }
         if(tabNo === 3 ){
             this.getVehicleFilterCacheList();
+            this.getTransportRouteStopageList();
         }
         if(tabNo === 4 ){
             this.getVehicleFilterCacheList();
@@ -100,6 +103,15 @@ class vehicle extends React.Component<VehicleProps, any> {
           this.setState({
             stopageList: data,
           });
+    }
+    async getTransportRouteStopageList(){
+        const { data } = await this.props.client.query({
+            query: GET_TRANSPORT_ROUTE_STOPAGE_LIST,
+             fetchPolicy: 'no-cache'
+        })
+        this.setState({
+            transportRouteStopageList: data
+        });
     }
     async getTransportRouteList(){
         const {data} = await this.props.client.query({
@@ -137,7 +149,7 @@ class vehicle extends React.Component<VehicleProps, any> {
         });
       }
     render() {
-        const { activeTab,stopageList,vehicleFilterCacheList, transportRouteList,insuranceFilterCacheList,user } = this.state;
+        const { activeTab,stopageList,vehicleFilterCacheList, transportRouteStopageList,transportRouteList,insuranceFilterCacheList,user } = this.state;
         return (
             <section className="tab-container row vertical-tab-container">
                  <Nav tabs className="pl-3 pl-3 mb-4 mt-4 col-sm-2">
@@ -219,8 +231,8 @@ class vehicle extends React.Component<VehicleProps, any> {
                     </TabPane>
                  <TabPane tabId={3}>
                  {
-                            user !== null && vehicleFilterCacheList !== null && (
-                                <AddTransportRouteStopage user={user} vehicleFilterCacheList={vehicleFilterCacheList.createVehicleDataCache}/>
+                            user !== null && vehicleFilterCacheList !== null && transportRouteStopageList !== null &&(
+                                <AddTransportRouteStopage user={user} vehicleFilterCacheList={vehicleFilterCacheList.createVehicleDataCache} transportRouteStopageList={transportRouteStopageList.getTransportRouteStopageList}/>
                             // :
                             // null
                             )
