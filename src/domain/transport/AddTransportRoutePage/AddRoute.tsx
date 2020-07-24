@@ -196,27 +196,75 @@ const {trList, isModalOpen, trObj, modelHeader, errorMessage, successMessage} = 
           </div>
         </div>
         <div id="feeCategoryDiv" className="b-1">
-         <div className="b1 row m-1 j-between">
+        <div className="form-grid">
            <div>
-            <label className="gf-form-label b-0 bg-transparent">Route Name <span style={{ color: 'red' }}> * </span></label>
-            <input type="text" required className="fwidth" style={{ width: '250px' }} onChange={this.onChange}  value={trObj.routeName} placeholder="routeName" name="routeName" id="routeName"/>
+            <label htmlFor="">
+            {/* className="gf-form-label b-0 bg-transparent"> */}
+                Route Name <span style={{ color: 'red' }}> * </span>
+                </label>
+            <input type="text" 
+            required className="gf-form-input fwidth" 
+            maxLength={255}  
+            onChange={this.onChange}  
+            value={trObj.routeName} 
+            placeholder="routeName" 
+            name="routeName" 
+            id="routeName"/>
            </div>
            <div>
-             <label className="gf-form-label b-0 bg-transparent">Route Details</label>
-             <input type="text"  className="fwidth" style={{ width: '250px' }} onChange={this.onChange}  value={trObj.routeDetails} placeholder="routeDetails" name="routeDetails" id="routeDetails"/>
+             <label htmlFor="">
+             {/* className="gf-form-label b-0 bg-transparent"> */}
+                 Route Details<span style={{ color: 'red' }}> * </span>
+                 </label>
+             <input type="text"  
+             className="gf-form-input fwidth" 
+             maxLength={255}  
+             onChange={this.onChange}  
+             value={trObj.routeDetails} 
+             placeholder="routeDetails" 
+             name="routeDetails" 
+             id="routeDetails"/>
            </div>
            <div>
-             <label className="gf-form-label b-0 bg-transparent">RouteMapUrl</label>
-             <input type="text"  className="fwidth" style={{ width: '250px' }} onChange={this.onChange}  value={trObj.routeMapUrl} placeholder="routeMapUrl" name="routeMapUrl" id="routeMapUrl"/>
+             <label htmlFor="">
+             {/* className="gf-form-label b-0 bg-transparent"> */}
+                 RouteMapUrl <span style={{ color: 'red' }}> * </span>
+                 </label>
+             <input type="text"  
+             className="gf-form-input fwidth" 
+             maxLength={255}  
+             onChange={this.onChange}  
+             value={trObj.routeMapUrl} 
+             placeholder="routeMapUrl" 
+             name="routeMapUrl" 
+             id="routeMapUrl"/>
            </div>
            <div>
-             <label className="gf-form-label b-0 bg-transparent">NoOfStops<span style={{ color: 'red' }}> * </span></label>
-             <input type="text" required className="fwidth" style={{ width: '250px' }} onChange={this.onChange}  value={trObj.noOfStops} placeholder="noOfStops" name="noOfStops" id="noOfStops"/>
+             <label htmlFor="">
+             {/* className="gf-form-label b-0 bg-transparent"> */}
+                 NoOfStops<span style={{ color: 'red' }}> * </span>
+                 </label>
+             <input type="text" 
+             required className="gf-form-input fwidth" 
+             maxLength={255}  
+             onChange={this.onChange}  
+             value={trObj.noOfStops} 
+             placeholder="noOfStops" 
+             name="noOfStops" 
+             id="noOfStops"/>
            </div>
 
            <div>
-                        <label className="gf-form-label b-0 bg-transparent">Route Frequency<span style={{ color: 'red' }}> * </span></label>
-                         <select name="routeFrequency" id="routeFrequency" onChange={this.onChange} value={trObj.routeFrequency} required className="fwidth" style={{ width: '250px' }}>
+                        <label htmlFor="">
+                        {/* className="gf-form-label b-0 bg-transparent"> */}
+                            Route Frequency<span style={{ color: 'red' }}> * </span>
+                            </label>
+                         <select name="routeFrequency" 
+                         id="routeFrequency" 
+                         onChange={this.onChange} 
+                         value={trObj.routeFrequency} 
+                         required className="gf-form-input fwidth" 
+                         >
                                 <option key={""} value={""}>Select Route Frequency</option>
                                 <option key={"MORNINGPICKUP"} value={"MORNINGPICKUP"}>MORNINGPICKUP</option>
                                <option key={"AFTERNOONDROPANDPICKUP"} value={"AFTERNOONDROPANDPICKUP"}>AFTERNOONDROPANDPICKUP</option>
@@ -226,8 +274,16 @@ const {trList, isModalOpen, trObj, modelHeader, errorMessage, successMessage} = 
                          </select>
                          </div> 
            <div>
-                        <label className="gf-form-label b-0 bg-transparent">Status</label>
-                        <select name="status" id="status" onChange={this.onChange} value={trObj.status} className="fwidth" style={{ width: '250px' }}>
+                        <label htmlFor="">
+                        {/* className="gf-form-label b-0 bg-transparent"> */}
+                            Status<span style={{ color: 'red' }}> * </span>
+                            </label>
+                        <select name="status" 
+                        id="status" 
+                        onChange={this.onChange} 
+                        value={trObj.status} 
+                        className="gf-form-input fwidth" 
+                        >
                                 <option key={""} value={""}>Select Status</option>
                                  <option key={"ACTIVE"} value={"ACTIVE"}>ACTIVE</option>
                                 <option key={"DEACTIVE"} value={"DEACTIVE"}>DEACTIVE</option>

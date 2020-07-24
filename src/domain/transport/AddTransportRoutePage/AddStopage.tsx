@@ -179,23 +179,60 @@ class Stopage<T = {[data: string]: any}> extends React.Component<StopageProps, a
                                 </div>
                                 </div>
                                 <div id="feeCategoryDiv" className="b-1">
-                                <div className="b1 row m-1 j-between">
+                                <div className="form-grid">
                                 
                                 <div>
-                                        <label className="gf-form-label b-0 bg-transparent">Stopage Name</label>
-                                        <input type="text" required className="fwidth" style={{ width: '250px' }} onChange={this.onChange}  value={stopageObj.stopageName} placeholder="stopageName" name="stopageName" id="stopageName" />
+                                        <label htmlFor="">
+                                        {/* className="gf-form-label b-0 bg-transparent"> */}
+                                            Stopage Name</label>
+                                        <input type="text" 
+                                        required className="gf-form-input fwidth" 
+                                        maxLength={255}  
+                                        onChange={this.onChange}  
+                                        value={stopageObj.stopageName} 
+                                        placeholder="stopageName" 
+                                        name="stopageName" 
+                                        id="stopageName" />
                                     </div>  
                                     <div>
-                                        <label className="gf-form-label b-0 bg-transparent">CreatedOn <span style={{ color: 'red' }}> * </span></label>
-                                        <input type="Date" className="fwidth" style={{ width: '250px' }} onChange={this.onChange}  value={stopageObj.createdOn} placeholder="createdOn" name="createdOn" id="createdOn"  />
+                                        <label htmlFor="">
+                                        {/* className="gf-form-label b-0 bg-transparent"> */}
+                                            CreatedOn <span style={{ color: 'red' }}> * </span>
+                                            </label>
+                                        <input type="Date" 
+                                        className="gf-form-input fwidth" 
+                                        maxLength={255}  
+                                        onChange={this.onChange}  
+                                        value={stopageObj.createdOn} 
+                                        placeholder="createdOn" 
+                                        name="createdOn" 
+                                        id="createdOn"  />
                                     </div>
                                     <div>
-                                        <label className="gf-form-label b-0 bg-transparent">UpdatedOn <span style={{ color: 'red' }}> * </span></label>
-                                        <input type="Date" className="fwidth" style={{ width: '250px' }} onChange={this.onChange}  value={stopageObj.updatedOn} placeholder="updatedOn" name="updatedOn" id="updatedOn"   />
+                                        <label htmlFor="">
+                                        {/* className="gf-form-label b-0 bg-transparent"> */}
+                                            UpdatedOn <span style={{ color: 'red' }}> * </span>
+                                            </label>
+                                        <input type="Date" 
+                                        className="gf-form-input fwidth" 
+                                        maxLength={255}  
+                                        onChange={this.onChange}  
+                                        value={stopageObj.updatedOn} 
+                                        placeholder="updatedOn" 
+                                        name="updatedOn" 
+                                        id="updatedOn"   />
                                     </div>
                                     <div>
-                                <label className="gf-form-label b-0 bg-transparent">Status<span style={{ color: 'red' }}> * </span></label>
-                                <select name="status" id="status" onChange={this.onChange} value={stopageObj.status} className="fwidth" style={{ width: '250px' }}>
+                                <label htmlFor="">
+                                {/* className="gf-form-label b-0 bg-transparent"> */}
+                                    Status<span style={{ color: 'red' }}> * </span>
+                                    </label>
+                                <select name="status" 
+                                id="status" 
+                                onChange={this.onChange} 
+                                value={stopageObj.status} 
+                                className="gf-form-input fwidth" 
+                                >
                                 <option key={""} value={""}>Select Status</option>
                                  <option key={"ACTIVE"} value={"ACTIVE"}>ACTIVE</option>
                                 <option key={"DEACTIVE"} value={"DEACTIVE"}>DEACTIVE</option>

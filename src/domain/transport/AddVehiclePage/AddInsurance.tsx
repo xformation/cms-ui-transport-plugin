@@ -267,23 +267,46 @@ class Insurance<T = {[data: string]: any}> extends React.Component<InsuranceProp
                                 </div>
                                 </div>
                                 <div id="feeCategoryDiv" className="b-1">
-                                <div className="b1 row m-1 j-between">
+                                <div className="form-grid">
                                 
                                 <div >
-                                <label htmlFor="">Vehicle<span style={{ color: 'red' }}> * </span></label>
-                                 <select required name="vehicleId" id="vehicleId" onChange={this.onChange}  value={insuranceObj.vehicleId} className="gf-form-label b-0 bg-transparent">
-                                    {this.createVehicle(insuranceFilterCacheList.vehicle)}
+                                <label htmlFor="">
+                                    Vehicle<span style={{ color: 'red' }}> * </span>
+                                    </label>
+                                 <select required name="vehicleId" 
+                                 id="vehicleId" 
+                                 onChange={this.onChange}  
+                                 value={insuranceObj.vehicleId} 
+                                 className="gf-form-input fwidth">
+                                {this.createVehicle(insuranceFilterCacheList.vehicle)}
                                 </select>
                                 </div>
                                 
                                 <div>
-                                        <label className="gf-form-label b-0 bg-transparent">Insurance Company</label>
-                                        <input type="text" required className="fwidth" style={{ width: '250px' }} onChange={this.onChange}  value={insuranceObj.insuranceCompany} placeholder="insuranceCompany" name="insuranceCompany" id="insuranceCompany" />
+                                <label htmlFor="">
+                                        {/* className="gf-form-label b-0 bg-transparent"> */}
+                                            Insurance Company
+                                            </label>
+                                        <input type="text" 
+                                        required className="gf-form-input fwidth" 
+                                        maxLength={255} 
+                                        onChange={this.onChange}  
+                                        value={insuranceObj.insuranceCompany} 
+                                        placeholder="insuranceCompany" 
+                                        name="insuranceCompany" 
+                                        id="insuranceCompany" />
                                     </div> 
 
                                     <div>
-                                        <label className="gf-form-label b-0 bg-transparent">TypeOfInsurance<span style={{ color: 'red' }}> * </span></label>
-                                        <select name="typeOfInsurance" id="typeOfInsurance" onChange={this.onChange} value={insuranceObj.typeOfInsurance} className="gf-form-input">
+                                        <label htmlFor="">
+                                        {/* className="gf-form-label b-0 bg-transparent"> */}
+                                        TypeOfInsurance<span style={{ color: 'red' }}> * </span>
+                                        </label>
+                                        <select name="typeOfInsurance" 
+                                        id="typeOfInsurance" 
+                                        onChange={this.onChange} 
+                                        value={insuranceObj.typeOfInsurance} 
+                                        className="gf-form-input fwidth">
                                             <option key={""} value={""}>Select typeOfInsurance</option>
                                             <option key={"LIABILITY"} value={"LIABILITY"}>LIABILITY</option>
                                             <option key={"COLLISION"} value={"COLLISION"}>COLLISION</option>
@@ -292,13 +315,33 @@ class Insurance<T = {[data: string]: any}> extends React.Component<InsuranceProp
                                     </div>
 
                                     <div>
-                                        <label className="gf-form-label b-0 bg-transparent">DateOfInsurance <span style={{ color: 'red' }}> * </span></label>
-                                        <input type="Date" className="fwidth" style={{ width: '250px' }} onChange={this.onChange}  value={insuranceObj.dateOfInsurance} placeholder="dateOfInsurance" name="dateOfInsurance" id="dateOfInsurance"/>
+                                        <label htmlFor="">
+                                        {/* className="gf-form-label b-0 bg-transparent"> */}
+                                            DateOfInsurance <span style={{ color: 'red' }}> * </span>
+                                            </label>
+                                        <input type="Date" 
+                                        className="gf-form-input fwidth" 
+                                        maxLength={255} 
+                                        onChange={this.onChange}  
+                                        value={insuranceObj.dateOfInsurance} 
+                                        placeholder="dateOfInsurance" 
+                                        name="dateOfInsurance" 
+                                        id="dateOfInsurance"/>
                                     </div>
 
                                     <div>
-                                        <label className="gf-form-label b-0 bg-transparent">Valid Till <span style={{ color: 'red' }}> * </span></label>
-                                        <input type="Date" className="fwidth" style={{ width: '250px' }} onChange={this.onChange}  value={insuranceObj.validTill} placeholder="validTill" name="validTill" id="validTill" />
+                                        <label htmlFor="">
+                                        {/* className="gf-form-label b-0 bg-transparent"> */}
+                                            Valid Till <span style={{ color: 'red' }}> * </span>
+                                            </label>
+                                        <input type="Date" 
+                                        className="gf-form-input fwidth" 
+                                        maxLength={255} 
+                                        onChange={this.onChange}  
+                                        value={insuranceObj.validTill} 
+                                        placeholder="validTill" 
+                                        name="validTill" 
+                                        id="validTill" />
                                     </div>
                                 </div>
                                </div> 

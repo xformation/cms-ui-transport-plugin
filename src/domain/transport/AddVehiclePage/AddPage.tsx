@@ -525,61 +525,173 @@ class Vehicle<T = {[data: string]: any}> extends React.Component<VehicleProps, a
                                  </div> */}
                                  {/* </div> */}
                                  <div id="feeCategoryDiv" className="b-1">
-                                <div className="b1 row m-1 j-between">
-                                
+                                <div className="form-grid">
                                     <div>
-                                        <label className="gf-form-label b-0 bg-transparent">Vehicle Number <span style={{ color: 'red' }}> * </span></label>
-                                        <input type="text" className="fwidth" style={{ width: '250px' }} onChange={this.onChange}  value={vehicleObj.vehicleNumber} placeholder="Vehicle Number" name="vehicleNumber" id="vehicleNumber" />
+                                        <label htmlFor="">                                        
+                                        Vehicle Number <span style={{ color: 'red' }}> * </span>
+                                        </label>
+                                        <input type="text" 
+                                        className="gf-form-input fwidth" 
+                                        maxLength={255}
+                                        onChange={this.onChange}  
+                                        value={vehicleObj.vehicleNumber} 
+                                        name="vehicleNumber" 
+                                        id="vehicleNumber" />
                                     </div> 
 
                                     <div>
-                                        <label className="gf-form-label b-0 bg-transparent">Vehicle Type<span style={{ color: 'red' }}> * </span></label>
-                                        <input type="text" className="fwidth" style={{ width: '250px' }} onChange={this.onChange}  value={vehicleObj.vehicleType} placeholder="Vehicle Type" name="vehicleType" id="vehicleType"  />
+                                        <label htmlFor="">
+                                        {/* // className="gf-form-label b-0 bg-transparent"> */}
+                                          Vehicle Type<span style={{ color: 'red' }}> * </span>
+                                        </label>
+                                        <input type="text" 
+                                        className="gf-form-input fwidth" 
+                                        maxLength={255}
+                                        onChange={this.onChange}  
+                                        value={vehicleObj.vehicleType} 
+                                        placeholder="Vehicle Type" 
+                                        name="vehicleType" 
+                                        id="vehicleType"  />
                                     </div>
-                                    <div className="fwidth-modal-text m-r-1">
-                                        <label className="gf-form-label b-0 bg-transparent">Capacity <span style={{ color: 'red' }}> * </span></label>
-                                        <input type="text" className="fwidth" style={{ width: '250px' }} onChange={this.onChange}  value={vehicleObj.capacity} placeholder="Capacity" name="capacity" id="capacity"  />
+                                    <div>
+                                        <label htmlFor="">
+                                        {/* //  className="gf-form-label b-0 bg-transparent"> */}
+                                     Capacity <span style={{ color: 'red' }}> * </span>
+                                     </label>
+                                        <input type="text" 
+                                        className="gf-form-input fwidth" 
+                                        maxLength={255}
+                                        onChange={this.onChange}  
+                                        value={vehicleObj.capacity} 
+                                        placeholder="Capacity" 
+                                        name="capacity" 
+                                        id="capacity"  />
+                                    </div> 
+   
+                                    <div>
+                                        <label htmlFor="">
+                                        {/* className="gf-form-label b-0 bg-transparent"> */}
+                                        Date Of Registration <span style={{ color: 'red' }}> * </span>
+                                        </label>
+                                        <input type="Date" 
+                                        className="gf-form-input fwidth"
+                                        maxLength={255} 
+                                        onChange={this.onChange}  
+                                        value={vehicleObj.dateOfRegistration} 
+                                        placeholder="dateOfRegistration" 
+                                        name="dateOfRegistration" 
+                                        id="dateOfRegistration"  />
                                     </div> 
                                     <div>
-                                    <label className="gf-form-label b-0 bg-transparent">OwnerShip<span style={{ color: 'red' }}> * </span></label>
-                                        <select name="ownerShip" id="ownerShip" onChange={this.onChange} value={vehicleObj.ownerShip} className="gf-form-input">
+                                        <label htmlFor="">
+                                        {/* // className="gf-form-label b-0 bg-transparent"> */}
+                                        on BoardingDate <span style={{ color: 'red' }}> * </span>
+                                        </label>
+                                        <input type="Date" 
+                                        className="gf-form-input fwidth" 
+                                        maxLength={255} 
+                                        onChange={this.onChange}  
+                                        value={vehicleObj.onBoardingDate} 
+                                        placeholder="onBoardingDate" 
+                                        name="onBoardingDate" 
+                                        id="onBoardingDate"  />
+                                    </div> 
+                                    <div>
+                                        <label htmlFor="">
+                                        {/* className="gf-form-label b-0 bg-transparent"> */}
+                                            Year Of Manufacturing<span style={{ color: 'red' }}> * </span>
+                                            </label>
+                                        <input type="text" 
+                                        className="gf-form-input fwidth" 
+                                        maxLength={255} 
+                                        onChange={this.onChange}  
+                                        value={vehicleObj.yearOfManufacturing} 
+                                        placeholder="yearOfManufacturing" 
+                                        name="yearOfManufacturing" 
+                                        id="yearOfManufacturing"  />
+                                    </div>
+                                    <div>
+                                        <label htmlFor="">
+                                        {/* className="gf-form-label b-0 bg-transparent"> */}
+                                            Manufacturing Company<span style={{ color: 'red' }}> * </span>
+                                            </label>
+                                        <input type="text" 
+                                        className="gf-form-input fwidth" 
+                                        maxLength={255} 
+                                        onChange={this.onChange}  
+                                        value={vehicleObj.manufacturingCompany} 
+                                        placeholder="Manufacturing Company" 
+                                        name="manufacturingCompany" 
+                                        id="manufacturingCompany"  />
+                                    </div> 
+                                    <div>
+                                        <label htmlFor="">
+                                        {/* className="gf-form-label b-0 bg-transparent"> */}
+                                            Model<span style={{ color: 'red' }}> * </span>
+                                            </label>
+                                        <input type="text" 
+                                        className="gf-form-input fwidth" 
+                                        maxLength={255}  
+                                        onChange={this.onChange}  
+                                        value={vehicleObj.model} 
+                                        placeholder="Model" 
+                                        name="model" 
+                                        id="model" />
+                                    </div>
+
+                                    <div>
+                                        <label htmlFor="">
+                                        {/* className="gf-form-label b-0 bg-transparent"> */}
+                                            Chasis No<span style={{ color: 'red' }}> * </span>
+                                            </label>
+                                        <input type="text" 
+                                        className="gf-form-input fwidth" 
+                                        maxLength={255}  
+                                        onChange={this.onChange}  
+                                        value={vehicleObj.chasisNo} 
+                                        placeholder="chasisNo" 
+                                        name="chasisNo" 
+                                        id="chasisNo" />
+                                    </div>
+                                    <div>
+                                        <label htmlFor="">
+                                        {/* // className="gf-form-label b-0 bg-transparent"> */}
+                                            Rc No<span style={{ color: 'red' }}> * </span>
+                                            </label>
+                                        <input type="text" 
+                                        required className="gf-form-input fwidth" 
+                                        maxLength={255}  
+                                        onChange={this.onChange}  
+                                        value={vehicleObj.rcNo} 
+                                        placeholder="rcNo" 
+                                        name="rcNo" 
+                                        id="rcNo" />
+                                    </div>
+                                    <div>
+                                    <label htmlFor="">
+                                    {/* className="gf-form-label b-0 bg-transparent"> */}
+                                        OwnerShip<span style={{ color: 'red' }}> * </span>
+                                        </label>
+                                        <select 
+                                        name="ownerShip" 
+                                        id="ownerShip" 
+                                        onChange={this.onChange} 
+                                        value={vehicleObj.ownerShip} 
+                                        className="gf-form-input fwidth">
                                             <option key={""} value={""}>Select OwnerShip</option>
                                             <option key={"OWNED"} value={"OWNED"}>Owned</option>
                                          <option key={"CONTRACTED"} value={"CONTRACTED"}>Contracted</option>
                                         </select>
                                     </div>
                                     <div>
-                                        <label className="gf-form-label b-0 bg-transparent">Date Of Registration <span style={{ color: 'red' }}> * </span></label>
-                                        <input type="Date" className="fwidth" style={{ width: '250px' }} onChange={this.onChange}  value={vehicleObj.dateOfRegistration} placeholder="dateOfRegistration" name="dateOfRegistration" id="dateOfRegistration"  />
-                                    </div> 
-                                    <div>
-                                        <label className="gf-form-label b-0 bg-transparent">onBoardingDate <span style={{ color: 'red' }}> * </span></label>
-                                        <input type="Date" className="fwidth" style={{ width: '250px' }} onChange={this.onChange}  value={vehicleObj.onBoardingDate} placeholder="onBoardingDate" name="onBoardingDate" id="onBoardingDate"  />
-                                    </div> 
-                                    <div>
-                                        <label className="gf-form-label b-0 bg-transparent">Year Of ManuFfacturing</label>
-                                        <input type="text" className="fwidth" style={{ width: '250px' }} onChange={this.onChange}  value={vehicleObj.yearOfManufacturing} placeholder="yearOfManufacturing" name="yearOfManufacturing" id="yearOfManufacturing"  />
-                                    </div>
-                                    <div>
-                                        <label className="gf-form-label b-0 bg-transparent">Manufacturing Company</label>
-                                        <input type="text" className="fwidth" style={{ width: '250px' }} onChange={this.onChange}  value={vehicleObj.manufacturingCompany} placeholder="Manufacturing Company" name="manufacturingCompany" id="manufacturingCompany"  />
-                                    </div> 
-                                    <div>
-                                        <label className="gf-form-label b-0 bg-transparent">Model</label>
-                                        <input type="text" className="fwidth" style={{ width: '250px' }} onChange={this.onChange}  value={vehicleObj.model} placeholder="Model" name="model" id="model" />
-                                    </div>
-
-                                    <div>
-                                        <label className="gf-form-label b-0 bg-transparent">Chasis No</label>
-                                        <input type="text" required className="fwidth" style={{ width: '250px' }} onChange={this.onChange}  value={vehicleObj.chasisNo} placeholder="chasisNo" name="chasisNo" id="chasisNo" />
-                                    </div>
-                                    <div>
-                                        <label className="gf-form-label b-0 bg-transparent">Rc No</label>
-                                        <input type="text" required className="fwidth" style={{ width: '250px' }} onChange={this.onChange}  value={vehicleObj.rcNo} placeholder="rcNo" name="rcNo" id="rcNo" />
-                                    </div>
-                                    <div>
-                                        <label className="gf-form-label b-0 bg-transparent">Status<span style={{ color: 'red' }}> * </span></label>
-                                        <select name="status" id="status" onChange={this.onChange} value={vehicleObj.status} className="gf-form-input">
+                                        <label htmlFor="">
+                                        {/* className="gf-form-label b-0 bg-transparent"> */}
+                                            Status<span style={{ color: 'red' }}> * </span>
+                                            </label>
+                                        <select name="status" id="status" 
+                                        onChange={this.onChange} 
+                                        value={vehicleObj.status} 
+                                        className="gf-form-input fwidth">
                                             <option key={""} value={""}>Select Status</option>
                                             <option key={"ACTIVE"} value={"ACTIVE"}>ACTIVE</option>
                                             <option key={"DEACTIVE"} value={"DEACTIVE"}>DEACTIVE</option>

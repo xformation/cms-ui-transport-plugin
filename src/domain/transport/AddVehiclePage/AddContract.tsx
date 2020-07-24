@@ -247,31 +247,80 @@ class Contract<T = {[data: string]: any}> extends React.Component<ContractProps,
                                 </div>
                                 </div>
                                 <div id="feeCategoryDiv" className="b-1">
-                                <div className="b1 row m-1 j-between">
+                                {/* <div className="b1 row m-1 j-between"> */}
+                                <div className="form-grid">
+
                                 
                                 <div>
-                                        <label className="gf-form-label b-0 bg-transparent">Vendor Name</label>
-                                        <input type="text" required className="fwidth" style={{ width: '250px' }} onChange={this.onChange}  value={contractObj.vendorName} placeholder="vendorName" name="vendorName" id="vendorName" />
+                                        <label htmlFor="">
+                                        {/* className="gf-form-label b-0 bg-transparent"> */}
+                                            Vendor Name<span style={{ color: 'red' }}> * </span>
+                                            </label>
+                                        <input type="text"
+                                         required className="gf-form-input fwidth" 
+                                         maxLength={255}
+                                         onChange={this.onChange}  
+                                         value={contractObj.vendorName} 
+                                         placeholder="vendorName" 
+                                         name="vendorName" 
+                                         id="vendorName" />
                                     </div> 
                                     <div>
-                                        <label className="gf-form-label b-0 bg-transparent">DurationOfContract</label>
-                                        <input type="text" required className="fwidth" style={{ width: '250px' }} onChange={this.onChange}  value={contractObj.durationOfContract} placeholder="durationOfContract" name="durationOfContract" id="durationOfContract"/>
+                                        <label htmlFor="">
+                                        {/* // className="gf-form-label b-0 bg-transparent"> */}
+                                             Contract Duration<span style={{ color: 'red' }}> * </span>
+                                            </label>
+                                        <input type="text" 
+                                        required className="gf-form-input fwidth" 
+                                        maxLength={255}
+                                        onChange={this.onChange}  
+                                        value={contractObj.durationOfContract} 
+                                        placeholder="durationOfContract" 
+                                        name="durationOfContract" 
+                                        id="durationOfContract"/>
                                     </div> 
                                     <div>
-                                        <label className="gf-form-label b-0 bg-transparent">TypeOfOwnerShip<span style={{ color: 'red' }}> * </span></label>
-                                        <select name="typeOfOwnerShip" id="typeOfOwnerShip" onChange={this.onChange} value={contractObj.typeOfOwnerShip} className="gf-form-input">
+                                        <label htmlFor="">
+                                        {/* className="gf-form-label b-0 bg-transparent"> */}
+                                            TypeOfOwnerShip<span style={{ color: 'red' }}> * </span>
+                                            </label>
+                                        <select name="typeOfOwnerShip" 
+                                        id="typeOfOwnerShip" 
+                                        onChange={this.onChange} 
+                                        value={contractObj.typeOfOwnerShip} 
+                                        className="gf-form-input fwidth">
                                             <option key={""} value={""}>Select typeOfOwnerShip</option>
                                             <option key={"COMPANYOWNED"} value={"COMPANYOWNED"}>COMPANYOWNED</option>
                                             <option key={"CONTRACTUAL"} value={"CONTRACTUAL"}>CONTRACTUAL</option>
                                         </select>
                                     </div>
                                     <div>
-                                        <label className="gf-form-label b-0 bg-transparent">Start Date <span style={{ color: 'red' }}> * </span></label>
-                                        <input type="Date" className="fwidth" style={{ width: '250px' }} onChange={this.onChange}  value={contractObj.startDate} placeholder="Start date" name="startDate" id="startDate"  />
+                                        <label htmlFor="">
+                                        {/* // className="gf-form-label b-0 bg-transparent"> */}
+                                            Start Date <span style={{ color: 'red' }}> * </span>
+                                            </label>
+                                        <input type="Date" 
+                                        className="gf-form-input fwidth" 
+                                        maxLength={255}
+                                        onChange={this.onChange}  
+                                        value={contractObj.startDate} 
+                                        placeholder="Start date" 
+                                        name="startDate" 
+                                        id="startDate"  />
                                     </div>
                                     <div>
-                                        <label className="gf-form-label b-0 bg-transparent">End Date <span style={{ color: 'red' }}> * </span></label>
-                                        <input type="Date" className="fwidth" style={{ width: '250px' }} onChange={this.onChange}  value={contractObj.endDate} placeholder="End date" name="endDate" id="endDate"   />
+                                        <label htmlFor="">
+                                        {/* className="gf-form-label b-0 bg-transparent"> */}
+                                            End Date <span style={{ color: 'red' }}> * </span>
+                                            </label>
+                                        <input type="Date" 
+                                        className="gf-form-input fwidth" 
+                                        maxLength={255}
+                                        onChange={this.onChange}  
+                                        value={contractObj.endDate} 
+                                        placeholder="End date" 
+                                        name="endDate" 
+                                        id="endDate"   />
                                     </div>  
                                  </div>
                                  </div>
