@@ -4,13 +4,14 @@ import { commonFunctions } from '../../_utilites/common.functions';
 import "../../../css/custom.css"
 import {MessageBox} from '../../Message/MessageBox'
 import { withApollo } from 'react-apollo';
-import { ADD_VEHICLE_MUTATION, ADD_ROUTE_MUTATION, ADD_TRANSPORTROUTE_VEHICLE_MUTATION  } from '../_queries';
+import { ADD_VEHICLE_MUTATION, ADD_ROUTE_MUTATION, ADD_TRANSPORTROUTE_VEHICLE_MUTATION, GET_VEHICLE_ROUTE_LIST  } from '../_queries';
 import moment = require('moment');
 import wsCmsBackendServiceSingletonClient from '../../../wsCmsBackendServiceClient';
 
 export interface VehicleProps extends React.HTMLAttributes<HTMLElement>{
     [data: string]: any;
     transportRouteList?: any;
+    vehicleRouteList?: any;
     vehicleFilterCacheList?: any;
     transportRoute: any;
     vehicle: any;
@@ -28,16 +29,30 @@ class TransportRouteStopageList<T = {[data: string]: any}> extends React.Compone
     constructor(props: VehicleProps) {
         super(props);
         this.state = {
+            list: this.props.data,
             transportRouteList: this.props.transportRouteList,
+            vehicleRouteList: this.props.vehicleRouteList,
             vehicleFilterCacheList: this.props.vehicleFilterCacheList,
             isModalOpen: false,
-            transportRouteObj: {
+            vehicleRouteObj: {
                 vehicle:{
                     id:""
                 },
                 transportRoute:{
                     id:""
                 },
+                vehicleNumber:"",          
+	            vehicleType:"",             
+	            // capacity:"",               
+	            ownerShip:"",             
+	            // dateOfRegistration:"",     
+	            yearOfManufacturing:"",    
+	            // manufacturingCompany:"",   
+                // onBoardingDate: "",   
+                routeName: "",
+                routeDetails: "",
+                // noOfStops: "",
+                routeFrequency: "",    
                 vehicleId:"",
                 transportRouteId:"",
             },
@@ -47,6 +62,11 @@ class TransportRouteStopageList<T = {[data: string]: any}> extends React.Compone
         };
         this.createTransportRoute = this.createTransportRoute.bind(this);
         this.createVehicle = this.createVehicle.bind(this);
+        this.checkAllVehicleRoutes = this.checkAllVehicleRoutes.bind(this);
+        this.createVehicleRouteRow = this.createVehicleRouteRow.bind(this);
+        this.onClickCheckbox = this.onClickCheckbox.bind(this);
+        this.onChange = this.onChange.bind(this);
+
     }
 
   async registerSocket() {
@@ -108,10 +128,10 @@ class TransportRouteStopageList<T = {[data: string]: any}> extends React.Compone
     onChange = (e: any) => {
         e.preventDefault();
         const { name, value } = e.nativeEvent.target;
-        const { transportRouteObj } = this.state;
+        const { vehicleRouteObj } = this.state;
         this.setState({
-            transportRouteObj: {
-                ...transportRouteObj,
+            vehicleRouteObj: {
+                ...vehicleRouteObj,
                 [name]: value
             },
             errorMessage: "",
@@ -120,13 +140,111 @@ class TransportRouteStopageList<T = {[data: string]: any}> extends React.Compone
         
         commonFunctions.restoreTextBoxBorderToNormal(name);
     }
+    createVehicleRouteRow(objAry: any){
+        const {source} = this.state;
+        console.log("TRANSPORT R---->> ", objAry);
+        console.log("createVehicleRouteRow() - VehicleRoute list on AddVehicleRoute page:  ", objAry);
+        if(objAry === undefined || objAry === null) {
+            return;
+        }
+        const mutateResLength = objAry.length;
+        const retVal = [];
+        for (let i = 0; i < mutateResLength; i++) {
+            const vehicleRouteObj = objAry[i];
+            retVal.push(
+                <tr>
+             <td>{vehicleRouteObj.id}</td>
+             <td>{vehicleRouteObj.vehicle.vehicleNumber}</td>
+             <td>{vehicleRouteObj.vehicle.vehicleType}</td>
+             <td>{vehicleRouteObj.vehicle.ownerShip}</td>
+             <td>{vehicleRouteObj.vehicle.yearOfManufacturing}</td>
+             {/* <td>{vehicleRouteObj.vehicle.manufacturingCompany}</td> */}
+             <td>{vehicleRouteObj.transportRoute.routeName}</td>
+          <td>{vehicleRouteObj.transportRoute.routeDetails}</td>
+          {/* <td>{vehicleRouteObj.transportRoute.noOfStops}</td> */}
+          <td>{vehicleRouteObj.transportRoute.routeFrequency}</td>
+          <td>      
+          <button className="btn btn-primary" onClick={e => this.showDetail(e, true, vehicleRouteObj, "Edit VehicleRoute")}>Edit</button>
 
-   getAddTransportRouteInput(transportRouteObj: any, modelHeader: any){
+{/* <button className="btn btn-primary" onClick={e => this.editTransportRouteStopage(k)}>Edit</button> */}
+</td>
+</tr>
+            );
+        }
+        return retVal;
+    }
+
+editVehicleRoute(obj: any) {
+        const { vehicleRouteObj } = this.state;
+        let txtVn: any = document.querySelector("#vehicleNumber");
+        let txtVt: any = document.querySelector("#vehicleType");
+        let txtOs: any = document.querySelector("#ownerShip");
+        let txtYs: any = document.querySelector("#yearOfManufacturing");
+        // let txtMc: any = document.querySelector("#manufacturingCompany");
+        let txtRn: any = document.querySelector("#routeName");
+        let txtRd: any = document.querySelector("#routeDetails");
+        // let txtNs: any = document.querySelector("#noOfStops");
+        let txtRf: any = document.querySelector("#routeFrequency");
+        
+        txtVn.value = obj.vehicleNumber;
+        txtVt.value = obj.vehicleType;
+        txtOs.value = obj.ownerShip;
+        txtYs.value = obj.yearOfManufacturing;
+        // txtMc.value = obj.manufacturingCompany;
+        txtRn.value = obj.routeName;
+        txtRd.value = obj.routeDetails;
+        // txtNs.value = obj.noOfStops;
+        txtRf.value = obj.routeFrequency;
+    
+        vehicleRouteObj.vehicleRoute.id = obj.id;
+        vehicleRouteObj.vehicle.vehicleNumber = obj.vehicleNumber;
+        vehicleRouteObj.vehicle.vehicleType = obj.vehicleType;
+        vehicleRouteObj.vehicle.ownerShip = obj.ownerShip;
+        vehicleRouteObj.vehicle.yearOfManufacturing = obj.yearOfManufacturing;
+        // vehicleRouteObj.vehicle.manufacturingCompany = obj.manufacturingCompany;
+        vehicleRouteObj.transportroute.routeName = obj.routeName;
+        // vehicleRouteObj.transportroute.noOfStops = obj.noOfStops;
+        vehicleRouteObj.transportroute.routeDetails = obj.routeDetails;
+        vehicleRouteObj.transportroute.routeFrequency = obj.routeFrequency;
+    
+        this.setState({
+          
+          vehicleRouteObj: vehicleRouteObj
+        });
+      }
+
+    showDetail(e: any, bShow: boolean, vehicleRouteObj: any, modelHeader: any) {
+        e && e.preventDefault();
+        this.setState(() => ({
+            isModalOpen: bShow,
+            vehicleRouteObj: vehicleRouteObj,
+            source: this.props.source,
+            sourceOfApplication: this.props.sourceOfApplication,
+            modelHeader: modelHeader,
+            errorMessage: "",
+            successMessage: "",
+        }));
+    }
+    showModal(e: any, bShow: boolean, headerLabel: any) {
+        e && e.preventDefault();
+        this.setState(() => ({
+            isModalOpen: bShow,
+            vehicleRouteObj: {},
+            modelHeader: headerLabel,
+            errorMessage: "",
+            successMessage: "",
+        }));
+    }
+     
+   getAddVehicleRouteInput(vehicleRouteObj: any, modelHeader: any){
         let id = null;
+        if(modelHeader === "Edit VehicleRoute"){
+            id = vehicleRouteObj.id;
+        }
         let input = {
             id: id,
-            transportRouteId: transportRouteObj.transportRouteId,
-            vehicleId: transportRouteObj.vehicleId,
+            transportRouteId: vehicleRouteObj.transportRouteId,
+            vehicleId: vehicleRouteObj.vehicleId,
         };
         return input;
     }
@@ -190,17 +308,46 @@ class TransportRouteStopageList<T = {[data: string]: any}> extends React.Compone
     }
     addTransportRoute = (e: any) => {
         const { id } = e.nativeEvent.target;
-        const {transportRouteObj, modelHeader} = this.state;
-        let isValid = this.validateFields(transportRouteObj);
+        const {vehicleRouteObj, modelHeader} = this.state;
+        let isValid = this.validateFields(vehicleRouteObj);
         if(isValid === false){
             return;
         }
-        const inputObj = this.getAddTransportRouteInput(transportRouteObj, modelHeader);
+        const inputObj = this.getAddVehicleRouteInput(vehicleRouteObj, modelHeader);
         this.doSave(inputObj, id);
     }
-
+    async getTransportRouteVehicleList(e: any){
+        console.log("Refreshing transportroute list");
+        const { data } =  await this.props.client.query({
+            query: GET_VEHICLE_ROUTE_LIST,
+            fetchPolicy: 'no-cache'
+        })
+        const temp = data.getTransportRouteVehicleList;
+        this.setState({
+            list: temp
+        });
+    }
+    checkAllVehicleRoutes(e: any){
+        const { vehicleRouteObj } = this.state;
+        const mutateResLength = vehicleRouteObj.mutateResult.length;
+        let chkAll = e.nativeEvent.target.checked;
+        let els = document.querySelectorAll("input[type=checkbox]");
+    
+        var empty = [].filter.call(els, function (el: any) {
+          if (chkAll) {
+            el.checked = true;
+          } else {
+            el.checked = false;
+          }
+        }); 
+    }
+    onClickCheckbox(index: any, e: any) {
+        const { id } = e.nativeEvent.target;
+        let chkBox: any = document.querySelector("#" + id);
+        chkBox.checked = e.nativeEvent.target.checked;
+      }
     render() {
-        const {transportRouteList, vehicleFilterCacheList,  isModalOpen, transportRouteObj, modelHeader, errorMessage, successMessage} = this.state;
+        const {vehicleRouteList,transportRouteList, vehicleFilterCacheList,  isModalOpen, vehicleRouteObj, modelHeader, errorMessage, successMessage} = this.state;
         return (
                             <section  className="plugin-bg-white p-1">
                             {
@@ -220,21 +367,28 @@ class TransportRouteStopageList<T = {[data: string]: any}> extends React.Compone
                             <div className="m-1 fwidth">Add TransportRoute Vehicle Data</div>
                             <div id="saveRouteCatDiv" className="fee-flex">
                             <button className="btn btn-primary mr-1" id="btnSaveFeeCategory" name="btnSaveFeeCategory" onClick={this.addTransportRoute} style={{ width: '140px' }}>Add Route Vehicle</button>
-                            {/* <button className="btn btn-primary mr-1" id="btnUpdateFeeCategory" name="btnUpdateFeeCategory" onClick={this.addLibrary} style={{ width: '170px' }}>Update Book</button> */}
+                            <button className="btn btn-primary mr-1" id="btnUpdateFeeCategory" name="btnUpdateFeeCategory" onClick={this.addTransportRoute} style={{ width: '170px' }}>Update Route Vehicle</button>
                             </div>
                             </div>
                             <div id="feeCategoryDiv" className="b-1">
-          <div className="b1 row m-1 j-between">
+                            <div className="b1 row m-1 j-between">
+
                             <div className="mdflex modal-fwidth"> 
                             <div className="fwidth-modal-text m-r-1">
-                            <label htmlFor="">Vehicle<span style={{ color: 'red' }}> * </span></label>
-                                 <select required name="vehicleId" id="vehicleId" onChange={this.onChange}  value={transportRouteObj.vehicleId} className="gf-form-label b-0 bg-transparent">
+                            <label htmlFor="">
+                                Vehicle<span style={{ color: 'red' }}> * </span>
+                                </label>
+                                 <select required name="vehicleId" 
+                                 id="vehicleId" 
+                                 onChange={this.onChange}  
+                                 value={vehicleRouteObj.vehicleId} 
+                                 className="gf-form-input fwidth">
                                     {this.createVehicle(vehicleFilterCacheList.vehicle)}
                                 </select>
                             </div>
                             <div className="fwidth-modal-text m-r-1">
                             <label htmlFor="">TransportRoute<span style={{ color: 'red' }}> * </span></label>
-                                 <select required name="transportRouteId" id="transportRouteId" onChange={this.onChange}  value={transportRouteObj.transportRouteId} className="gf-form-label b-0 bg-transparent">
+                                 <select required name="transportRouteId" id="transportRouteId" onChange={this.onChange}  value={vehicleRouteObj.transportRouteId} className="gf-form-input fwidth">
                                     {this.createTransportRoute(vehicleFilterCacheList.transportRoute)}
                                 </select>
                             </div>
@@ -242,7 +396,34 @@ class TransportRouteStopageList<T = {[data: string]: any}> extends React.Compone
                             </div>
           <div className="b1 row m-1">
           </div> 
-                                 </div>  
+    </div>  
+    <p></p>
+    <div id="feeCatagoryGrid" className="b-1">
+          <table className="fwidth" id="feetable">
+            <thead >
+              <tr>
+                <th>Id</th>
+                <th>vehicle Number</th>
+                <th>Vehicle Type</th>
+                <th>Ownership</th>
+                <th>YearOfManufacturing</th>
+                {/* <th>ManufacturingCompany</th> */}
+                <th>Route Name</th>
+                <th>Route Details</th>
+                {/* <th>NoOfStops</th> */}
+                <th>Route Frequency</th>
+                <th>Edit</th>
+              </tr>
+            </thead>
+
+            <tbody>
+               { this.createVehicleRouteRow(vehicleRouteList) }
+            </tbody> 
+           </table>
+          {/* {
+              this.createNoRecordMessage(this.state.transportRouteObj.mutateResult)
+            } */}
+        </div>
                           </section>
  
         );

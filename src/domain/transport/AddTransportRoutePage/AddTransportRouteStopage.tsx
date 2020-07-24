@@ -126,7 +126,7 @@ class TransportRouteStopageList<T = {[data: string]: any}> extends React.Compone
   createRouteStopageRow(objAry: any) {
     const {source} = this.state;
     console.log("TRANSPORT R---->> ", objAry);
-      console.log("createTransportRouteStopageAddRow() - RouteStopage list on AddTRansportRouteStopage page:  ", objAry);
+      console.log("createRouteStopageRow() - RouteStopage list on AddTransportRouteStopage page:  ", objAry);
       if(objAry === undefined || objAry === null) {
         return;
     }
@@ -185,7 +185,7 @@ class TransportRouteStopageList<T = {[data: string]: any}> extends React.Compone
 //     // }
 //     return retVal;
 //   }
-  editTransportRoute(obj: any) {
+  editTransportRouteStopage(obj: any) {
     const { transportRouteObj } = this.state;
     let txtRn: any = document.querySelector("#routeName");
     let txtRd: any = document.querySelector("#routeDetails");
@@ -204,12 +204,12 @@ class TransportRouteStopageList<T = {[data: string]: any}> extends React.Compone
     txtSn.value = obj.stopageName;
 
     transportRouteObj.transportRouteStopage.id = obj.id;
-    transportRouteObj.routeName = obj.routeName;
-    transportRouteObj.noOfStops = obj.noOfStops;
-    transportRouteObj.routeMapUrl = obj.routeMapUrl;
-    transportRouteObj.routeDetails = obj.routeDetails;
-    transportRouteObj.routeFrequency = obj.routeFrequency;
-    transportRouteObj.stopageName = obj.stopageNAame;
+    transportRouteObj.transportroute.routeName = obj.routeName;
+    transportRouteObj.transportroute.noOfStops = obj.noOfStops;
+    transportRouteObj.transportroute.routeMapUrl = obj.routeMapUrl;
+    transportRouteObj.transportroute.routeDetails = obj.routeDetails;
+    transportRouteObj.transportroute.routeFrequency = obj.routeFrequency;
+    transportRouteObj.stopage.stopageName = obj.stopageName;
 
     // transportRouteObj.status = obj.status;
 
@@ -410,14 +410,20 @@ showModal(e: any, bShow: boolean, headerLabel: any) {
               
           <div className="mdflex modal-fwidth"> 
                 <div className="fwidth-modal-text m-r-1">
-                <label htmlFor="">TransportRoute<span style={{ color: 'red' }}> * </span></label>
-              <select required name="transportRouteId" id="transportRouteId" onChange={this.onChange}  value={transportRouteObj.transportRouteId} className="gf-form-label b-0 bg-transparent">
+                <label htmlFor="">TransportRoute
+                <span style={{ color: 'red' }}> * </span>
+                </label>
+              <select required name="transportRouteId" 
+              id="transportRouteId" 
+              onChange={this.onChange}  
+              value={transportRouteObj.transportRouteId} 
+              className="gf-form-input fwidth">
                {this.createTransportRoute(vehicleFilterCacheList.transportRoute)}
                </select>
                  </div>
              <div className="fwidth-modal-text m-r-1">
              <label htmlFor="">Stopage<span style={{ color: 'red' }}> * </span></label>
-                <select required name="stopageId" id="stopageId" onChange={this.onChange}  value={transportRouteObj.stopageId} className="gf-form-label b-0 bg-transparent">
+                <select required name="stopageId" id="stopageId" onChange={this.onChange}  value={transportRouteObj.stopageId} className="gf-form-input fwidth">
                  {this.createStopage(vehicleFilterCacheList.stopage)}
               </select>
              </div>

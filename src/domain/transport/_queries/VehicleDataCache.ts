@@ -70,14 +70,12 @@ export const VEHICLE_DATA_CACHE = gql`
           vehicleType
           capacity
           ownerShip
-          dateOfRegistration
           yearOfManufacturing
           manufacturingCompany
           model
           chasisNo
           rcNo
           status
-          onBoardingDate
           strOnBoardingDate
           strDateOfRegistration
         }
@@ -88,8 +86,6 @@ export const VEHICLE_DATA_CACHE = gql`
           durationOfContract
           strStartDate
           strEndDate
-          startDate
-          endDate
         }
       }
       vehicleDriverLink {
@@ -102,14 +98,12 @@ export const VEHICLE_DATA_CACHE = gql`
           vehicleType
           capacity
           ownerShip
-          dateOfRegistration
           yearOfManufacturing
           manufacturingCompany
           model
           chasisNo
           rcNo
           status
-          onBoardingDate
           strOnBoardingDate
           strDateOfRegistration
         }
@@ -149,14 +143,12 @@ export const VEHICLE_DATA_CACHE = gql`
           vehicleType
           capacity
           ownerShip
-          dateOfRegistration
           yearOfManufacturing
           manufacturingCompany
           model
           chasisNo
           rcNo
           status
-          onBoardingDate
           strOnBoardingDate
           strDateOfRegistration
         }

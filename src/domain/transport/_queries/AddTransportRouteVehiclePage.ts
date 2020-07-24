@@ -24,14 +24,12 @@ export const ADD_TRANSPORTROUTE_VEHICLE_MUTATION = gql`
             vehicleType
             capacity
             ownerShip
-            dateOfRegistration
             yearOfManufacturing
             manufacturingCompany
             model
             chasisNo
             rcNo
             status
-            onBoardingDate
             strDateOfRegistration
             strOnBoardingDate
             branchId

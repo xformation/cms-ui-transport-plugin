@@ -2,7 +2,7 @@ import * as React from 'react';
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
 import '../../../css/college-settings.css';
 import {
-    VEHICLE_DATA_CACHE,INSURANCE_DATA_CACHE,GET_TRANSPORT_ROUTE_LIST, GET_STOPAGE_LIST,GET_TRANSPORT_ROUTE_STOPAGE_LIST
+    VEHICLE_DATA_CACHE,INSURANCE_DATA_CACHE,GET_TRANSPORT_ROUTE_LIST, GET_STOPAGE_LIST,GET_TRANSPORT_ROUTE_STOPAGE_LIST, GET_VEHICLE_ROUTE_LIST
 } from '../_queries';
  import { withApollo } from 'react-apollo';
  import wsCmsBackendServiceSingletonClient from '../../../wsCmsBackendServiceClient';
@@ -31,6 +31,7 @@ class vehicle extends React.Component<VehicleProps, any> {
             vehicleFilterCacheList: null,
             insuranceFilterCacheList:null,
             transportRouteStopageList: null,
+            vehicleRouteList: null,
             branchId: null,
             academicYearId: null,
             departmentId: null,
@@ -41,6 +42,7 @@ class vehicle extends React.Component<VehicleProps, any> {
         this.getTransportRouteList = this.getTransportRouteList.bind(this);
         this.getStopageList = this.getStopageList.bind(this);
         this.getTransportRouteStopageList = this.getTransportRouteStopageList.bind(this);
+        this.getTransportRouteVehicleList = this.getTransportRouteVehicleList.bind(this);
         // this.getInsuranceFilterCacheList = this.getInsuranceFilterCacheList.bind(this);
     }
     
@@ -81,12 +83,17 @@ class vehicle extends React.Component<VehicleProps, any> {
         }
         if(tabNo === 3 ){
             this.getVehicleFilterCacheList();
-            this.getTransportRouteStopageList();
+            this.getTransportRouteVehicleList();
         }
         if(tabNo === 4 ){
             this.getVehicleFilterCacheList();
+            this.getTransportRouteStopageList();
         }
+        
         if(tabNo === 5 ){
+            this.getVehicleFilterCacheList();
+        }
+        if(tabNo === 6 ){
             this.getVehicleFilterCacheList();
         }
         this.setState({
@@ -111,6 +118,16 @@ class vehicle extends React.Component<VehicleProps, any> {
         })
         this.setState({
             transportRouteStopageList: data
+        });
+    }
+    async getTransportRouteVehicleList(){
+        const { data } = await this.props.client.query({
+            query: GET_VEHICLE_ROUTE_LIST,
+             fetchPolicy: 'no-cache'
+        })
+        this.setState({
+            vehicleRouteList: data
+            
         });
     }
     async getTransportRouteList(){
@@ -149,7 +166,7 @@ class vehicle extends React.Component<VehicleProps, any> {
         });
       }
     render() {
-        const { activeTab,stopageList,vehicleFilterCacheList, transportRouteStopageList,transportRouteList,insuranceFilterCacheList,user } = this.state;
+        const { activeTab,stopageList,vehicleFilterCacheList, vehicleRouteList, transportRouteStopageList,transportRouteList,insuranceFilterCacheList,user } = this.state;
         return (
             <section className="tab-container row vertical-tab-container">
                  <Nav tabs className="pl-3 pl-3 mb-4 mt-4 col-sm-2">
@@ -223,10 +240,11 @@ class vehicle extends React.Component<VehicleProps, any> {
                     </TabPane>
                     <TabPane tabId={2}>
                     {
-                            user !== null && vehicleFilterCacheList !== null?
-                                <AddVehicleRouteLink user={user} vehicleFilterCacheList={vehicleFilterCacheList.createVehicleDataCache}/>
-                            :
-                            null
+                            user !== null && vehicleFilterCacheList !== null && vehicleRouteList !== null &&(
+                                <AddVehicleRouteLink user={user} vehicleFilterCacheList={vehicleFilterCacheList.createVehicleDataCache} vehicleRouteList={vehicleRouteList.getTransportRouteVehicleList}/>
+                            // :
+                            // null
+                            )
                         }
                     </TabPane>
                  <TabPane tabId={3}>

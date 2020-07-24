@@ -4,7 +4,7 @@ import '../../../css/college-settings.css';
 // import AddRoute from './AddRoute';
 import AddPage from './AddPage';
 import {
-    VEHICLE_DATA_CACHE,INSURANCE_DATA_CACHE, GET_CONTRACT_LIST, GET_VEHICLE_LIST,
+    VEHICLE_DATA_CACHE,INSURANCE_DATA_CACHE, GET_CONTRACT_LIST, GET_VEHICLE_LIST,GET_VEHICLE_CONTRACT_LIST
 } from '../_queries';
 import { withApollo } from 'react-apollo';
 import wsCmsBackendServiceSingletonClient from '../../../wsCmsBackendServiceClient';
@@ -29,6 +29,7 @@ class vehicle extends React.Component<VehicleProps, any> {
             vehicleList: null,
             vehicleFilterCacheList: null,
             insuranceFilterCacheList:null,
+            vehicleContractList:null,
             branchId: null,
             academicYearId: null,
             departmentId: null,
@@ -37,6 +38,7 @@ class vehicle extends React.Component<VehicleProps, any> {
         this.registerSocket = this.registerSocket.bind(this);
         this.getVehicleFilterCacheList = this.getVehicleFilterCacheList.bind(this);
         this.getContractList = this.getContractList.bind(this);
+        this.getVehicleContractList = this.getVehicleContractList.bind(this);
         this.getInsuranceFilterCacheList = this.getInsuranceFilterCacheList.bind(this);
         this.getVehicleList = this.getVehicleFilterCacheList.bind(this);
     }
@@ -81,6 +83,7 @@ class vehicle extends React.Component<VehicleProps, any> {
         }
         if(tabNo === 4 ){
             this.getVehicleFilterCacheList();
+            this.getVehicleContractList();
         }
         if(tabNo === 5 ){
             this.getVehicleFilterCacheList();
@@ -140,8 +143,21 @@ class vehicle extends React.Component<VehicleProps, any> {
             insuranceFilterCacheList: data,
         });
       }
+      
+      async getVehicleContractList() {
+        const {data} = await this.props.client.query({
+          query: GET_VEHICLE_CONTRACT_LIST,
+            variables: {
+            },
+          
+          fetchPolicy: 'no-cache',
+        });
+        this.setState({
+            vehicleContractList: data,
+        });
+      }
     render() {
-        const { activeTab,vehicleFilterCacheList, contractList,vehicleList, insuranceFilterCacheList,user } = this.state;
+        const { activeTab,vehicleFilterCacheList, vehicleContractList ,contractList, vehicleList, insuranceFilterCacheList,user } = this.state;
         return (
             <section className="tab-container row vertical-tab-container">
                  <Nav tabs className="pl-3 pl-3 mb-4 mt-4 col-sm-2">
@@ -204,10 +220,11 @@ class vehicle extends React.Component<VehicleProps, any> {
                     </TabPane>
                     <TabPane tabId={3}>
                     {
-                            user !== null && vehicleFilterCacheList !== null?
-                                <AddVehicleContractPage user={user} vehicleFilterCacheList={vehicleFilterCacheList.createVehicleDataCache}/>
-                            :
-                            null
+                            user !== null && vehicleFilterCacheList !== null && vehicleContractList != null &&(
+                                <AddVehicleContractPage user={user} vehicleFilterCacheList={vehicleFilterCacheList.createVehicleDataCache} vehicleContractList={vehicleContractList.getVehicleContractList} />
+                            // :
+                            // null
+                            )
                         }
                     </TabPane>
                     <TabPane tabId={4}>

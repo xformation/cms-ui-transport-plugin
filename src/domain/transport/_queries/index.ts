@@ -15,3 +15,5 @@ export {ADD_TRANSPORTROUTE_STOP_MUTATION} from './AddTransportRouteStopage';
 export {ADD_TRANSPORTROUTE_VEHICLE_MUTATION} from './AddTransportRouteVehiclePage';
 export {ADD_VEHICLE_DRIVER_MUTATION} from './AddVehicleDriverPage';
 export {GET_TRANSPORT_ROUTE_STOPAGE_LIST} from './getTransportRouteStopageList';
+export {GET_VEHICLE_ROUTE_LIST} from './getTransportRouteVehicleList';
+export {GET_VEHICLE_CONTRACT_LIST} from './getVehicleContractList';
