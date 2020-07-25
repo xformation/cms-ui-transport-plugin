@@ -410,8 +410,8 @@ showModal(e: any, bShow: boolean, headerLabel: any) {
               
           <div className="mdflex modal-fwidth"> 
                 <div className="fwidth-modal-text m-r-1">
-                <label htmlFor="">TransportRoute
-                <span style={{ color: 'red' }}> * </span>
+                <label htmlFor="">
+                  TransportRoute<span style={{ color: 'red' }}> * </span>
                 </label>
               <select required name="transportRouteId" 
               id="transportRouteId" 
@@ -422,8 +422,14 @@ showModal(e: any, bShow: boolean, headerLabel: any) {
                </select>
                  </div>
              <div className="fwidth-modal-text m-r-1">
-             <label htmlFor="">Stopage<span style={{ color: 'red' }}> * </span></label>
-                <select required name="stopageId" id="stopageId" onChange={this.onChange}  value={transportRouteObj.stopageId} className="gf-form-input fwidth">
+             <label htmlFor="">
+               Stopage<span style={{ color: 'red' }}> * </span>
+               </label>
+                <select required name="stopageId" 
+                id="stopageId" 
+                onChange={this.onChange}  
+                value={transportRouteObj.stopageId} 
+                className="gf-form-input fwidth">
                  {this.createStopage(vehicleFilterCacheList.stopage)}
               </select>
              </div>
@@ -431,7 +437,7 @@ showModal(e: any, bShow: boolean, headerLabel: any) {
           </div>
           <div className="b1 row m-1">
           </div> 
-                                 </div>
+        </div>
 
     <p></p>
     <div id="feeCatagoryGrid" className="b-1">

@@ -4,13 +4,13 @@ import { commonFunctions } from '../../_utilites/common.functions';
 import "../../../css/custom.css"
 import {MessageBox} from '../../Message/MessageBox'
 import { withApollo } from 'react-apollo';
-import { ADD_CONTRACT_MUTATION, ADD_VEHICLE_DRIVER_MUTATION  } from '../_queries';
+import { ADD_CONTRACT_MUTATION, ADD_VEHICLE_DRIVER_MUTATION, GET_VEHICLE_DRIVER_LIST  } from '../_queries';
 import moment = require('moment');
 import wsCmsBackendServiceSingletonClient from '../../../wsCmsBackendServiceClient';
 
 export interface VehicleProps extends React.HTMLAttributes<HTMLElement>{
     [data: string]: any;
-    vehicleList?: any;
+    vehicleDriverList?: any;
     vehicleFilterCacheList?: any;
     vehicle: any;
     employee:any;
@@ -20,15 +20,18 @@ export interface VehicleProps extends React.HTMLAttributes<HTMLElement>{
 
 const ERROR_MESSAGE_MANDATORY_FIELD_MISSING = "Mandatory fields missing";
 const ERROR_MESSAGE_SERVER_SIDE_ERROR = "Due to some error in vehiclecontract service, vehiclecontract could not be saved. Please check vehiclecontract service logs";
-const SUCCESS_MESSAGE_VEHICLE_ADDED = "New VehicleContract saved successfully";
-const SUCCESS_MESSAGE_VEHICLE_UPDATED = "vehiclecontract updated successfully";
+const SUCCESS_MESSAGE_VEHICLEDRIVER_ADDED = "New VehicleContract saved successfully";
+const SUCCESS_MESSAGE_VEHICLEDRIVER_UPDATED = "vehiclecontract updated successfully";
 // const ERROR_MESSAGE_INSURANCE_FIELD = "select one insurance for one vehicle only"
 
 class VehicleDriverList<T = {[data: string]: any}> extends React.Component<VehicleProps, any> {
     constructor(props: VehicleProps) {
         super(props);
         this.state = {
+          list: this.props.data,
             vehicleList: this.props.vehicleList,
+            employeeList: this.props.employeeList,
+            vehicleDriverList: this.props.vehicleDriverList,
             vehicleFilterCacheList: this.props.vehicleFilterCacheList,
             isModalOpen: false,
             vehicleObj: {
@@ -54,7 +57,12 @@ class VehicleDriverList<T = {[data: string]: any}> extends React.Component<Vehic
             modelHeader: ""
         };
         this.createVehicle = this.createVehicle.bind(this);
-        this.createEmployee = this.createEmployee.bind(this);  
+        this.createEmployee = this.createEmployee.bind(this); 
+        this.checkAllVehicleDrivers = this.checkAllVehicleDrivers.bind(this);
+        this.createVehicleDriverRow = this.createVehicleDriverRow.bind(this);
+        this.onClickCheckbox = this.onClickCheckbox.bind(this);
+        this.onChange = this.onChange.bind(this);
+ 
     }
 
   async registerSocket() {
@@ -132,7 +140,7 @@ class VehicleDriverList<T = {[data: string]: any}> extends React.Component<Vehic
     
     createVehicleDriverRow(objAry: any){
         const {source} = this.state;
-        //   console.log("VEHICLE-->> ", objAry);  
+          console.log("VEHICLE-->> ", objAry);  
           console.log("createVehicleDriverRow() - VehicleDriver list on AddVehicleDriverPage page:  ", objAry);
           if(objAry === undefined || objAry === null) {
               return;
@@ -159,18 +167,58 @@ class VehicleDriverList<T = {[data: string]: any}> extends React.Component<Vehic
           }
           return retVal;
   }
+  editVehicleDriver(obj: any) {
+    const { vehicleObj } = this.state;
+    let txtVn: any = document.querySelector("#vehicleNumber");
+      let txtVt: any = document.querySelector("#vehicleType");
+      let txtOs: any = document.querySelector("#ownerShip");
+      let txtYs: any = document.querySelector("#yearOfManufacturing");
+      let txtMc: any = document.querySelector("#manufacturingCompany");
+      // let txtEn: any = document.querySelector("#employeeName");
+      
     
-  showDetail(e: any, bShow: boolean, transportRouteObj: any, modelHeader: any) {
+ 
+      txtVn.value = obj.vehicleNumber;
+      txtVt.value = obj.vehicleType;
+      txtOs.value = obj.ownerShip;
+      txtYs.value = obj.yearOfManufacturing;
+      txtMc.value = obj.manufacturingCompany;
+      // txtEn.value = obj.employeeName;
+
+      vehicleObj.vehicleRoute.id = obj.id;
+      vehicleObj.vehicle.vehicleNumber = obj.vehicleNumber;
+      vehicleObj.vehicle.vehicleType = obj.vehicleType;
+      vehicleObj.vehicle.ownerShip = obj.ownerShip;
+      vehicleObj.vehicle.yearOfManufacturing = obj.yearOfManufacturing;
+      vehicleObj.vehicle.manufacturingCompany = obj.manufacturingCompany;
+      // vehicleObj.employee.employeeName = obj.employeeName;
+
+    this.setState({
+      
+      vehicleObj: vehicleObj
+    });
+  } 
+  showDetail(e: any, bShow: boolean, vehicleObj: any, modelHeader: any) {
     e && e.preventDefault();
     this.setState(() => ({
         isModalOpen: bShow,
-        transportRouteObj: transportRouteObj,
+        vehicleObj: vehicleObj,
         source: this.props.source,
         sourceOfApplication: this.props.sourceOfApplication,
         modelHeader: modelHeader,
         errorMessage: "",
         successMessage: "",
     }));
+}
+showModal(e: any, bShow: boolean, headerLabel: any) {
+  e && e.preventDefault();
+  this.setState(() => ({
+      isModalOpen: bShow,
+      vehicleObj: {},
+      modelHeader: headerLabel,
+      errorMessage: "",
+      successMessage: "",
+  }));
 }
    getAddVehicleDriverInput(vehicleObj: any, modelHeader: any){
         let id = null;
@@ -219,7 +267,7 @@ class VehicleDriverList<T = {[data: string]: any}> extends React.Component<Vehic
             let temp = resp.data.saveVehicleDriverLink.cmsVehicleDriverLinkVo.dataList; 
             console.log("New VehicleDriver list : ", temp);
             this.setState({
-                vehicleList: temp
+              vehicleDriverList: temp
             });
         }).catch((error: any) => {
             exitCode = 1;
@@ -230,9 +278,9 @@ class VehicleDriverList<T = {[data: string]: any}> extends React.Component<Vehic
         let errorMessage = "";
         let successMessage = "";
         if(exitCode === 0 ){
-            successMessage = SUCCESS_MESSAGE_VEHICLE_ADDED;
+            successMessage = SUCCESS_MESSAGE_VEHICLEDRIVER_ADDED;
             if(inp.id !== null){
-                successMessage = SUCCESS_MESSAGE_VEHICLE_UPDATED;
+                successMessage = SUCCESS_MESSAGE_VEHICLEDRIVER_UPDATED;
             }
         }else {
             errorMessage = ERROR_MESSAGE_SERVER_SIDE_ERROR;
@@ -253,8 +301,27 @@ class VehicleDriverList<T = {[data: string]: any}> extends React.Component<Vehic
         this.doSave(inputObj, id);
     }
 
+  checkAllVehicleDrivers(e: any){
+    const { vehicleObj } = this.state;
+    const mutateResLength = vehicleObj.mutateResult.length;
+    let chkAll = e.nativeEvent.target.checked;
+    let els = document.querySelectorAll("input[type=checkbox]");
+
+    var empty = [].filter.call(els, function (el: any) {
+      if (chkAll) {
+        el.checked = true;
+      } else {
+        el.checked = false;
+      }
+    }); 
+}
+onClickCheckbox(index: any, e: any) {
+  const { id } = e.nativeEvent.target;
+  let chkBox: any = document.querySelector("#" + id);
+  chkBox.checked = e.nativeEvent.target.checked;
+}
     render() {
-        const {vehicleList, vehicleFilterCacheList,  isModalOpen, vehicleObj, modelHeader, errorMessage, successMessage} = this.state;
+        const {vehicleDriverList, vehicleFilterCacheList,  isModalOpen, vehicleObj, modelHeader, errorMessage, successMessage} = this.state;
         return (
             <section  className="plugin-bg-white p-1">
             {
@@ -273,8 +340,8 @@ class VehicleDriverList<T = {[data: string]: any}> extends React.Component<Vehic
             <div id="headerRowDiv" className="b-1 h5-fee-bg j-between">
             <div className="m-1 fwidth">Add TransportRoute Stopage Data</div>
             <div id="saveRouteCatDiv" className="fee-flex">
-            <button className="btn btn-primary mr-1" id="btnSaveFeeCategory" name="btnSaveFeeCategory" onClick={this.addVehicle} style={{ width: '140px' }}>Add Route Stopage</button>
-            <button className="btn btn-primary mr-1" id="btnUpdateFeeCategory" name="btnUpdateFeeCategory" onClick={this.addVehicle} style={{ width: '170px' }}>Update Route Stopage</button>
+            <button className="btn btn-primary mr-1" id="btnSaveFeeCategory" name="btnSaveFeeCategory" onClick={this.addVehicle} style={{ width: '140px' }}>Add VehicleDriver</button>
+            <button className="btn btn-primary mr-1" id="btnUpdateFeeCategory" name="btnUpdateFeeCategory" onClick={this.addVehicle} style={{ width: '170px' }}>Update VehicleDriver</button>
             </div>
             </div>
 <div id="feeCategoryDiv" className="b-1">
@@ -294,8 +361,14 @@ className="gf-form-input fwidth">
 </select>
  </div>
 <div className="fwidth-modal-text m-r-1">
-<label htmlFor="">Driver<span style={{ color: 'red' }}> * </span></label>
-<select required name="employeeId" id="employeeId" onChange={this.onChange}  value={vehicleObj.employeeId} className="gf-form-input fwidth">
+<label htmlFor="">
+  Driver<span style={{ color: 'red' }}> * </span>
+  </label>
+<select required name="employeeId" 
+id="employeeId" 
+onChange={this.onChange}  
+value={vehicleObj.employeeId} 
+className="gf-form-input fwidth">
  {this.createEmployee(vehicleFilterCacheList.employee)}
 </select>
 </div>
@@ -316,13 +389,13 @@ className="gf-form-input fwidth">
   <th>Ownership</th>
   <th>YearOfManufacturing</th>
   <th>ManufacturingCompany</th>
-  <th>Driver Name</th>
+  {/* <th>Driver Name</th> */}
   <th>Edit</th>
 </tr>
 </thead>
 
 <tbody>
-{ this.createVehicleDriverRow(vehicleList) }
+{ this.createVehicleDriverRow(vehicleDriverList) }
 </tbody> 
 </table>
 {/* {

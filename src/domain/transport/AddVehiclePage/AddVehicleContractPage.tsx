@@ -21,16 +21,20 @@ export interface VehicleProps extends React.HTMLAttributes<HTMLElement>{
 
 const ERROR_MESSAGE_MANDATORY_FIELD_MISSING = "Mandatory fields missing";
 const ERROR_MESSAGE_SERVER_SIDE_ERROR = "Due to some error in vehiclecontract service, vehiclecontract could not be saved. Please check vehiclecontract service logs";
-const SUCCESS_MESSAGE_VEHICLE_ADDED = "New VehicleContract saved successfully";
-const SUCCESS_MESSAGE_VEHICLE_UPDATED = "vehiclecontract updated successfully";
+const SUCCESS_MESSAGE_VEHICLECONTRACT_ADDED = "New VehicleContract saved successfully";
+const SUCCESS_MESSAGE_VEHICLECONTRACT_UPDATED = "vehiclecontract updated successfully";
 // const ERROR_MESSAGE_INSURANCE_FIELD = "select one insurance for one vehicle only"
 
 class VehicleContractList<T = {[data: string]: any}> extends React.Component<VehicleProps, any> {
     constructor(props: VehicleProps) {
         super(props);
         this.state = {
+          list: this.props.data,
+
+            contractList: this.props.contractList,
             vehicleList: this.props.vehicleList,
             vehicleRouteList: this.props.vehicleRouteList,
+            vehicleContractList: this.props.vehicleContractList,
             vehicleFilterCacheList: this.props.vehicleFilterCacheList,
             isModalOpen: false,
             vehicleObj: {
@@ -141,7 +145,7 @@ class VehicleContractList<T = {[data: string]: any}> extends React.Component<Veh
 
     createVehicleContractRow(objAry: any){
       const {source} = this.state;
-        console.log("VEHICLE-->> ", objAry);  
+        console.log("VEHICLE -------->> ", objAry);  
         console.log("createVehicleContractRow() - VehicleContract list on AddVehicleContractPage page:  ", objAry);
         if(objAry === undefined || objAry === null) {
             return;
@@ -172,7 +176,7 @@ class VehicleContractList<T = {[data: string]: any}> extends React.Component<Veh
         return retVal;
 }
 
-    editVehicleRoute(obj: any) {
+    editVehicleContract(obj: any) {
       const { vehicleObj } = this.state;
       let txtVn: any = document.querySelector("#vehicleNumber");
       let txtVt: any = document.querySelector("#vehicleType");
@@ -233,6 +237,9 @@ class VehicleContractList<T = {[data: string]: any}> extends React.Component<Veh
   }
    getAddVehicleContractInput(vehicleObj: any, modelHeader: any){
         let id = null;
+        if(modelHeader === "Edit VehicleContract"){
+          id = vehicleObj.id;
+      }
         let input = {
             id: id,
             vehicleId: vehicleObj.vehicleId,
@@ -286,9 +293,9 @@ class VehicleContractList<T = {[data: string]: any}> extends React.Component<Veh
         let errorMessage = "";
         let successMessage = "";
         if(exitCode === 0 ){
-            successMessage = SUCCESS_MESSAGE_VEHICLE_ADDED;
+            successMessage = SUCCESS_MESSAGE_VEHICLECONTRACT_ADDED;
             if(inp.id !== null){
-                successMessage = SUCCESS_MESSAGE_VEHICLE_UPDATED;
+                successMessage = SUCCESS_MESSAGE_VEHICLECONTRACT_UPDATED;
             }
         }else {
             errorMessage = ERROR_MESSAGE_SERVER_SIDE_ERROR;
@@ -305,20 +312,10 @@ class VehicleContractList<T = {[data: string]: any}> extends React.Component<Veh
         if(isValid === false){
             return;
         }
-        const inputObj = this.getAddVehicleContractInput(vehicleObj, modelHeader);
-        this.doSave(inputObj, id);
+        const input = this.getAddVehicleContractInput(vehicleObj, modelHeader);
+        this.doSave(input, id);
     }
-    async getVehicleContractList(e: any){
-      console.log("Refreshing vehicleContract list");
-      const { data } =  await this.props.client.query({
-          query: GET_VEHICLE_CONTRACT_LIST,
-          fetchPolicy: 'no-cache'
-      })
-      const temp = data.getVehicleContractList;
-      this.setState({
-          list: temp
-      });
-  }
+
   checkAllVehicleContracts(e: any){
     const { vehicleObj } = this.state;
     const mutateResLength = vehicleObj.mutateResult.length;
@@ -363,7 +360,7 @@ onClickCheckbox(index: any, e: any) {
                             </div>
                             </div>
                             <div id="feeCategoryDiv" className="b-1">
-                            <div className="b1 row m-1 j-between"></div>
+                            <div className="b1 row m-1 j-between">
 
                                 <div className="mdflex modal-fwidth"> 
                                   <div className="fwidth-modal-text m-r-1">
@@ -378,19 +375,24 @@ onClickCheckbox(index: any, e: any) {
                                     {this.createVehicle(vehicleFilterCacheList.vehicle)}
                                 </select>
                                  </div>
-                                <div> 
                                   <div className="fwidth-modal-text m-r-1">
-                                <label htmlFor="">Contract<span style={{ color: 'red' }}> * </span></label>
-                                 <select required name="contractId" id="contractId" onChange={this.onChange}  value={vehicleObj.contractId} 
+                                <label htmlFor="">
+                                  Contract<span style={{ color: 'red' }}> * </span>
+                                  </label>
+                                 <select required name="contractId" 
+                                 id="contractId" 
+                                 onChange={this.onChange}  
+                                 value={vehicleObj.contractId} 
                                  className="gf-form-input fwidth">
                                     {this.createContract(vehicleFilterCacheList.contract)}
                                 </select>
                                  </div>
                                  </div>
-                                 </div> 
+                                 </div>
                                  <div className="b1 row m-1">
                            </div> 
                       </div>
+
           <p></p>
     <div id="feeCatagoryGrid" className="b-1">
           <table className="fwidth" id="feetable">

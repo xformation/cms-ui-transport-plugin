@@ -17,3 +17,4 @@ export {ADD_VEHICLE_DRIVER_MUTATION} from './AddVehicleDriverPage';
 export {GET_TRANSPORT_ROUTE_STOPAGE_LIST} from './getTransportRouteStopageList';
 export {GET_VEHICLE_ROUTE_LIST} from './getTransportRouteVehicleList';
 export {GET_VEHICLE_CONTRACT_LIST} from './getVehicleContractList';
+export {GET_VEHICLE_DRIVER_LIST} from './getVehicleDriverList';
