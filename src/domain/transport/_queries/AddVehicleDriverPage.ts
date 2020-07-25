@@ -37,7 +37,6 @@ export const ADD_VEHICLE_DRIVER_MUTATION = gql`
             gender
             employeeAddress
             drivingLicenceNo
-            drivingLicenceValidity
           }
         }
       }

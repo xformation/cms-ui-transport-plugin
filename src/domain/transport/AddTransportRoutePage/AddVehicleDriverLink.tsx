@@ -24,7 +24,7 @@ const SUCCESS_MESSAGE_VEHICLE_ADDED = "New VehicleContract saved successfully";
 const SUCCESS_MESSAGE_VEHICLE_UPDATED = "vehiclecontract updated successfully";
 // const ERROR_MESSAGE_INSURANCE_FIELD = "select one insurance for one vehicle only"
 
-class VehicleContractList<T = {[data: string]: any}> extends React.Component<VehicleProps, any> {
+class VehicleDriverList<T = {[data: string]: any}> extends React.Component<VehicleProps, any> {
     constructor(props: VehicleProps) {
         super(props);
         this.state = {
@@ -38,6 +38,14 @@ class VehicleContractList<T = {[data: string]: any}> extends React.Component<Veh
                 vehicle:{
                     id:""
                 },
+                vehicleNumber:"",          
+	            vehicleType:"",             
+	            capacity:"",               
+	            ownerShip:"",             
+	            // dateOfRegistration:"",     
+	            yearOfManufacturing:"",    
+                manufacturingCompany:"",
+                employeeName:"",
                 employeeId:"",
                 vehicleId:"",
             },
@@ -121,8 +129,54 @@ class VehicleContractList<T = {[data: string]: any}> extends React.Component<Veh
         commonFunctions.restoreTextBoxBorderToNormal(name);
     }
 
-   getAddVehicleInput(vehicleObj: any, modelHeader: any){
+    
+    createVehicleDriverRow(objAry: any){
+        const {source} = this.state;
+        //   console.log("VEHICLE-->> ", objAry);  
+          console.log("createVehicleDriverRow() - VehicleDriver list on AddVehicleDriverPage page:  ", objAry);
+          if(objAry === undefined || objAry === null) {
+              return;
+          }
+          const mutateResLength = objAry.length;
+          const retVal = [];
+          for (let i = 0; i < mutateResLength; i++) {
+              const vehicleObj = objAry[i];
+              retVal.push(
+                <tr>
+               <td>{vehicleObj.id}</td>
+               <td>{vehicleObj.vehicle.vehicleNumber}</td>
+               <td>{vehicleObj.vehicle.vehicleType}</td>
+               <td>{vehicleObj.vehicle.ownerShip}</td>
+               <td>{vehicleObj.vehicle.yearOfManufacturing}</td>
+               <td>{vehicleObj.vehicle.manufacturingCompany}</td>
+               {/* <td>{vehicleObj.employee.employeeName}</td> */}
+              <td>      
+            <button className="btn btn-primary" onClick={e => this.showDetail(e, true, vehicleObj, "Edit VehicleDriver")}>Edit</button>
+             {/* <button className="btn btn-primary" onClick={e => this.editTransportRouteStopage(k)}>Edit</button> */}
+        </td>
+         </tr>
+              );
+          }
+          return retVal;
+  }
+    
+  showDetail(e: any, bShow: boolean, transportRouteObj: any, modelHeader: any) {
+    e && e.preventDefault();
+    this.setState(() => ({
+        isModalOpen: bShow,
+        transportRouteObj: transportRouteObj,
+        source: this.props.source,
+        sourceOfApplication: this.props.sourceOfApplication,
+        modelHeader: modelHeader,
+        errorMessage: "",
+        successMessage: "",
+    }));
+}
+   getAddVehicleDriverInput(vehicleObj: any, modelHeader: any){
         let id = null;
+        if(modelHeader === "Edit VehicleDriver"){
+            id = vehicleObj.id;
+        }
         let input = {
             id: id,
             vehicleId: vehicleObj.vehicleId,
@@ -195,54 +249,91 @@ class VehicleContractList<T = {[data: string]: any}> extends React.Component<Veh
         if(isValid === false){
             return;
         }
-        const inputObj = this.getAddVehicleInput(vehicleObj, modelHeader);
+        const inputObj = this.getAddVehicleDriverInput(vehicleObj, modelHeader);
         this.doSave(inputObj, id);
     }
 
     render() {
         const {vehicleList, vehicleFilterCacheList,  isModalOpen, vehicleObj, modelHeader, errorMessage, successMessage} = this.state;
         return (
-                            <section  className="plugin-bg-white p-1">
-                            {
-                                errorMessage !== ""  ? 
-                                    <MessageBox id="mbox" message={errorMessage} activeTab={2}/>        
-                                    : null
-                            }
-                            {
-                                successMessage !== ""  ? 
-                                    <MessageBox id="mbox" message={successMessage} activeTab={1}/>        
-                                    : null
-                            }
-                            <div className="bg-heading px-1 dfinline m-b-1">
-                             <h5 className="mtf-8 dark-gray">Vehicle Contract Details</h5>
-                            </div>
-                            <div id="headerRowDiv" className="b-1 h5-fee-bg j-between">
-                            <div className="m-1 fwidth">Add Vehicle Contract Data</div>
-                            <div id="saveRouteCatDiv" className="fee-flex">
-                            <button className="btn btn-primary mr-1" id="btnSaveFeeCategory" name="btnSaveFeeCategory" onClick={this.addVehicle} style={{ width: '140px' }}>Add Vehicle</button>
-                            {/* <button className="btn btn-primary mr-1" id="btnUpdateFeeCategory" name="btnUpdateFeeCategory" onClick={this.addLibrary} style={{ width: '170px' }}>Update Book</button> */}
-                            </div>
-                            </div>
-                                <div className="mdflex modal-fwidth"> 
-                                  <div className="fwidth-modal-text m-r-1">
-                                <label htmlFor="">Vehicle<span style={{ color: 'red' }}> * </span></label>
-                                 <select required name="vehicleId" id="vehicleId" onChange={this.onChange}  value={vehicleObj.vehicleId} className="gf-form-label b-0 bg-transparent">
-                                    {this.createVehicle(vehicleFilterCacheList.vehicle)}
-                                </select>
-                                 </div>
-                                 </div>
-                                <div className="mdflex modal-fwidth"> 
-                                  <div className="fwidth-modal-text m-r-1">
-                                <label htmlFor="">Employee<span style={{ color: 'red' }}> * </span></label>
-                                 <select required name="employeeId" id="employeeId" onChange={this.onChange}  value={vehicleObj.employeeId} className="gf-form-label b-0 bg-transparent">
-                                    {this.createEmployee(vehicleFilterCacheList.employee)}
-                                </select>
-                                 </div>
-                                 </div> 
-                          </section>
+            <section  className="plugin-bg-white p-1">
+            {
+                errorMessage !== ""  ? 
+                    <MessageBox id="mbox" message={errorMessage} activeTab={2}/>        
+                    : null
+            }
+            {
+                successMessage !== ""  ? 
+                    <MessageBox id="mbox" message={successMessage} activeTab={1}/>        
+                    : null
+            }
+            <div className="bg-heading px-1 dfinline m-b-1">
+             <h5 className="mtf-8 dark-gray">TransportRoute Stopage Details</h5>
+            </div>
+            <div id="headerRowDiv" className="b-1 h5-fee-bg j-between">
+            <div className="m-1 fwidth">Add TransportRoute Stopage Data</div>
+            <div id="saveRouteCatDiv" className="fee-flex">
+            <button className="btn btn-primary mr-1" id="btnSaveFeeCategory" name="btnSaveFeeCategory" onClick={this.addVehicle} style={{ width: '140px' }}>Add Route Stopage</button>
+            <button className="btn btn-primary mr-1" id="btnUpdateFeeCategory" name="btnUpdateFeeCategory" onClick={this.addVehicle} style={{ width: '170px' }}>Update Route Stopage</button>
+            </div>
+            </div>
+<div id="feeCategoryDiv" className="b-1">
+<div className="b1 row m-1 j-between">
+
+<div className="mdflex modal-fwidth"> 
+<div className="fwidth-modal-text m-r-1">
+<label htmlFor="">Vehicle
+<span style={{ color: 'red' }}> * </span>
+</label>
+<select required name="vehicleId" 
+id="vehicleId" 
+onChange={this.onChange}  
+value={vehicleObj.vehicleId} 
+className="gf-form-input fwidth">
+{this.createVehicle(vehicleFilterCacheList.vehicle)}
+</select>
+ </div>
+<div className="fwidth-modal-text m-r-1">
+<label htmlFor="">Driver<span style={{ color: 'red' }}> * </span></label>
+<select required name="employeeId" id="employeeId" onChange={this.onChange}  value={vehicleObj.employeeId} className="gf-form-input fwidth">
+ {this.createEmployee(vehicleFilterCacheList.employee)}
+</select>
+</div>
+</div>
+</div>
+<div className="b1 row m-1">
+</div> 
+                 </div>
+
+<p></p>
+<div id="feeCatagoryGrid" className="b-1">
+<table className="fwidth" id="feetable">
+<thead >
+<tr>
+  <th>Id</th>
+  <th>vehicle Number</th>
+  <th>Vehicle Type</th>
+  <th>Ownership</th>
+  <th>YearOfManufacturing</th>
+  <th>ManufacturingCompany</th>
+  <th>Driver Name</th>
+  <th>Edit</th>
+</tr>
+</thead>
+
+<tbody>
+{ this.createVehicleDriverRow(vehicleList) }
+</tbody> 
+</table>
+{/* {
+this.createNoRecordMessage(this.state.transportRouteObj.mutateResult)
+} */}
+</div>
+
+</section>
  
         );
     }
 }
 
-export default withApollo(VehicleContractList);
+export default withApollo(VehicleDriverList);
