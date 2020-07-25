@@ -157,7 +157,7 @@ class VehicleDriverList<T = {[data: string]: any}> extends React.Component<Vehic
                <td>{vehicleObj.vehicle.ownerShip}</td>
                <td>{vehicleObj.vehicle.yearOfManufacturing}</td>
                <td>{vehicleObj.vehicle.manufacturingCompany}</td>
-               {/* <td>{vehicleObj.employee.employeeName}</td> */}
+               <td>{vehicleObj.employee.employeeName}</td>
               <td>      
             <button className="btn btn-primary" onClick={e => this.showDetail(e, true, vehicleObj, "Edit VehicleDriver")}>Edit</button>
              {/* <button className="btn btn-primary" onClick={e => this.editTransportRouteStopage(k)}>Edit</button> */}
@@ -344,11 +344,11 @@ onClickCheckbox(index: any, e: any) {
             <button className="btn btn-primary mr-1" id="btnUpdateFeeCategory" name="btnUpdateFeeCategory" onClick={this.addVehicle} style={{ width: '170px' }}>Update VehicleDriver</button>
             </div>
             </div>
-<div id="feeCategoryDiv" className="b-1">
-<div className="b1 row m-1 j-between">
+           <div id="feeCategoryDiv" className="b-1">
+          <div className="b1 row m-1 j-between">
 
-<div className="mdflex modal-fwidth"> 
-<div className="fwidth-modal-text m-r-1">
+            <div className="mdflex modal-fwidth"> 
+        <div className="fwidth-modal-text m-r-1">
 <label htmlFor="">Vehicle
 <span style={{ color: 'red' }}> * </span>
 </label>
@@ -389,7 +389,7 @@ className="gf-form-input fwidth">
   <th>Ownership</th>
   <th>YearOfManufacturing</th>
   <th>ManufacturingCompany</th>
-  {/* <th>Driver Name</th> */}
+  <th>Driver Name</th>
   <th>Edit</th>
 </tr>
 </thead>
