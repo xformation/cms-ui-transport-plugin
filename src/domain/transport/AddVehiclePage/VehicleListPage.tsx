@@ -6,7 +6,7 @@ import {GET_VEHICLE_LIST,VEHICLE_DATA_CACHE} from '../_queries';
 import withLoadingHandler from '../withLoadingHandler';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import wsCmsBackendServiceSingletonClient from '../../../wsCmsBackendServiceClient';
-import VehicleDetails from './VehicleDetails';
+// import VehicleDetails from './VehicleDetails';
 
 const w180 = {
     width: '180px',
@@ -496,9 +496,9 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
                   </a>
                 </div>
               </div>
-              {this.state.vObj !== null && this.state.vObj !== undefined && (
+              {/* {this.state.vObj !== null && this.state.vObj !== undefined && (
                 <VehicleDetails data={this.state.vObj} />
-              )}
+              )} */}
             </div>
           </TabPane>
         </TabContent>

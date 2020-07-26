@@ -25,12 +25,6 @@ export const GET_VEHICLE_DRIVER_LIST = gql`
         id
         employeeName
         designation
-        aadharNo
-        panNo
-        panNo
-        passportNo
-        typeOfEmployment
-        resignationDate
       }
     }
   }

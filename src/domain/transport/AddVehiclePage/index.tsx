@@ -12,7 +12,7 @@ import AddInsurance from './AddInsurance';
 import AddContract from './AddContract';
 import AddVehicleContractPage from './AddVehicleContractPage';
 // import VehicleListPage from './VehicleListPage';
-import VehicleDetails from './VehicleDetails';
+// import VehicleDetails from './VehicleDetails';
 import VehicleListPage from './VehicleListPage';
 // import DriverListPage from '../DriverListPage/DriverListPage';
 export interface VehicleProps extends React.HTMLAttributes<HTMLElement>{
@@ -88,9 +88,9 @@ class vehicle extends React.Component<VehicleProps, any> {
         if(tabNo === 5 ){
             this.getVehicleFilterCacheList();
         }
-        if(tabNo === 6 ){
-            this.getVehicleFilterCacheList();
-        }
+        // if(tabNo === 6 ){
+        //     this.getVehicleFilterCacheList();
+        // }
         this.setState({
             activeTab: tabNo,
         });
@@ -186,11 +186,11 @@ class vehicle extends React.Component<VehicleProps, any> {
                            Vehicle List Page 
                         </NavLink>
                    </NavItem>
-                   <NavItem className="cursor-pointer">
+                   {/* <NavItem className="cursor-pointer">
                         <NavLink className={`vertical-nav-link ${activeTab === 5? 'side-active' : ''}`} onClick={() => { this.toggleTab(5); }} >
                          Vehicle Details Page
                         </NavLink>
-                   </NavItem>
+                   </NavItem> */}
                 </Nav>
                 <TabContent activeTab={activeTab} className="col-sm-9 border-left p-t-1">
                    <TabPane tabId={0}>
@@ -235,10 +235,10 @@ class vehicle extends React.Component<VehicleProps, any> {
                             null
                         }
                     </TabPane>
-                    <TabPane tabId={5}>
+                    {/* <TabPane tabId={5}>
                         vd
                      {/* <VehicleDetails/> */}
-                    </TabPane>
+                    {/* </TabPane> */}
                 </TabContent> 
             </section>
         );
