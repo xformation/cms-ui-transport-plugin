@@ -76,29 +76,29 @@ class vehicle extends React.Component<VehicleProps, any> {
       }
 
     toggleTab(tabNo: any) {
-        if(tabNo === 1 ){
+        if(tabNo === 0 ){
             this.getVehicleFilterCacheList();
         }
-        if(tabNo===2){
+        if(tabNo===1){
             // this.getStopageList();
             this.getVehicleFilterCacheList();
         }
-        if(tabNo === 3 ){
+        if(tabNo === 2 ){
             this.getVehicleFilterCacheList();
             this.getTransportRouteVehicleList();
         }
-        if(tabNo === 4 ){
+        if(tabNo === 3 ){
             this.getVehicleFilterCacheList();
             this.getTransportRouteStopageList();
         }
         
-        if(tabNo === 5 ){
+        if(tabNo === 4 ){
             this.getVehicleFilterCacheList();
             this.getVehicleDriverList();
         }
-        if(tabNo === 6 ){
-            this.getVehicleFilterCacheList();
-        }
+        // if(tabNo === 5 ){
+        //     this.getVehicleFilterCacheList();
+        // }
         this.setState({
             activeTab: tabNo,
         });
@@ -212,12 +212,12 @@ class vehicle extends React.Component<VehicleProps, any> {
                            Vehicle Driver Details
                         </NavLink>
                    </NavItem>
-                   <NavItem className="cursor-pointer">
+                   {/* <NavItem className="cursor-pointer">
                         <NavLink className={`vertical-nav-link ${activeTab === 5? 'side-active' : ''}`} onClick={() => 
                             { this.toggleTab(5); }} >
                            TransportRoute List Page 
                         </NavLink>
-                   </NavItem>
+                   </NavItem> */}
                 </Nav>
                 <TabContent activeTab={activeTab} className="col-sm-9 border-left p-t-1">
      
@@ -277,9 +277,9 @@ class vehicle extends React.Component<VehicleProps, any> {
                             )
                         }                   
                          </TabPane>
-                    <TabPane tabId={5}>
+                    {/* <TabPane tabId={5}>
                          ListPage
-                    </TabPane>
+                    </TabPane> */}
                 </TabContent> 
             </section>
         );
