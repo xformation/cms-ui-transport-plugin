@@ -3,7 +3,7 @@ import * as React from 'react';
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap';
 ;
 
-import { FaUserGraduate } from 'react-icons/fa';
+import {  FaBus } from 'react-icons/fa';
 import '../../../css/tabs.css';
 import '../../../css/college-settings.css'
 import AddVehiclePage from '../AddVehiclePage';
@@ -29,11 +29,16 @@ export default class FeesTab extends React.Component<any, any> {
     const { activeTab } = this.state;
     return (
       <section className="tab-container">
-        <div className="tab-flex p-1">
+         <div className="">
           {/* <img src="../../img/students.png" alt="" /> */}
-          <h5><FaUserGraduate className="m-1 fa-2x" /></h5>
-          <h5 className="p-1">Transport</h5>
-        </div>
+          {/* <h5><FaBus className="fa-2x" /> Transport</h5> */}
+          {/* <h5 className="p-1">Transport</h5> */}
+        {/* </div>  */}
+         <h5>
+         <i className="fa fa-bus mr-5" aria-hidden="true" />{' '}
+          Transport
+       </h5>
+       </div>
         <Nav tabs className="pl-3 pl-3 mb-4 mt-4 boxShadow">
           <NavItem className="cursor-pointer">
             <NavLink
