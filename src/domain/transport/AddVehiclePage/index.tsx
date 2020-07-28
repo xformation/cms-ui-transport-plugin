@@ -72,20 +72,20 @@ class vehicle extends React.Component<VehicleProps, any> {
 
 
     toggleTab(tabNo: any) {
-        if(tabNo === 1 ){
+        if(tabNo === 0 ){
             this.getVehicleFilterCacheList();
         }
-        if(tabNo===2){
+        if(tabNo===1){
             this.getContractList();
         }
-        if(tabNo === 3 ){
+        if(tabNo === 2 ){
             this.getInsuranceFilterCacheList();
         }
-        if(tabNo === 4 ){
+        if(tabNo === 3 ){
             this.getVehicleFilterCacheList();
             this.getVehicleContractList();
         }
-        if(tabNo === 5 ){
+        if(tabNo === 4 ){
             this.getVehicleFilterCacheList();
         }
         // if(tabNo === 6 ){

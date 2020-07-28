@@ -7,6 +7,7 @@ export const ADD_VEHICLE_DRIVER_MUTATION = gql`
         exitCode
         exitDescription
         dataList {
+          id
           vehicleId
           employeeId
           vehicle {

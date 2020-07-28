@@ -11,6 +11,7 @@ import AddStopage from './AddStopage';
 import AddTransportRouteStopage from './AddTransportRouteStopage';
 import AddVehicleRouteLink from './AddVehicleRouteLink';
 import AddVehicleDriverLink from './AddVehicleDriverLink';
+import VehicleRouteListPage from './VehicleRouteListPage';
 // import AddTransportRouteStopage from './AddTransportRouteStopage';
 // import VehicleListPage from './VehicleListPage';
 // import VehicleDetails from './VehicleDetails';
@@ -96,9 +97,9 @@ class vehicle extends React.Component<VehicleProps, any> {
             this.getVehicleFilterCacheList();
             this.getVehicleDriverList();
         }
-        // if(tabNo === 5 ){
-        //     this.getVehicleFilterCacheList();
-        // }
+        if(tabNo === 5 ){
+            this.getVehicleFilterCacheList();
+        }
         this.setState({
             activeTab: tabNo,
         });
@@ -212,12 +213,12 @@ class vehicle extends React.Component<VehicleProps, any> {
                            Vehicle Driver Details
                         </NavLink>
                    </NavItem>
-                   {/* <NavItem className="cursor-pointer">
+                   <NavItem className="cursor-pointer">
                         <NavLink className={`vertical-nav-link ${activeTab === 5? 'side-active' : ''}`} onClick={() => 
                             { this.toggleTab(5); }} >
                            TransportRoute List Page 
                         </NavLink>
-                   </NavItem> */}
+                   </NavItem>
                 </Nav>
                 <TabContent activeTab={activeTab} className="col-sm-9 border-left p-t-1">
      
@@ -277,9 +278,15 @@ class vehicle extends React.Component<VehicleProps, any> {
                             )
                         }                   
                          </TabPane>
-                    {/* <TabPane tabId={5}>
-                         ListPage
-                    </TabPane> */}
+                    <TabPane tabId={5}>
+                    {
+                            user !== null && vehicleFilterCacheList !== null && (
+                                <VehicleRouteListPage user={user} vehicleFilterCacheList={vehicleFilterCacheList.createVehicleDataCache}/>
+                            // :
+                            // null
+                            )
+                        }  
+                    </TabPane>
                 </TabContent> 
             </section>
         );

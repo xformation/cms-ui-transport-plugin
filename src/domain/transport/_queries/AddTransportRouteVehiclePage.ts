@@ -7,6 +7,7 @@ export const ADD_TRANSPORTROUTE_VEHICLE_MUTATION = gql`
         exitCode
         exitDescription
         dataList {
+          id
           vehicleId
           transportRouteId
           transportRoute {
