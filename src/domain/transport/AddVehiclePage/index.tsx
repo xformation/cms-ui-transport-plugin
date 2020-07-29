@@ -87,7 +87,6 @@ class vehicle extends React.Component<VehicleProps, any> {
         }
         if(tabNo === 4 ){
             this.getVehicleFilterCacheList();
-            this.getInsuranceFilterCacheList();
         }
         // if(tabNo === 6 ){
         //     this.getVehicleFilterCacheList();
@@ -230,8 +229,8 @@ class vehicle extends React.Component<VehicleProps, any> {
                     </TabPane>
                     <TabPane tabId={4}>
                     {
-                            user !== null && vehicleFilterCacheList !== null && insuranceFilterCacheList !== null &&(
-                                <VehicleListPage user={user} vehicleFilterCacheList={vehicleFilterCacheList.createVehicleDataCache} insuranceFilterCacheList={insuranceFilterCacheList.createInsuranceDataCache}/>
+                            user !== null && vehicleFilterCacheList !== null && (
+                                <VehicleListPage user={user} vehicleFilterCacheList={vehicleFilterCacheList.createVehicleDataCache}/>
                             // :
                             // null
                             )

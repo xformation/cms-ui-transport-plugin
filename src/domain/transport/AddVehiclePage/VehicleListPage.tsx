@@ -21,7 +21,7 @@ type VehicleTableStates = {
 //   transportRoute: any,
 //   employee: any,
   vehicleContractLink: any,
-  Insurance: any,
+  insurance: any,
   pageSize: any,
   search: any,
   activeTab: any,
@@ -70,7 +70,7 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
     //   transportRoute: [],
     //   employee:[],
       vehicleContractLink: [],
-      Insurance: [],
+      insurance: [],
       pageSize: 5,
       search: ''
 
@@ -198,7 +198,7 @@ async getcreateVehicleDataCache(){
     createInsurance(insurance: any) {
       let insuranceOptions = [
         <option key={0} value="">
-          Select VehicleContract
+          Select Insurance
         </option>,
       ];
       for (let i = 0; i < insurance.length; i++) {
@@ -353,24 +353,24 @@ async getcreateVehicleDataCache(){
     const { search } = e.nativeEvent.target;
     const { name, value } = e.nativeEvent.target;
     const { vehicleData } = this.state;
-    if (name === "insurance") {
+    if (name === "vehicleContractLink") {
         this.setState({
           vehicleData: {
             ...vehicleData,
-            insurance: {
+            vehicleContractLink: {
               id: value
             },
-            vehicleContractLink: {
+            insurance: {
               id: ""
             }
            
           }
         });
-      } else if (name === "vehicleContractLink") {
+      } else if (name === "insurance") {
         this.setState({
           vehicleData: {
             ...vehicleData,
-            vehicleContractLink: {
+            insurance: {
               id: value
             }
           }
@@ -575,7 +575,7 @@ async getcreateVehicleDataCache(){
                     </select>
                   </div>
               <div>
-                <label htmlFor="">Insurance Id</label>
+                <label htmlFor="">Insurance</label>
                 <select
                   required
                   name="insurance"
@@ -584,12 +584,12 @@ async getcreateVehicleDataCache(){
                   value={vehicleData.insurance.id}
                   className="gf-form-input max-width-22"
                 >
-                  {insuranceFilterCacheList !== null &&
-                  insuranceFilterCacheList !== undefined &&
-                  insuranceFilterCacheList.insurance !== null &&
-                  insuranceFilterCacheList.insurance !== undefined
+                  {vehicleFilterCacheList !== null &&
+                  vehicleFilterCacheList !== undefined &&
+                  vehicleFilterCacheList.insurance !== null &&
+                  vehicleFilterCacheList.insurance !== undefined
                     ? this.createInsurance(
-                      insuranceFilterCacheList.insurance
+                      vehicleFilterCacheList.insurance
                       )
                     : null}
                 </select>

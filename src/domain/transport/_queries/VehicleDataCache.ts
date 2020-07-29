@@ -34,8 +34,6 @@ export const VEHICLE_DATA_CACHE = gql`
         durationOfContract
         strStartDate
         strEndDate
-        startDate
-        endDate
       }
       employee {
         id
@@ -57,6 +55,17 @@ export const VEHICLE_DATA_CACHE = gql`
         id
         stopageName
         status
+      }
+      insurance {
+        id
+        insuranceCompany
+        typeOfInsurance
+        strDateOfInsurance
+        strValidTill
+        vehicle {
+          id
+        }
+        vehicleId
       }
       vehicleContractLink {
         id
@@ -122,35 +131,6 @@ export const VEHICLE_DATA_CACHE = gql`
           drivingLicenceValidity
         }
       }
-      transportRouteVehicleLink {
-        id
-        transportRouteId
-        vehicleId
-        transportRoute {
-          id
-          routeName
-          routeDetails
-          routeMapUrl
-          noOfStops
-          routeFrequency
-          status
-        }
-        vehicle {
-          id
-          vehicleNumber
-          vehicleType
-          capacity
-          ownerShip
-          yearOfManufacturing
-          manufacturingCompany
-          model
-          chasisNo
-          rcNo
-          status
-          strOnBoardingDate
-          strDateOfRegistration
-        }
-      }
       transportRouteStopageLink {
         id
         transportRouteId
@@ -169,6 +149,34 @@ export const VEHICLE_DATA_CACHE = gql`
           stopageName
           status
           branchId
+        }
+      }
+      transportRouteVehicleLink {
+        id
+        transportRouteId
+        vehicleId
+        transportRoute {
+          id
+          routeName
+          routeDetails
+          routeMapUrl
+          noOfStops
+          routeFrequency
+        }
+        vehicle {
+          id
+          vehicleNumber
+          vehicleType
+          capacity
+          ownerShip
+          yearOfManufacturing
+          manufacturingCompany
+          model
+          chasisNo
+          rcNo
+          status
+          strDateOfRegistration
+          strOnBoardingDate
         }
       }
     }
