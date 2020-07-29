@@ -204,7 +204,7 @@ async getcreateVehicleDataCache(){
       for (let i = 0; i < insurance.length; i++) {
         insuranceOptions.push(
           <option key={insurance[i].id} value={insurance[i].id}>
-            {insurance[i].id}
+            {insurance[i].insuranceCompany}
           </option>
         );
       }
