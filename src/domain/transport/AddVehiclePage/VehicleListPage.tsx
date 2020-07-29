@@ -1,8 +1,9 @@
 import * as React from 'react';
+import * as _ from 'lodash';
 import { withRouter, RouteComponentProps, Link } from 'react-router-dom';
 import {NavItem,NavLink, TabPane, TabContent} from 'reactstrap';
 import { graphql, QueryProps, MutationFunc, compose, withApollo } from "react-apollo";
-import {GET_VEHICLE_LIST,VEHICLE_DATA_CACHE} from '../_queries';
+import {GET_VEHICLE_LIST,VEHICLE_DATA_CACHE, INSURANCE_DATA_CACHE} from '../_queries';
 import withLoadingHandler from '../withLoadingHandler';
 import { Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import wsCmsBackendServiceSingletonClient from '../../../wsCmsBackendServiceClient';
@@ -15,22 +16,24 @@ const w180 = {
 
 type VehicleTableStates = {
   user:any,
-  vehicle: any,
+  vehicles: any,
   vehicleData: any,
 //   transportRoute: any,
 //   employee: any,
+  vehicleContractLink: any,
+  Insurance: any,
   pageSize: any,
   search: any,
   activeTab: any,
   vObj: any,
   vehicleFilterCacheList: any,
-  branchId: any,
-  academicYearId: any,
-  departmentId: any,
+  insuranceFilterCacheList: any,
 };
 
 export interface VehicleListProps extends React.HTMLAttributes<HTMLElement> {
     [data: string]: any;
+    user?: any;
+    insuranceFilterCacheList?:any;
     vehicleFilterCacheList?: any;
   }
 
@@ -41,17 +44,22 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
       activeTab: 4,
       vObj: {},
       user: this.props.user,
-      vehicleFilterCacheList: this.props.vehicleFilterCacheList,
-      branchId: null,
-      academicYearId: null,
-      departmentId: null,
-      vehicle: {},
+      // vehicleFilterCacheList: this.props.vehicleFilterCacheList,
+      insuranceFilterCacheList:this.props.insuranceFilterCacheList,
+      vehicleFilterCacheList:this.props.vehicleFilterCacheList,
+      vehicles: {},
       vehicleData: {
     //    transportRoute: {
     //       id: ""
     //     },
-        vehicle: {
-          id: ""
+        // vehicle: {
+        //   id: ""
+        // },
+        vehicleContractLink:{
+          id:""
+        },
+        insurance:{
+          id:""
         },
         // employee:{
         //   id:""
@@ -61,18 +69,29 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
       },
     //   transportRoute: [],
     //   employee:[],
+      vehicleContractLink: [],
+      Insurance: [],
       pageSize: 5,
       search: ''
 
     };
-    this.createVehicles = this.createVehicles.bind(this);
+    // this.createVehicles = this.createVehicles.bind(this);
     // this.createDrivers = this.createDrivers.bind(this);
     // this.createTransportRoutes = this.createTransportRoutes.bind(this);
+    this.createVehicleContract = this.createVehicleContract.bind(this);
+    this.createInsurance = this.createInsurance.bind(this);
+    this.getcreateVehicleDataCache = this.getcreateVehicleDataCache.bind(this);
+    this.getcreateInsuranceDataCache = this.getcreateInsuranceDataCache.bind(this);
+    this.showDetail = this.showDetail.bind(this);
+    this.SetObject = this.SetObject.bind(this);
+
     this.checkAllVehicles = this.checkAllVehicles.bind(this);
     this.onClickCheckbox = this.onClickCheckbox.bind(this);
     this.createVehicleRows = this.createVehicleRows.bind(this);
     this.createNoRecordMessage = this.createNoRecordMessage.bind(this);
     this.toggleTab = this.toggleTab.bind(this);
+    this.registerSocket = this.registerSocket.bind(this);
+
   }
     
   async componentDidMount(){
@@ -88,29 +107,29 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
 
  async registerSocket() {
     const socket = wsCmsBackendServiceSingletonClient.getInstance();
+ }
+  //   socket.onmessage = (response: any) => {
+  //       let message = JSON.parse(response.data);
+  //       console.log("Vehicle Index. message received from server ::: ", message);
+  //       this.setState({
+  //           branchId: message.selectedBranchId,
+  //           academicYearId: message.selectedAcademicYearId,
+  //           departmentId: message.selectedDepartmentId,
+  //       });
+  //       console.log("Vehicle Index. branchId: ",this.state.branchId);
+  //       console.log("Vehicle Index. departmentId: ",this.state.departmentId);  
+  //       console.log("Vehicle Index. ayId: ",this.state.academicYearId);  
+  //   }
 
-    socket.onmessage = (response: any) => {
-        let message = JSON.parse(response.data);
-        console.log("Vehicle Index. message received from server ::: ", message);
-        this.setState({
-            branchId: message.selectedBranchId,
-            academicYearId: message.selectedAcademicYearId,
-            departmentId: message.selectedDepartmentId,
-        });
-        console.log("Vehicle Index. branchId: ",this.state.branchId);
-        console.log("Vehicle Index. departmentId: ",this.state.departmentId);  
-        console.log("Vehicle Index. ayId: ",this.state.academicYearId);  
-    }
+  //   socket.onopen = () => {
+  //       console.log("Vehicle Index. Opening websocekt connection to cmsbackend. User : ",this.state.user.login);
+  //       socket.send(this.state.user.login);
+  //   }
 
-    socket.onopen = () => {
-        console.log("Vehicle Index. Opening websocekt connection to cmsbackend. User : ",this.state.user.login);
-        socket.send(this.state.user.login);
-    }
-
-    window.onbeforeunload = () => {
-        console.log("Vehicle. Closing websocket connection with cms backend service");
-    }
-  }
+  //   window.onbeforeunload = () => {
+  //       console.log("Vehicle. Closing websocket connection with cms backend service");
+  //   }
+  // }
 
 //   createTransportRoutes(transportRoute: any) {
 //     let transportRoutesOptions = [<option key={0} value="">Select RouteId</option>];
@@ -123,17 +142,74 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
 //     return transportRoutesOptions;
 //   }
 
-  
-  createVehicles(vehicle: any) {
-    let vehiclesOptions = [<option key={0} value="">Select VehicleId</option>];
-    for (let i = 0; i < vehicle.length; i++) {
-      // let vehicle = vehicles[i]
-      vehiclesOptions.push(
-        <option key={vehicle[i].id} value={vehicle[i].id}>{vehicle[i].id}</option>
-      );
-    }
-    return vehiclesOptions;
+async getcreateVehicleDataCache(){
+  console.log("Refreshing vehicle list");
+  const {data} = await this.props.client.query({
+    query: VEHICLE_DATA_CACHE,
+      variables: {
+      },
+    
+    fetchPolicy: 'no-cache',
+  });
+  this.setState({
+    vehicleFilterCacheList: data,
+  });
+}
+  async getcreateInsuranceDataCache() {
+    console.log("Refreshing vehicle list");
+    const {data} = await this.props.client.query({
+      query: INSURANCE_DATA_CACHE,
+        variables: {
+        },
+      
+      fetchPolicy: 'no-cache',
+    });
+    this.setState({
+        insuranceFilterCacheList: data,
+    });
   }
+  
+  // createVehicles(vehicle: any) {
+  //   let vehiclesOptions = [<option key={0} value="">Select VehicleId</option>];
+  //   for (let i = 0; i < vehicle.length; i++) {
+  //     // let vehicle = vehicles[i]
+  //     vehiclesOptions.push(
+  //       <option key={vehicle[i].id} value={vehicle[i].id}>{vehicle[i].id}</option>
+  //     );
+  //   }
+  //   return vehiclesOptions;
+  // }
+    createVehicleContract(vehicleContractLink: any) {
+      let vehicleContractLinkOptions = [
+        <option key={0} value="">
+          Select VehicleContract
+        </option>,
+      ];
+      for (let i = 0; i < vehicleContractLink.length; i++) {
+        vehicleContractLinkOptions.push(
+          <option key={vehicleContractLink[i].id} value={vehicleContractLink[i].id}>
+            {vehicleContractLink[i].id}
+          </option>
+        );
+      }
+      return vehicleContractLinkOptions;
+    }
+
+    createInsurance(insurance: any) {
+      let insuranceOptions = [
+        <option key={0} value="">
+          Select VehicleContract
+        </option>,
+      ];
+      for (let i = 0; i < insurance.length; i++) {
+        insuranceOptions.push(
+          <option key={insurance[i].id} value={insurance[i].id}>
+            {insurance[i].id}
+          </option>
+        );
+      }
+      return insuranceOptions;
+    }
 
 //   createDrivers(employee: any) {
 //     let employeesOptions = [<option key={0} value="">Select DriverId</option>];
@@ -181,22 +257,7 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
     }
     return retVal;
   }
-
-
-  async showDetail(obj: any, e: any) {
-    await this.SetObject(obj);
-    console.log('3. data in vObj:', this.state.vObj);
-    await this.toggleTab(1);
-  }
-
-  async SetObject(obj: any) {
-    console.log('1. setting object :', obj);
-    await this.setState({
-      vObj: obj,
-    });
-    console.log('2. data in obj:', obj);
-  }
-
+  
   createVehicleRows(objAry: any) {
     let { search } = this.state.vehicleData;
     search = search.trim();
@@ -209,7 +270,7 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
       for (let i = 0; i < length; i++) {
         const vehicle = vehicles[i];
         if(search){
-          if(vehicle.vehicleNumber.indexOf(search) !== -1){
+          // if(vehicle.vehicleNumber.indexOf(search) !== -1){
             retVal.push(
               <tr key={vehicle.id}>
                 <td>
@@ -220,14 +281,19 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
                   id={"chk" + vehicle.id} />
                 </td>
                 <td>{vehicle.id}</td>
-                <td>
-                <a onClick={(e: any) => this.showDetail(vehicle, e)}>
-                  {vehicle.vehicleNumber}
+                <td>  
+                <a onClick={(e: any) => this.showDetail(vehicle, e)}
+                 style={{color: '#307dc2'}}
+                >
+
+                  {vehicle.vehicleContractLink.vehicle.vehicleNumber}
                 </a>
               </td>
-                <td>{vehicle.vehicleType}</td>
-                <td>{vehicle.capacity}</td>
-                <td>{vehicle.status}</td>
+                <td>{vehicle.vehicleContractLink.vehicle.capacity}</td>
+                <td>{vehicle.vehicleContractLink.vehicle.status}</td>
+                <td>{vehicle.vehicleContractLink.contract.vendorName}</td>
+
+                <td>{vehicle.insurance.insuranceCompany}</td>
                 {/* <td>{vehicle.transportRoute.routeName}</td>
                 <td>{vehicle.transportRoute.noOfStops}</td>
                 <td>{vehicle.transportRoute.routeFrequency}</td>
@@ -235,8 +301,8 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
                 <td>{vehicle.employee.designation}</td> */}
               </tr>
             );
-            console.log('print student obj:', vehicle);
-          }
+            console.log('print vehicle obj:', vehicle);
+          
         } else{
           retVal.push(
             <tr key={vehicle.id}>
@@ -249,13 +315,25 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
               </td>
               <td>{vehicle.id}</td>
               <td>
-              <a onClick={(e: any) => this.showDetail(vehicle, e)}>
+              {/* <a onClick={(e: any) => this.showDetail(vehicle, e)}>
                   {vehicle.vehicleNumber}
                 </a>
                </td>
                <td>{vehicle.vehicleType}</td>
                 <td>{vehicle.capacity}</td>
-                <td>{vehicle.status}</td>
+                <td>{vehicle.status}</td> */}
+                <a onClick={(e: any) => this.showDetail(vehicle, e)}
+                 style={{color: '#307dc2'}}
+                >
+
+                  {vehicle.vehicleContractLink.vehicle.vehicleNumber}
+                </a>
+              </td>
+                <td>{vehicle.vehicleContractLink.vehicle.capacity}</td>
+                <td>{vehicle.vehicleContractLink.vehicle.status}</td>
+                <td>{vehicle.vehicleContractLink.contract.vendorName}</td>
+
+                <td>{vehicle.insurance.insuranceCompany}</td>
                 {/* <td>{vehicle.transportRoute.routeName}</td>
                 <td>{vehicle.transportRoute.noOfStops}</td>
                 <td>{vehicle.transportRoute.routeFrequency}</td>
@@ -263,7 +341,7 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
                 <td>{vehicle.employee.designation}</td> */}
             </tr>
           );
-          console.log('print student obj:', vehicle);
+          console.log('print vehicle obj:', vehicle);
         }
       }
     }
@@ -275,6 +353,29 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
     const { search } = e.nativeEvent.target;
     const { name, value } = e.nativeEvent.target;
     const { vehicleData } = this.state;
+    if (name === "insurance") {
+        this.setState({
+          vehicleData: {
+            ...vehicleData,
+            insurance: {
+              id: value
+            },
+            vehicleContractLink: {
+              id: ""
+            }
+           
+          }
+        });
+      } else if (name === "vehicleContractLink") {
+        this.setState({
+          vehicleData: {
+            ...vehicleData,
+            vehicleContractLink: {
+              id: value
+            }
+          }
+        });
+      } 
     // if (name === "transportRoute") {
     //   this.setState({
     //     vehicleData: {
@@ -290,19 +391,19 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
     //       }
     //     }
     //   });
-    if (name === "vehicle") {
-      this.setState({
-        vehicleData: {
-          ...vehicleData,
-          vehicle: {
-            id: value
-          },
-          employee: {
-            id:""
-          }
-        }
-      });
-    } 
+    // if (name === "vehicle") {
+    //   this.setState({
+    //     vehicleData: {
+    //       ...vehicleData,
+    //       vehicle: {
+    //         id: value
+    //       },
+    //       employee: {
+    //         id:""
+    //       }
+    //     }
+    //   });
+    // } 
     // else if (name === "employee") {
     //   this.setState({
     //     vehicleData: {
@@ -322,18 +423,38 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
       });
     }
   }
- 
+  async getStDetail(obj: any, e: any) {
+    await this.SetObject(obj);
+    console.log('3. data in vObj:', this.state.vObj);
+    await this.toggleTab(2);
+  }
+
+  async showDetail(obj: any, e: any) {
+    await this.SetObject(obj);
+    console.log('3. data in vObj:', this.state.vObj);
+    await this.toggleTab(1);
+  }
+
+  async SetObject(obj: any) {
+    console.log('1. setting object :', obj);
+    await this.setState({
+      vObj: obj,
+    });
+    console.log('2. data in obj:', obj);
+  }
 
   onClick = (e: any) => {
     const { name, value } = e.nativeEvent.target;
-    const { getVehicleList } = this.props;
+    const {mutate} = this.props;
+    // const { getVehicleList } = this.props;
     const { vehicleData } = this.state;
     e.preventDefault();
 
     let vehicleFilterInputObject = {
     //   transportRouteId: vehicleData.transportRoute.id,
     //   employeeId: vehicleData.employee.id,
-      vehicleId: vehicleData.vehicle.id
+      vehicleContractLinkId: vehicleData.vehicleContractLink.id,
+      insuranceId: vehicleData.insurance.id,
     };
     this.props.client
       .mutate({
@@ -355,10 +476,10 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
       return Promise.reject(`Could not retrieve vehicle data: ${error}`);
     });
 
-  }
+  };
 
   render() {
-    const { vehicleFilterCacheList, vehicleData, activeTab, user,  }= this.state;
+    const { vehicleFilterCacheList,insuranceFilterCacheList, vehicleData, activeTab, user,  }= this.state;
   
     return (
       <section className="customCss">
@@ -412,22 +533,63 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
                     : null}
                 </select>
               </div> */}
-              <div>
-                <label htmlFor="">Vehicle Id</label>
+              {/* <div>
+                <label htmlFor="">VehicleContract Id</label>
                 <select
                   required
-                  name="vehicle"
-                  id="vehicle"
+                  name="vehicleContractLink"
+                  id="vehicleContractLink"
                   onChange={this.onChange}
-                  value={vehicleData.vehicle.id}
+                  value={vehicleData.vehicleContractLink.id}
                   className="gf-form-input max-width-22"
                 >
                   {vehicleFilterCacheList !== null &&
                   vehicleFilterCacheList !== undefined &&
-                  vehicleFilterCacheList.vehicle !== null &&
-                  vehicleFilterCacheList.vehicle !== undefined
-                    ? this.createVehicles(
-                        vehicleFilterCacheList.vehicle
+                  vehicleFilterCacheList.vehicleContractLink !== null &&
+                  vehicleFilterCacheList.vehicleContractLink !== undefined
+                    ? this.createVehicleContract(
+                      vehicleFilterCacheList.vehicleContractLink
+                      )
+                    : null}
+                </select>
+              </div> */}
+              <div>
+                    <label htmlFor="">VehicleContract</label>
+                    <select
+                      required
+                      name="vehicleContractLink"
+                      id="vehicleContractLink"
+                      onChange={this.onChange}
+                      value={vehicleData.vehicleContractLink.id}
+                      className="gf-form-input max-width-22"
+                    >
+                      {vehicleFilterCacheList !== null &&
+                      vehicleFilterCacheList !== undefined &&
+                      vehicleFilterCacheList.vehicleContractLink !== null &&
+                      vehicleFilterCacheList.vehicleContractLink !== undefined
+                        ? this.createVehicleContract(
+                            vehicleFilterCacheList.vehicleContractLink
+                          )
+                        : null}
+                      {/* {this.createBatches(createStudentFilterDataCache.batches, departmentId)} */}
+                    </select>
+                  </div>
+              <div>
+                <label htmlFor="">Insurance Id</label>
+                <select
+                  required
+                  name="insurance"
+                  id="insurance"
+                  onChange={this.onChange}
+                  value={vehicleData.insurance.id}
+                  className="gf-form-input max-width-22"
+                >
+                  {insuranceFilterCacheList !== null &&
+                  insuranceFilterCacheList !== undefined &&
+                  insuranceFilterCacheList.insurance !== null &&
+                  insuranceFilterCacheList.insurance !== undefined
+                    ? this.createInsurance(
+                      insuranceFilterCacheList.insurance
                       )
                     : null}
                 </select>
@@ -438,20 +600,27 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
               </div>
             <div className="m-b-1 bg-heading-bg studentSearch">
               {/* <h4 className="ptl-06"></h4> */}
-              <button className="btn btn-primary max-width-13" id="btnFind" name="btnFind" onClick={this.onClick} style={w180}>Search Vehicles</button>
+              <button className="btn btn-primary max-width-13" 
+              id="btnFind" name="btnFind" 
+              onClick={this.onClick} 
+              style={w180}>Search Vehicles</button>
             </div>
             </div>
-            <table id="vehiclelistpage" className="striped-table fwidth bg-white">
+            <table id="vehiclelistpage" 
+            className="striped-table fwidth bg-white">
               <thead>
                 <tr>
                   <th>
-                    <input type="checkbox" onClick={(e: any) => this.checkAllVehicles(e)} value="checkedall" name="" id="chkCheckedAll" />
+                    <input type="checkbox" onClick={(e: any) => this.checkAllVehicles(e)} 
+                    value="checkedall" name="" id="chkCheckedAll" />
                   </th>
                   <th>Vehicle ID</th>
                   <th>Vehicle Number</th>
-                  <th>Vehicle Type</th>
+                  {/* <th>Vehicle Type</th> */}
                   <th>Capacity</th>
                   <th>Status</th>
+                  <th>vendor Name</th>
+                  <th>Insurance Company</th>
                   {/* <th>Route Assigned</th> */}
                   {/* <th>No Of Seats</th>  */}
                   {/* <th>Route Frequency</th> */}
