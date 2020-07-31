@@ -22,6 +22,7 @@ type VehicleTableStates = {
   vehicleData: any;
   transportRouteStopageLink: any;
   vehicleDriverLink: any;
+  vehicle:any;
   pageSize: any;
   search: any;
   vehicleFilterCacheList: any;
@@ -50,6 +51,9 @@ class VehicleTable extends React.Component<VehicleListProps, VehicleTableStates>
       vehicleFilterCacheList: this.props.vehicleFilterCacheList,
       vehicles: {},
       vehicleData: {
+        vehicle:{
+          id:'',
+        },
         transportRouteVehicleLink: {
           id: '',
         },
@@ -62,6 +66,7 @@ class VehicleTable extends React.Component<VehicleListProps, VehicleTableStates>
         mutateResult: [],
         search: '',
       },
+      vehicle: [],
       transportRouteStopageLink: [],
       transportRouteVehicleLink: [],
       vehicleDriverLink: [],
@@ -77,6 +82,8 @@ class VehicleTable extends React.Component<VehicleListProps, VehicleTableStates>
     this.SetObject = this.SetObject.bind(this);
     this.getVehicleFilterCacheList = this.getVehicleFilterCacheList.bind(this);
     this.toggleTab = this.toggleTab.bind(this);
+    this.createVehicles = this.createVehicles.bind(this);
+
 
     // this.searchHandlers = this.searchHandlers.bind(this);
 
@@ -161,6 +168,19 @@ async getVehicleFilterCacheList() {
       );
     }
     return transportRouteVehicleLinkOptions;
+  }
+  createVehicles(vehicle: any) {
+    let vehiclesOptions = [
+    <option key={0} value="">
+      Select VehicleId
+      </option>];
+    for (let i = 0; i < vehicle.length; i++) {
+      // let vehicle = vehicles[i]
+      vehiclesOptions.push(
+        <option key={vehicle[i].id} value={vehicle[i].id}>{vehicle[i].id}</option>
+      );
+    }
+    return vehiclesOptions;
   }
   createVehicleDriver(vehicleDriverLink: any) {
     let vehicleDriverLinkOptions = [
@@ -456,7 +476,25 @@ onChange = (e: any) => {
     const { search } = e.nativeEvent.target;
     const { name, value } = e.nativeEvent.target;
     const { vehicleData } = this.state;
-    if (name === "transportRouteVehicleLink") {
+    if (name === "vehicle") {
+      this.setState({
+        vehicleData: {
+          ...vehicleData,
+          vehicle: {
+            id: value
+          },
+          transportRouteVehicleLink: {
+            id: value
+          },
+          transportRouteStopageLink:{
+            id:""
+          },
+          vehicleDriverLink:{
+              id:""
+          }
+        }
+      });
+    }else if (name === "transportRouteVehicleLink") {
       this.setState({
         vehicleData: {
           ...vehicleData,
@@ -534,6 +572,7 @@ onChange = (e: any) => {
     //   return;
     // }
     let vehicleFilterInputObject = {
+      vehicleId: vehicleData.vehicle.id,
       transportRouteStopageLinkId: vehicleData.transportRouteStopageLink.id, // studentData.section.id, //1251,
       transportRouteVehicleLinkId: vehicleData.transportRouteVehicleLink.id,
       vehicleDriverLinkId: vehicleData.vehicleDriverLink.id,
@@ -604,11 +643,31 @@ onChange = (e: any) => {
                   </select> */}
                 {/* </div> */}
               </div>
-
+             
               <div>
                 <div className="student-flex">
-                  <div>
+                <div>
                     <label htmlFor="">Vehicle</label>
+                    <select
+                      required
+                      name="vehicle"
+                      id="vehicle"
+                      onChange={this.onChange}
+                      value={vehicleData.vehicle.id}
+                      className="gf-form-input max-width-22"
+                    >
+                      {vehicleFilterCacheList !== null &&
+                      vehicleFilterCacheList !== undefined &&
+                      vehicleFilterCacheList.vehicle !== null &&
+                      vehicleFilterCacheList.vehicle !== undefined
+                        ? this.createVehicles(
+                            vehicleFilterCacheList.vehicle
+                          )
+                        : null}
+                    </select>
+                  </div>
+                  <div>
+                    <label htmlFor="">VehicleRoute</label>
                     <select
                       required
                       name="transportRouteVehicleLink"
@@ -738,7 +797,7 @@ onChange = (e: any) => {
                           id="chkCheckedAll"
                         />
                       </th>
-                      <th>id</th>
+                      {/* <th>id</th> */}
                       <th>Vehicle Number</th>
                       <th>Capacity</th>
                       <th>Route Name</th>

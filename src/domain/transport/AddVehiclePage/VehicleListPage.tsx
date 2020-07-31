@@ -22,6 +22,7 @@ type VehicleTableStates = {
 //   employee: any,
   vehicleContractLink: any,
   insurance: any,
+  vehicle: any,
   pageSize: any,
   search: any,
   activeTab: any,
@@ -52,9 +53,9 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
     //    transportRoute: {
     //       id: ""
     //     },
-        // vehicle: {
-        //   id: ""
-        // },
+        vehicle: {
+          id: ""
+        },
         vehicleContractLink:{
           id:""
         },
@@ -71,11 +72,12 @@ class VehiclesTable<T = {[data: string]: any}> extends React.Component<VehicleLi
     //   employee:[],
       vehicleContractLink: [],
       insurance: [],
+      vehicle:[],
       pageSize: 5,
       search: ''
 
     };
-    // this.createVehicles = this.createVehicles.bind(this);
+    this.createVehicles = this.createVehicles.bind(this);
     // this.createDrivers = this.createDrivers.bind(this);
     // this.createTransportRoutes = this.createTransportRoutes.bind(this);
     this.createVehicleContract = this.createVehicleContract.bind(this);
@@ -169,16 +171,19 @@ async getcreateVehicleDataCache(){
     });
   }
   
-  // createVehicles(vehicle: any) {
-  //   let vehiclesOptions = [<option key={0} value="">Select VehicleId</option>];
-  //   for (let i = 0; i < vehicle.length; i++) {
-  //     // let vehicle = vehicles[i]
-  //     vehiclesOptions.push(
-  //       <option key={vehicle[i].id} value={vehicle[i].id}>{vehicle[i].id}</option>
-  //     );
-  //   }
-  //   return vehiclesOptions;
-  // }
+  createVehicles(vehicle: any) {
+    let vehiclesOptions = [
+    <option key={0} value="">
+      Select VehicleId
+      </option>];
+    for (let i = 0; i < vehicle.length; i++) {
+      // let vehicle = vehicles[i]
+      vehiclesOptions.push(
+        <option key={vehicle[i].id} value={vehicle[i].id}>{vehicle[i].id}</option>
+      );
+    }
+    return vehiclesOptions;
+  }
     createVehicleContract(vehicleContractLink: any) {
       let vehicleContractLinkOptions = [
         <option key={0} value="">
@@ -353,7 +358,23 @@ async getcreateVehicleDataCache(){
     const { search } = e.nativeEvent.target;
     const { name, value } = e.nativeEvent.target;
     const { vehicleData } = this.state;
-    if (name === "vehicleContractLink") {
+    if (name === "vehicle") {
+      this.setState({
+        vehicleData: {
+          ...vehicleData,
+          vehicle: {
+            id: value
+          },
+          vehicleContractLink: {
+            id: value
+          },
+          insurance: {
+            id: ""
+          }
+         
+        }
+      });
+    }else if (name === "vehicleContractLink") {
         this.setState({
           vehicleData: {
             ...vehicleData,
@@ -453,6 +474,7 @@ async getcreateVehicleDataCache(){
     let vehicleFilterInputObject = {
     //   transportRouteId: vehicleData.transportRoute.id,
     //   employeeId: vehicleData.employee.id,
+    vehicleId: vehicleData.vehicle.id,
       vehicleContractLinkId: vehicleData.vehicleContractLink.id,
       insuranceId: vehicleData.insurance.id,
     };
@@ -554,6 +576,26 @@ async getcreateVehicleDataCache(){
                 </select>
               </div> */}
               <div>
+                    <label htmlFor="">Vehicle</label>
+                    <select
+                      required
+                      name="vehicle"
+                      id="vehicle"
+                      onChange={this.onChange}
+                      value={vehicleData.vehicle.id}
+                      className="gf-form-input max-width-22"
+                    >
+                      {vehicleFilterCacheList !== null &&
+                      vehicleFilterCacheList !== undefined &&
+                      vehicleFilterCacheList.vehicle !== null &&
+                      vehicleFilterCacheList.vehicle !== undefined
+                        ? this.createVehicles(
+                            vehicleFilterCacheList.vehicle
+                          )
+                        : null}
+                    </select>
+                  </div>
+              <div>
                     <label htmlFor="">VehicleContract</label>
                     <select
                       required
@@ -594,10 +636,10 @@ async getcreateVehicleDataCache(){
                     : null}
                 </select>
               </div>
-              <div className="margin-bott max-width-22">
+              {/* <div className="margin-bott max-width-22">
                 <label htmlFor="">Vehicle Number</label>
                 <input type="text" name="search" value={vehicleData.search} onChange={this.onChange} />
-              </div>
+              </div> */}
             <div className="m-b-1 bg-heading-bg studentSearch">
               {/* <h4 className="ptl-06"></h4> */}
               <button className="btn btn-primary max-width-13" 

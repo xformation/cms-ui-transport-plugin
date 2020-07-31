@@ -47,6 +47,8 @@ export const GET_VEHICLE_LIST = gql`
         vehicle {
           id
           vehicleNumber
+          capacity
+          status
         }
         contract {
           id
@@ -96,10 +98,13 @@ export const GET_VEHICLE_LIST = gql`
         transportRoute {
           id
           routeName
+          noOfStops
+          routeFrequency
         }
         vehicle {
           id
           vehicleNumber
+          capacity
         }
       }
       transportRouteStopageLinkList {
