@@ -299,13 +299,13 @@ async getVehicleFilterCacheList() {
                 <td>{vehicle.transportRouteVehicleLink.vehicle.capacity}</td>
                 <td>{vehicle.transportRouteVehicleLink.transportRoute.routeName}</td>
                 <td>
-                  {vehicle.transportRouteVehicleLink.transportRoute.noOfStops}
-                  {/* {student.department.name} */}
+                  {vehicle.transportRouteVehicleLink.transportRoute.noOfStops}</td>
+                 <td> {vehicle.transportRouteVehicleLink.transportRoute.routeDetails}
                 </td>
                 <td>{vehicle.transportRouteVehicleLink.transportRoute.routeFrequency}</td>
                 <td>{vehicle.transportRouteStopageLink.stopage.stopageName}</td>
-                {/* <td>{student.sex}</td>
-                <td>{student.studentType}</td>
+                <td>{vehicle.vehicleDriverLink.employee.employeeName}</td>
+                {/* <td>{student.studentType}</td>
                 <td>{student.studentPrimaryCellNumber}</td> */}
                 {/* <td>
                   <button
@@ -359,10 +359,12 @@ async getVehicleFilterCacheList() {
                 <td>{vehicle.transportRouteVehicleLink.transportRoute.routeName}</td>
                 <td>
                   {vehicle.transportRouteVehicleLink.transportRoute.noOfStops}
-                  {/* {student.department.name} */}
+                </td>
+                <td> {vehicle.transportRouteVehicleLink.transportRoute.routeDetails}
                 </td>
                 <td>{vehicle.transportRouteVehicleLink.transportRoute.routeFrequency}</td>
                 <td>{vehicle.transportRouteStopageLink.stopage.stopageName}</td>
+                <td>{vehicle.vehicleDriverLink.employee.employeeName}</td>
               {/* <td>{student.sex}</td>
               <td>{student.studentType}</td>
               <td>{student.studentPrimaryCellNumber}</td> */}
@@ -802,8 +804,10 @@ onChange = (e: any) => {
                       <th>Capacity</th>
                       <th>Route Name</th>
                       <th>No Of Stops</th>
+                      <th>Route Details</th>
                       <th>Route Frequency</th>
                       <th>Stopage name</th>
+                      <th>Driver Name</th>
                       {/* <th>Type</th>
                       <th>Primary Contact</th>
                       <th>Action</th> */}
