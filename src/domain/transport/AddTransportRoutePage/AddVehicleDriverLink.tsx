@@ -379,8 +379,8 @@ className="gf-form-input fwidth">
                  </div>
 
 <p></p>
-<div id="feeCatagoryGrid" className="b-1">
-<table className="fwidth" id="feetable">
+<div>
+<table id="studentlistpage" className="striped-table fwidth bg-white">
 <thead >
 <tr>
   <th>Id</th>

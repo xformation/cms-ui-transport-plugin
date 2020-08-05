@@ -287,12 +287,12 @@ async getcreateVehicleDataCache(){
                 </td>
                 <td>{vehicle.id}</td>
                 <td>  
-                <a onClick={(e: any) => this.showDetail(vehicle, e)}
+                {/* <a onClick={(e: any) => this.showDetail(vehicle, e)}
                  style={{color: '#307dc2'}}
-                >
+                > */}
 
                   {vehicle.vehicleContractLink.vehicle.vehicleNumber}
-                </a>
+                {/* </a> */}
               </td>
                 <td>{vehicle.vehicleContractLink.vehicle.capacity}</td>
                 <td>{vehicle.vehicleContractLink.vehicle.status}</td>
@@ -327,12 +327,12 @@ async getcreateVehicleDataCache(){
                <td>{vehicle.vehicleType}</td>
                 <td>{vehicle.capacity}</td>
                 <td>{vehicle.status}</td> */}
-                <a onClick={(e: any) => this.showDetail(vehicle, e)}
+                {/* <a onClick={(e: any) => this.showDetail(vehicle, e)}
                  style={{color: '#307dc2'}}
-                >
+                > */}
 
                   {vehicle.vehicleContractLink.vehicle.vehicleNumber}
-                </a>
+                {/* </a> */}
               </td>
                 <td>{vehicle.vehicleContractLink.vehicle.capacity}</td>
                 <td>{vehicle.vehicleContractLink.vehicle.status}</td>
@@ -648,13 +648,14 @@ async getcreateVehicleDataCache(){
               style={w180}>Search Vehicles</button>
             </div>
             </div>
-            <table id="vehiclelistpage" 
-            className="striped-table fwidth bg-white">
+            <table id="studentlistpage" className="striped-table fwidth bg-white">
               <thead>
                 <tr>
                   <th>
-                    <input type="checkbox" onClick={(e: any) => this.checkAllVehicles(e)} 
-                    value="checkedall" name="" id="chkCheckedAll" />
+                    <input type="checkbox" 
+                    onClick={(e: any) => this.checkAllVehicles(e)} 
+                    value="checkedall"
+                     name="" id="chkCheckedAll" />
                   </th>
                   <th>Vehicle ID</th>
                   <th>Vehicle Number</th>
@@ -663,11 +664,7 @@ async getcreateVehicleDataCache(){
                   <th>Status</th>
                   <th>vendor Name</th>
                   <th>Insurance Company</th>
-                  {/* <th>Route Assigned</th> */}
-                  {/* <th>No Of Seats</th>  */}
-                  {/* <th>Route Frequency</th> */}
-                  {/* <th>Employee Name</th> */}
-                  {/* <th>Designation</th> */}
+                 
                 </tr>
               </thead>
               <tbody>
@@ -682,13 +679,13 @@ async getcreateVehicleDataCache(){
           </div>
         </div>
         </TabPane>
-        <TabPane tabId={1}>
-            <div className="container-fluid" style={{padding: '0px'}}>
-              <div className="m-b-1 bg-heading-bgStudent studentListFlex p-point5">
-                <div className="">
+        {/* <TabPane tabId={1}>
+            <div className="container-fluid" style={{padding: '0px'}}> */}
+              {/* <div className="m-b-1 bg-heading-bgStudent studentListFlex p-point5"> */}
+                {/* <div className="">
                   <h4 className="ptl-06">Vehicle Details</h4>
-                </div>
-                <div className="">
+                </div> */}
+                {/* <div className="">
                   <a
                     className="btn btn-primary m-l-1"
                     onClick={() => {
@@ -705,13 +702,13 @@ async getcreateVehicleDataCache(){
                   >
                     Print
                   </a>
-                </div>
-              </div>
+                </div> */}
+              {/* </div> */}
               {/* {this.state.vObj !== null && this.state.vObj !== undefined && (
                 <VehicleDetails data={this.state.vObj} />
               )} */}
-            </div>
-          </TabPane>
+            {/* </div> */}
+          {/* </TabPane> */}
         </TabContent>
       </section>
 

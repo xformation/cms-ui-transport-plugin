@@ -289,12 +289,12 @@ async getVehicleFilterCacheList() {
                   >
                     {student.studentName}
                   </a> */}
-                  <a
+                  {/* <a
                     onClick={(e: any) => this.showDetail(vehicle, e)}
                     style={{color: '#307dc2'}}
-                  >
+                  > */}
                     {vehicle.transportRouteVehicleLink.vehicle.vehicleNumber}
-                  </a>
+                  {/* </a> */}
                 </td>
                 <td>{vehicle.transportRouteVehicleLink.vehicle.capacity}</td>
                 <td>{vehicle.transportRouteVehicleLink.transportRoute.routeName}</td>
@@ -348,12 +348,12 @@ async getVehicleFilterCacheList() {
                 >
                   {student.studentName}
                 </a> */}
-                <a
+                {/* <a
                   onClick={(e: any) => this.showDetail(vehicle, e)}
                   style={{color: '#307dc2'}}
-                >
+                > */}
                    {vehicle.transportRouteVehicleLink.vehicle.vehicleNumber}
-                  </a>
+                  {/* </a> */}
                 </td>
                 <td>{vehicle.transportRouteVehicleLink.vehicle.capacity}</td>
                 <td>{vehicle.transportRouteVehicleLink.transportRoute.routeName}</td>
@@ -787,7 +787,8 @@ onChange = (e: any) => {
                   </div>
                 </div>
 
-                <table id="vehiclelistpage" className="striped-table fwidth bg-white">
+                {/* <table id="vehiclelistpage" className="striped-table fwidth bg-white"> */}
+                <table id="studentlistpage" className="striped-table fwidth bg-white">
                   <thead>
                     <tr>
                       <th>

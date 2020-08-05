@@ -355,7 +355,7 @@ onClickCheckbox(index: any, e: any) {
                             <div id="headerRowDiv" className="b-1 h5-fee-bg j-between">
                             <div className="m-1 fwidth">Add Vehicle Contract Data</div>
                             <div id="saveRouteCatDiv" className="fee-flex">
-                            <button className="btn btn-primary mr-1" id="btnSaveFeeCategory" name="btnSaveFeeCategory" onClick={this.addVehicle} style={{ width: '140px' }}>Add VehicleContract</button>
+                            <button className="btn btn-primary mr-1" id="btnSaveFeeCategory" name="btnSaveFeeCategory" onClick={this.addVehicle} style={{ width: '170px' }}>Add VehicleContract</button>
                             <button className="btn btn-primary mr-1" id="btnUpdateFeeCategory" name="btnUpdateFeeCategory" onClick={this.addVehicle} style={{ width: '170px' }}>Update VehicleContract</button>
                             </div>
                             </div>
@@ -394,8 +394,8 @@ onClickCheckbox(index: any, e: any) {
                       </div>
 
           <p></p>
-    <div id="feeCatagoryGrid" className="b-1">
-          <table className="fwidth" id="feetable">
+    <div>
+    <table id="studentlistpage" className="striped-table fwidth bg-white">
             <thead >
               <tr>
                 <th>Id</th>
