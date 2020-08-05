@@ -335,10 +335,10 @@ onClickCheckbox(index: any, e: any) {
                     : null
             }
             <div className="bg-heading px-1 dfinline m-b-1">
-             <h5 className="mtf-8 dark-gray">TransportRoute Stopage Details</h5>
+             <h5 className="mtf-8 dark-gray">TransportRoute Driver Details</h5>
             </div>
             <div id="headerRowDiv" className="b-1 h5-fee-bg j-between">
-            <div className="m-1 fwidth">Add TransportRoute Stopage Data</div>
+            <div className="m-1 fwidth">Add TransportRoute Driver Data</div>
             <div id="saveRouteCatDiv" className="fee-flex">
             <button className="btn btn-primary mr-1" id="btnSaveFeeCategory" name="btnSaveFeeCategory" onClick={this.addVehicle} style={{ width: '140px' }}>Add VehicleDriver</button>
             <button className="btn btn-primary mr-1" id="btnUpdateFeeCategory" name="btnUpdateFeeCategory" onClick={this.addVehicle} style={{ width: '170px' }}>Update VehicleDriver</button>
